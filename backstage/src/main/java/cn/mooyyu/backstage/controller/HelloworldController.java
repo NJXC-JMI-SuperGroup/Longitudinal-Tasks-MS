@@ -18,6 +18,6 @@ public class HelloworldController {
     @GetMapping("is_ok")
     @ResponseBody
     public String hello(@RequestParam int card) {
-        return this.testService.SayHello(card);
+        return "for test: " + this.testService.SayHello(card);
     }
 }
