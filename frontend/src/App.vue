@@ -9,14 +9,17 @@
             const currentPath = this.$router.history.current.path;
 
             // root router redirect begin
-            if (currentPath === '/' || currentPath === '/SingApp') {
-                this.$router.push('/SingApp/dashboard');
+            if (currentPath === '/') {
+                this.$router.push('/Crescent/hello');
             }
             // root router redirect end
 
             // projects router redirect begin
 
             // Crescent router redirect begin
+            if (currentPath === 'Crescent') {
+                this.$router.push('/Crescent/hello')
+            }
             // Crescent router redirect end
 
             // NotBad router redirect begin

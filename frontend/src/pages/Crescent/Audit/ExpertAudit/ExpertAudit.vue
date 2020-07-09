@@ -1,12 +1,10 @@
 <template>
-    <div>
-        hello, world.
-    </div>
+    <div>this is expert audit.</div>
 </template>
 
 <script>
     export default {
-        name: "hello"
+        name: "ExpertAudit"
     }
 </script>
 

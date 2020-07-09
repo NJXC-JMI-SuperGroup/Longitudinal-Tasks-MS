@@ -1,12 +1,10 @@
 <template>
-    <div>
-        hello, world.
-    </div>
+    <div>this is declare progress.</div>
 </template>
 
 <script>
     export default {
-        name: "hello"
+        name: "DeclareProgress"
     }
 </script>
 

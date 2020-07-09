@@ -1,12 +1,10 @@
 <template>
-    <div>
-        hello, world.
-    </div>
+    <div>this is declare create.</div>
 </template>
 
 <script>
     export default {
-        name: "hello"
+        name: "DeclareCreate"
     }
 </script>
 

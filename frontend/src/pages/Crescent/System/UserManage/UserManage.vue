@@ -1,12 +1,10 @@
 <template>
-    <div>
-        hello, world.
-    </div>
+    <div>this is user manage.</div>
 </template>
 
 <script>
     export default {
-        name: "hello"
+        name: "UserManage"
     }
 </script>
 
