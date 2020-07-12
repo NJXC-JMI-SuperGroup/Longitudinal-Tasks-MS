@@ -38,7 +38,16 @@
         "webpack-cli": "^3.1.2",
         "axios": "^0.19.2",
         "vuedraggable": "^2.23.2",
-        "vue-simple-uploader": "^0.7.4"
+        "vue-simple-uploader": "^0.7.4",
+        "vue-quill-editor": "^3.0.6",
+        "vue-form-generator": "^2.3.4",
+        "vue-easytable": "^1.7.2",
+        "vuetable-2": "^1.7.5",
+        "jquery": "^3.5.1",
+        "moment": "^2.27.0",
+        "pikaday": "^1.8.0",
+        "fecha": "^4.2.0",
+        "lodash": "^4.17.19"
     },
     "devDependencies": {
         "@babel/plugin-proposal-optional-chaining": "^7.7.5",
@@ -46,6 +55,7 @@
         "@vue/cli-plugin-eslint": "^3.12.0",
         "@vue/cli-service": "^3.12.0",
         "vue-template-compiler": "^2.6.10",
+        "vue-loader": "^15.9.3",
         "less": "^3.11.3",
         "less-loader": "^6.2.0"
     },

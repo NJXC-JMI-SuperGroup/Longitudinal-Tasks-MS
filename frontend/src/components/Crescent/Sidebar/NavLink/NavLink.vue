@@ -15,7 +15,7 @@
           <i :class="fullIconName"></i>
         </span>
                 {{header}} <sup v-if="label" :class="'text-' + labelColor" class="ml-1 headerLabel">{{label}}</sup>
-                <div :class="{caretWrapper: true, carretActive: isActive}">
+                <div :class="{caretWrapper: true, caretActive: isActive}">
                     <i class="fa fa-angle-left"/>
                 </div>
             </router-link>
@@ -46,7 +46,7 @@
     export default {
         name: 'NavLink',
         props: {
-            badge: {type: String, dafault: ''},
+            badge: {type: String, default: ''},
             header: {type: String, default: ''},
             iconName: {type: String, default: ''},
             headerLink: {type: String, default: ''},
@@ -70,7 +70,7 @@
             togglePanelCollapse(link) {
                 this.changeSidebarActive(link);
                 this.headerLinkWasClicked = !this.headerLinkWasClicked
-                    || !this.activeItem.includes(this.index);
+                    || this.activeItem && !this.activeItem.includes(this.index);
             },
         },
         computed: {

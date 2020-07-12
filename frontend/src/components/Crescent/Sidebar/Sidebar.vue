@@ -19,14 +19,13 @@
                 />
                 <NavLink
                         :activeItem="activeItem"
-                        header="通知公告"
+                        header="课题通知"
                         link="/Crescent/bulletin"
                         iconName="flaticon-network"
                         index="bulletin"
                         :childrenLinks="[
-                            { header: '公告一览', link: '/Crescent/bulletin/list' },
-                            { header: '发布公告', link: '/Crescent/bulletin/publish' },
-                            { header: '公告管理', link: '/Crescent/bulletin/dash' }
+                            { header: '课题一览', link: '/Crescent/bulletin/dash' },
+                            { header: '发布课题', link: '/Crescent/bulletin/publish' }
                         ]"
                 />
                 <NavLink
@@ -37,7 +36,6 @@
                         index="declare"
                         :childrenLinks="[
                             { header: '新建项目申报', link: '/Crescent/declare/create' },
-                            { header: '项目申报记录', link: '/Crescent/declare/list' },
                             { header: '项目申报进度', link: '/Crescent/declare/progress' }
                         ]"
                 />

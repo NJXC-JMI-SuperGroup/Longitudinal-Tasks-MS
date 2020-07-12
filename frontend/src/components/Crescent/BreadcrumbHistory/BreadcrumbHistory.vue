@@ -14,7 +14,7 @@
                 return this.exclude.indexOf(this.$route.path.split('/').pop()) > -1;
             },
             tree() {
-                return ['YOU ARE HERE']
+                return ['当前位置']
                     .concat(this.$route.path
                         .split('/')
                         .slice(1)

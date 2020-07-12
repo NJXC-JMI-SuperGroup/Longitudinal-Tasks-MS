@@ -6,7 +6,7 @@
             <uploader>
                 <uploader-unsupport></uploader-unsupport>
                 <uploader-drop>
-                    <p>上传公告附件：（拖拽至此处或）</p>
+                    <p>上传课题附件：（拖拽至此处或）(附件无变动，则无需再次上传。本次上传将取代已有文件)</p>
                     <uploader-btn>选择文件</uploader-btn>
                 </uploader-drop>
                 <uploader-list></uploader-list>
@@ -16,11 +16,11 @@
                       :content="quill.content"
         />
         <div class="w-100 d-flex justify-content-center">
-            <b-button squared variant="outline-primary">发布课题</b-button>
+            <b-button squared variant="outline-primary">确认更新</b-button>
         </div>
     </div>
 </template>
 
-<script src="./BulletinPublishScript.js" />
+<script src="./BulletinModifyScript.js" />
 
 <style lang="less" scoped />

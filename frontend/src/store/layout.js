@@ -4,7 +4,7 @@ export default {
     namespaced: true,
     state: {
         sidebarClose: false,
-        sidebarStatic: false,
+        sidebarStatic: true,
         sidebarActiveElement: null,
         chatOpen: false,
         chatNotificationIcon: false,
