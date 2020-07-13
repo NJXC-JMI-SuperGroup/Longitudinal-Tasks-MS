@@ -1,21 +1,22 @@
 import Vue from 'vue'
 import validators from "vue-form-generator/src/utils/validators";
+import {mapState} from "vuex";
 
 export default {
     data() {
         return {
             easytable: {
                 tableData: [
-                    {"title":"xxx公告","state":"正常", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
-                    {"title":"xxx公告","state":"正常", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
-                    {"title":"xxx公告","state":"正常", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
-                    {"title":"xxx公告","state":"正常", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
-                    {"title":"xxx公告","state":"正常", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
-                    {"title":"xxx公告","state":"正常", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
-                    {"title":"xxx公告","state":"正常", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
-                    {"title":"xxx公告","state":"正常", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
-                    {"title":"xxx公告","state":"正常", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
-                    {"title":"xxx公告","state":"正常", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"}
+                    {"title":"xxx公告","state":"进行中", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
+                    {"title":"xxx公告","state":"进行中", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
+                    {"title":"xxx公告","state":"进行中", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
+                    {"title":"xxx公告","state":"进行中", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
+                    {"title":"xxx公告","state":"进行中", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
+                    {"title":"xxx公告","state":"已截止", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
+                    {"title":"xxx公告","state":"已截止", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
+                    {"title":"xxx公告","state":"已截止", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
+                    {"title":"xxx公告","state":"已截止", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"},
+                    {"title":"xxx公告","state":"已截止", "category":"科技创新", "level":"校级课题","dept":"xxxxx","deadline":"2021-12-21"}
                 ],
                 columns: [
                     {field: 'title', title: '课题', width: 140, titleAlign: 'left', columnAlign: 'left',isResize:true},
@@ -37,6 +38,13 @@ export default {
                             label: '课题标题',
                             placeholder: '课题标题',
                             id: 'showTitle',
+                            readonly: true
+                        }, {
+                            type: 'input',
+                            inputType: 'text',
+                            label: '课题编号',
+                            placeholder: '课题编号',
+                            id: 'showId',
                             readonly: true
                         }, {
                             type: "input",
@@ -63,11 +71,18 @@ export default {
                             type: "input",
                             inputType: "number",
                             id: "showLimitNumber",
-                            label: "课题限项数目",
+                            label: "课题限项数目(视上个条目决定是否显示)",
                             visible: function (model) {
                                 return model.isLimit;
                             },
                             validator: validators.integer,
+                            readonly: true
+                        }, {
+                            type: "input",
+                            inputType: 'text',
+                            id: "showIsExpert",
+                            label: "课题是否需要专家评审",
+                            model: "isExpert",
                             readonly: true
                         }, {
                             type: "input",
@@ -89,55 +104,21 @@ export default {
                 },
                 model: {
                     isLimit: true,
+                    isExpert: false,
                     limitNumber: 0,
                     deadline: new Date()
-                },
-                options: {
-                    validateAfterLoad: true,
-                    validateAfterChanged: true,
-                    validateAsync: true
                 }
             },
-            showContent: `
-                <div class="cw--c">
-\t\t\t\t\t\t\t\t<div class="logo-wrap--home">
-\t\t\t<a id="logo_homepage_link" class="logo_homepage" href="/about">
-\t\t\t\tAbout DuckDuckGo
-\t\t\t\t<span class="logo_homepage__tt">Learn More</span>
-\t\t\t</a>
-\t\t</div>
-
-\t\t\t\t\t\t<div class="search-wrap--home">
-\t\t\t\t\t\t\t\t\t<form id="search_form_homepage" class="search--home  js-search-form search--adv" name="x" method="GET" action="/">
-\t\t\t<input id="search_form_input_homepage" class="js-search-input search__input--adv" type="text" autocomplete="off" name="q" tabindex="1" value="" autocapitalize="off" autocorrect="off" placeholder="Search the web without being tracked">
-\t\t\t<input id="search_button_homepage" class="search__button  js-search-button" type="submit" tabindex="2" value="S">
-\t\t\t<input id="search_form_input_clear" class="search__clear  empty  js-search-clear" type="button" tabindex="3" value="X">
-\t\t\t<div id="search_elements_hidden" class="search__hidden  js-search-hidden"><input type="hidden" class="js-search-hidden-field" name="t" value="hk"></div>
-\t\t<div class="search__autocomplete" style="display: none;"><div class="acp-wrap js-acp-wrap"></div><div class="acp-footer is-hidden js-acp-footer"><span class="acp-footer__instructions">Shortcuts to other sites to search off DuckDuckGo</span><span class="acp-footer__link"><a class="no-visited js-acp-footer-link" href="/bang">Learn More</a></span></div></div></form>
-
-\t\t\t\t\t\t</div>
-\t\t
-\t
-
-\t\t\t\t\t\t<!-- en_US All Settings -->
-<noscript>
-    <div class="tag-home">
-        <div class="tag-home__wrapper">
-            <div class="tag-home__item">
-                Privacy, simplified&period;
-                <span class="hide--screen-xs"><a href="/about" class="tag-home__link">Learn More</a>.</span>
-            </div>
-        </div>
-    </div>
-</noscript>
-<div class="tag-home  tag-home--slide  no-js__hide  js-tag-home"><div class="tag-home__wrapper"><div class="tag-home__item">Privacy, simplified.<span class="hide--screen-xs"> <a class="tag-home__link js-tag-item-link" href="/spread">Help Spread DuckDuckGo!</a></span></div></div></div>
-<div id="error_homepage"></div>
-
-
-\t
-\t\t
-\t\t\t\t\t</div>
-            `
+            showContent: `<div class="bd-example">
+<p>You can use the mark tag to <mark>highlight</mark> text.</p>
+<p><del>This line of text is meant to be treated as deleted text.</del></p>
+<p><s>This line of text is meant to be treated as no longer accurate.</s></p>
+<p><ins>This line of text is meant to be treated as an addition to the document.</ins></p>
+<p><u>This line of text will render as underlined</u></p>
+<p><small>This line of text is meant to be treated as fine print.</small></p>
+<p><strong>This line rendered as bold text.</strong></p>
+<p><em>This line rendered as italicized text.</em></p>
+</div>`
         }
     },
     methods:{
@@ -150,8 +131,11 @@ export default {
 Vue.component('table-operation-bulletin',{
     template:`
         <span>
-            <a @click.stop.prevent="showModel(rowData,index)">查看</a>&nbsp;
-            <a @click.stop.prevent="update(rowData,index)">更新</a>
+            <a @click.stop.prevent="showModel(rowData,index)">查看 </a>
+            <template v-if="rowData.state==='进行中'">
+                <a @click.stop.prevent="update(rowData,index)" v-if="userLevel===2 || userLevel===4">更新 </a>
+                <a @click.stop.prevent="declare(rowData,index)" v-if="userLevel===1">申报</a>
+            </template>
         </span>`,
     props:{
         rowData:{
@@ -171,8 +155,16 @@ Vue.component('table-operation-bulletin',{
             // this.$emit('on-custom-comp',params);
             this.$router.push('/Crescent/bulletin/dash/modify')
         },
+        declare() {
+            this.$router.push('/Crescent/declare/create')
+        },
         showModel() {
-            this.$bvModal.show('modal-scrollable')
+            this.$bvModal.show('modal-scrollable-bulletin')
         }
+    },
+    computed: {
+        ...mapState('global', {
+            userLevel: state => state.userLevel
+        })
     }
 })

@@ -1,20 +1,6 @@
 <template>
-    <div class="row">
-        <vue-form-generator class="col-6" :schema="form.schemaLeft" :model="form.model" :options="form.options" />
-        <div class="col-6">
-            <vue-form-generator :schema="form.schemaRight" :model="form.model" :options="form.option"></vue-form-generator>
-            <uploader>
-                <uploader-unsupport></uploader-unsupport>
-                <uploader-drop>
-                    <p>上传公告附件：（拖拽至此处或）</p>
-                    <uploader-btn>选择文件</uploader-btn>
-                </uploader-drop>
-                <uploader-list></uploader-list>
-            </uploader>
-        </div>
-        <quill-editor class="mx-4 mb-3 overflow-hidden border-bottom"
-                      :content="quill.content"
-        />
+    <div>
+        <detail-for-bulletin text="上传课题附件：（拖拽至此处或）" />
         <div class="w-100 d-flex justify-content-center">
             <b-button squared variant="outline-primary">发布课题</b-button>
         </div>

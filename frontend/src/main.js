@@ -25,13 +25,6 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 Vue.prototype.axios = axios;
 
-// global variances
-Vue.prototype.global = {
-    Crescent: {
-        host: 'http://localhost:8216/api'
-    }
-}
-
 import uploader from 'vue-simple-uploader';
 Vue.use(uploader);
 

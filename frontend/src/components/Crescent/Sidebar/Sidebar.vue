@@ -6,17 +6,19 @@
                 @mouseleave="sidebarMouseLeave"
         >
             <header class="logo">
-                <router-link to="/Crescent"><span class="primary-word">Crescent</span> App</router-link>
+                <router-link to="/Crescent/hello"><span class="primary-word">Crescent</span> App</router-link>
             </header>
+            <div class="mt-4 mx-3 p-3 border">
+                当前用户角色:
+                <span v-if="userLevel === 1">教师</span>
+                <span v-else-if="userLevel === 2">二级学院</span>
+                <span v-else-if="userLevel === 3">外审专家</span>
+                <span v-else-if="userLevel === 4">究极BOSS</span>
+                <span v-else>游客</span>
+                <br>
+                <a @click="logout">退出登录</a>
+            </div>
             <ul class="nav">
-                <NavLink
-                        :activeItem="activeItem"
-                        header="Hello (调试用页)"
-                        link="/Crescent/hello"
-                        iconName="flaticon-network"
-                        index="hello"
-                        isHeader
-                />
                 <NavLink
                         :activeItem="activeItem"
                         header="课题通知"
@@ -46,8 +48,8 @@
                         iconName="flaticon-network"
                         index="audit"
                         :childrenLinks="[
-                            { header: '部门评审', link: '/Crescent/audit/depart' },
-                            { header: '专家评审', link: '/Crescent/audit/expert' }
+                            { header: '部门评审', link: '/Crescent/audit/departDash' },
+                            { header: '专家评审', link: '/Crescent/audit/expertDash' }
                         ]"
                 />
                 <NavLink
@@ -72,7 +74,6 @@
     import NavLink from './NavLink/NavLink';
 
     export default {
-        name: 'Sidebar',
         components: {NavLink},
         data() {
             return {
@@ -96,6 +97,7 @@
         },
         methods: {
             ...mapActions('layout', ['changeSidebarActive', 'switchSidebar']),
+            ...mapActions('global', ['updateUserLevel']),
             setActiveByRoute() {
                 const paths = this.$route.fullPath.split('/');
                 paths.pop();
@@ -113,6 +115,10 @@
                     this.changeSidebarActive(null);
                 }
             },
+            logout() {
+                this.updateUserLevel(0);
+                this.$router.push('/Crescent/login');
+            }
         },
         created() {
             this.setActiveByRoute();
@@ -123,6 +129,9 @@
                 sidebarOpened: state => !state.sidebarClose,
                 activeItem: state => state.sidebarActiveElement,
             }),
+            ...mapState('global', {
+                userLevel: state => state.userLevel
+            })
         },
     };
 </script>
