@@ -4,13 +4,12 @@
 
 <script>
     export default {
-        name: 'App',
         created() {
-            const currentPath = this.$router.history.current.path;
-
-            if (currentPath === '/' || currentPath === '/Crescent') {
-                this.$router.push('/Crescent/hello');
-            }
+            // const currentPath = this.$router.history.current.path;
+            //
+            // if (currentPath === '/' || currentPath === '/Crescent') {
+            //     this.$router.push('/Crescent/hello');
+            // }
         },
     };
 </script>

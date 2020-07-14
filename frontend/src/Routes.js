@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-// Crescent components begin
 import crescent_layout from './components/Crescent/Layout/Layout';
+import EmptyLayout from './components/Crescent/Layout/EmptyLayout';
 import NotRole from "./pages/Crescent/Rule/NotRole";
 import Login from "./pages/Crescent/Login/Login";
 import BulletinDash from "./pages/Crescent/Bulletin/BulletinDash/BulletinDash";
@@ -17,77 +17,111 @@ import DepartAudit from "./pages/Crescent/Audit/DepartAudit/DepartAudit";
 import ExpertAudit from "./pages/Crescent/Audit/ExpertAudit/ExpertAudit";
 import Log from "./pages/Crescent/System/Log/Log";
 import UserManage from "./pages/Crescent/System/UserManage/UserManage";
-// Crescent components end
 
 Vue.use(Router);
 
 export default new Router({
-    routes: [
-        // Crescent router begin
-        {
-            path: '/Crescent/login',
-            name: 'CrescentLogin',
-            component: Login
+    routes: [{
+        path: '/',
+        name: 'root',
+        redirect: { name: 'CrescentLayout' }
+    },{
+        path: '/Crescent/login',
+        name: 'CrescentLogin',
+        component: Login
+    }, {
+        path: '/Crescent',
+        name: 'CrescentLayout',
+        redirect: { name:'bulletin' },
+        component: crescent_layout,
+        children: [{
+            path: 'notRole',
+            name: 'notRole',
+            component: NotRole
         }, {
-            path: '/Crescent',
-            name: 'CrescentLayout',
-            component: crescent_layout,
-            children: [
-                {
-                    path: 'notRole',
-                    name: 'notRole',
-                    component: NotRole
-                }, {
-                    path: 'bulletin/dash',
-                    name: '课题一览',
-                    component: BulletinDash
-                }, {
-                    path: 'bulletin/publish',
-                    name: '发布课题',
-                    component: BulletinPublish
-                }, {
-                    path: 'bulletin/dash/modify',
-                    name: '更新课题',
-                    component: BulletinModify
-                }, {
-                    path: 'declare/create',
-                    name: '新建项目申报',
-                    component: DeclareCreate
-                }, {
-                    path: 'declare/progress',
-                    name: '项目申报进度',
-                    component: DeclareProgress
-                }, {
-                    path: 'declare/progress/modify',
-                    name: '修改项目申报',
-                    component: DeclareModify
-                }, {
-                    path: 'audit/expertDash',
-                    name: '专家评审面板',
-                    component: ExpertDash
-                }, {
-                    path: 'audit/departDash',
-                    name: '部门评审面板',
-                    component: DepartDash
-                }, {
-                    path: 'audit/expertDash/expertAudit',
-                    name: '专家评审',
-                    component: ExpertAudit
-                }, {
-                    path: 'audit/departDash/departAudit',
-                    name: '部门评审',
-                    component: DepartAudit
-                }, {
-                    path: 'system/userManage',
-                    name: '用户管理',
-                    component: UserManage
-                }, {
-                    path: 'system/log',
-                    name: '系统日志',
-                    component: Log
-                }
-            ]
-        }
-        // Crescent router end
-    ],
+            path: 'bulletin',
+            name: 'bulletin',
+            component: EmptyLayout,
+            redirect: { name: 'bulletinDash' },
+            children: [{
+                path: 'dash',
+                name: 'bulletinDash',
+                component: BulletinDash,
+                meta: { role: [1, 2, 4] }
+            }, {
+                path: 'publish',
+                name: 'bulletinPublish',
+                component: BulletinPublish,
+                meta: { role: [2, 4] }
+            }, {
+                path: 'dash/modify',
+                name: 'bulletinModify',
+                component: BulletinModify,
+                meta: { role: [2, 4] }
+            }]
+        }, {
+            path: 'declare',
+            name: 'declare',
+            component: EmptyLayout,
+            redirect: { name: 'declareProgress' },
+            children: [{
+                path: 'create',
+                name: 'declareCreate',
+                component: DeclareCreate,
+                meta: { role: [1] }
+            }, {
+                path: 'progress',
+                name: 'declareProgress',
+                component: DeclareProgress,
+                meta: { role: [1] }
+            }, {
+                path: 'progress/modify',
+                name: 'declareModify',
+                component: DeclareModify,
+                meta: { role: [1] }
+            }]
+        }, {
+            path: 'audit',
+            name: 'audit',
+            component: EmptyLayout,
+            redirect: { name: 'auditDepartDash' },
+            children: [{
+                path: 'expertDash',
+                name: 'auditExpertDash',
+                component: ExpertDash,
+                meta: { role: [2, 3, 4] }
+            }, {
+                path: 'departDash',
+                name: 'auditDepartDash',
+                component: DepartDash,
+                meta: { role: [2, 4] }
+            }, {
+                path: 'expertDash/expertAudit',
+                name: 'expertAudit',
+                component: ExpertAudit,
+                meta: { role: [3] }
+            }, {
+                path: 'departDash/departAudit',
+                name: 'departAudit',
+                component: DepartAudit,
+                meta: { role: [2, 4] }
+            }]
+        }, {
+            path: 'system',
+            name: 'system',
+            component: EmptyLayout,
+            redirect: 'systemUserManage',
+            children: [{
+                path: 'userManage',
+                name: 'systemUserManage',
+                component: UserManage,
+                meta: { role: [4] }
+            }, {
+                path: 'log',
+                name: 'systemLog',
+                component: Log,
+                meta: { role: [4] }
+            }]
+        }]
+    }]
 });

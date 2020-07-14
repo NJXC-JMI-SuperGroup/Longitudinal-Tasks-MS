@@ -47,6 +47,17 @@ Vue.component(VPagination.name, VPagination)
 
 Vue.config.productionTip = false;
 
+router.beforeEach((to, from, next) => {
+    if (to.meta.hasOwnProperty('role') && to.meta.role.indexOf(store.state.global.userLevel) === -1) {
+        next({
+            replace: true,
+            name: 'notRole'
+        })
+    } else {
+        next();
+    }
+});
+
 /* eslint-disable no-new */
 new Vue({
     el: '#app',
