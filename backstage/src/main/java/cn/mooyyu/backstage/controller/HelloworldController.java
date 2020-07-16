@@ -21,5 +21,5 @@ public class HelloworldController {
         return "for test: " + this.testService.SayHello(userid);
     }
 
-    // test for mooyyu
+    // test for chenxi
 }
