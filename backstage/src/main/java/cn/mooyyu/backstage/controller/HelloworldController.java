@@ -17,8 +17,8 @@ public class HelloworldController {
 
     @GetMapping("is_ok")
     @ResponseBody
-    public String hello(@RequestParam int card) {
-        return "for test: " + this.testService.SayHello(card);
+    public String hello(@RequestParam int userid) {
+        return "for test: " + this.testService.SayHello(userid);
     }
 
     // test for mooyyu

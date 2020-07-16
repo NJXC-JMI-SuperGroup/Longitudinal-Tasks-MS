@@ -1,7 +1,6 @@
 package cn.mooyyu.backstage.service;
 
 import cn.mooyyu.backstage.dao.TestDao;
-import cn.mooyyu.backstage.pojo.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +12,8 @@ public class TestService {
         this.testDao = testDao;
     }
 
-    public String SayHello(int card) {
-        Message msg = this.testDao.findMessageByCard(card);
-        return msg == null ? "Sorry, found nothing." : String.valueOf(msg.getNick());
+    public String SayHello(int userid) {
+        String msg = this.testDao.findMessageByCard(userid);
+        return msg == null ? "Sorry, found nothing." : msg;
     }
 }

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface TestDao {
-    @Select("select * from only_text where card = #{card}")
-    Message findMessageByCard(@Param("card") int card);
+    @Select("select username from tb_user where userid = #{userid}")
+    String findMessageByCard(@Param("userid") int userid);
 }
