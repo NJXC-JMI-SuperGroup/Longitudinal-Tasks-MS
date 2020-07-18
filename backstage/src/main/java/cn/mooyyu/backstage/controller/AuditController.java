@@ -27,28 +27,18 @@ public class AuditController {
         return this.auditService.getProjectList();
     }
 
-    //获取评审详细信息
-    @PostMapping("getAuditList")
-    @ResponseBody
-    public AuditDeclare showAuditList1(@RequestParam int bulletinId) {
-        return this.auditService.findAuditListBybulletinId(bulletinId);
-    }
-    public AuditDeclare showAuditList2(@RequestParam int decalreId) {
-        return this.auditService.findAuditListBydecalreId(decalreId);
-    }
-
     //添加评审结果
     @PostMapping("addAuditResult")
     @ResponseBody
-    public AuditResult addAuditResult(@RequestParam int decalreId) {
-        return this.auditService.addAuditResult(decalreId);
+    public AuditResult addAuditResult(@RequestParam int declareId) {
+        return this.auditService.addAuditResult(declareId);
     }
 
     //获取评审结果
     @PostMapping("getAuditResult")
     @ResponseBody
-    public AuditResult showAuditResult(@RequestParam int decalreId) {
-        return this.auditService.getAuditResult(decalreId);
+    public AuditResult showAuditResult(@RequestParam int declareId) {
+        return this.auditService.getAuditResult(declareId);
     }
 
     //添加驳回理由
@@ -71,6 +61,5 @@ public class AuditController {
     public String showAccount(@RequestParam int declareId){
         return null;
     }
-
 
 }

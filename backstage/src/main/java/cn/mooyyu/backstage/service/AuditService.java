@@ -21,14 +21,6 @@ public class AuditService {
         return this.auditDao.getProjectList();
     }
 
-    public AuditDeclare findAuditListBybulletinId(int bulletinId){
-        return this.auditDao.findAuditListBydecalreId(bulletinId);
-    }
-
-    public AuditDeclare findAuditListBydecalreId(int decalreId){
-        return this.auditDao.findAuditListBydecalreId(decalreId);
-    }
-
     public AuditResult getAuditResult(int declareId){
         return this.auditDao.getAuditResult(declareId);
     }
