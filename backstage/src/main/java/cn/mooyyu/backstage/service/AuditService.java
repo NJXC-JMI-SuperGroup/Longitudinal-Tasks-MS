@@ -1,8 +1,13 @@
 package cn.mooyyu.backstage.service;
 
 import cn.mooyyu.backstage.dao.AuditDao;
+import cn.mooyyu.backstage.pojo.AuditDeclare;
+import cn.mooyyu.backstage.pojo.AuditResult;
+import cn.mooyyu.backstage.pojo.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AuditService {
@@ -12,5 +17,31 @@ public class AuditService {
         this.auditDao = auditDao;
     }
 
+    public List<Project> getProjectList(){
+        return this.auditDao.getProjectList();
+    }
 
+    public AuditDeclare findAuditListBybulletinId(int bulletinId){
+        return this.auditDao.findAuditListBydecalreId(bulletinId);
+    }
+
+    public AuditDeclare findAuditListBydecalreId(int decalreId){
+        return this.auditDao.findAuditListBydecalreId(decalreId);
+    }
+
+    public AuditResult getAuditResult(int declareId){
+        return this.auditDao.getAuditResult(declareId);
+    }
+
+    public AuditResult addAuditResult(int declareId){
+        return this.auditDao.addAuditResult(declareId);
+    }
+
+    public String addRejectionReason(int declareId){
+        return this.auditDao.addRejectionReason(declareId);
+    }
+    public Integer getAccountNumber(int declareId){
+        return this.auditDao.getAccountNumber(declareId);
+    }
 }
+
