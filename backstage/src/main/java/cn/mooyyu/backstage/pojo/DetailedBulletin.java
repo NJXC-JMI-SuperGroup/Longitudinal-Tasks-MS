@@ -1,7 +1,7 @@
 package cn.mooyyu.backstage.pojo;
-
+import lombok.Data;
 import java.sql.Date;
-
+@Data
 public class DetailedBulletin {
         int bulletinId;
         String title;
