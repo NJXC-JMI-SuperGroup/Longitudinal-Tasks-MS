@@ -36,14 +36,8 @@ public class AuditService {
     public Integer getAccountNumber(int declareId){
         return this.auditDao.getAccountNumber(declareId);
     }
-<<<<<<< HEAD
     public List<ExpertAccount> getAccountList(int declareId){
         return this.auditDao.getAccountList();
     }
-=======
-
-
-
->>>>>>> bad2a69ce61bb2beb8d4157294c9e5c83ba50f96
 }
 
