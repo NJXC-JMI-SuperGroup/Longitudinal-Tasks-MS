@@ -1,7 +1,9 @@
 package cn.mooyyu.backstage.pojo;
 
-import java.sql.Date;
+import lombok.Data;
 
+import java.sql.Date;
+@Data
 public class Declare {
     int declareId;
     String projectName;

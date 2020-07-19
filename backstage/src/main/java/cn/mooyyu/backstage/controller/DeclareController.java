@@ -1,8 +1,7 @@
 package cn.mooyyu.backstage.controller;
-import cn.mooyyu.backstage.pojo.Bulletin;
-import cn.mooyyu.backstage.pojo.Declare;
-import cn.mooyyu.backstage.pojo.DetailedBulletin;
+import cn.mooyyu.backstage.pojo.*;
 import cn.mooyyu.backstage.service.DeclareService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,16 +17,16 @@ public class DeclareController {
     public DeclareController(DeclareService declareService){
         this.declareService = declareService;
     }
-
+    //获取课题通知列表
     @GetMapping("getBulletinList")
     @ResponseBody
-    public List<Bulletin> showBulletinList() {//获取课题通知列表
+    public List<Bulletin> showBulletinList() {
         return  this.declareService.getBulletinList();
     }
-
+    //获取课题通知详情
     @GetMapping("getBulletin")
     @ResponseBody
-    public DetailedBulletin showBulletin(int bulletinId){//获取课题通知详情
+    public DetailedBulletin showBulletin(@RequestParam int bulletinId){
         return this.declareService.getBulletin(bulletinId);
     }
 
@@ -35,6 +34,39 @@ public class DeclareController {
 
 
     }
+
+    //获取项目申报进度
+    @GetMapping("getProcessList")
+    @ResponseBody
+    public List<ProcessDeclare> showProcessList(){
+        return this.declareService.getProcessList();
+    }
+
+    //获取项目申报详情
+    @GetMapping("getDetailedProcessDeclare")
+    @ResponseBody
+    public DetailedProcessDeclare showDatailedProcessDeclare(@RequestParam int declareId){
+        return this.declareService.getDetailedProcessDeclare(declareId);
+    }
+
+    //获取驳回理由
+    @GetMapping("getRejectReason")
+    @ResponseBody
+    public String showRejectReason(@RequestParam int declareId){
+        return this.declareService.getRejectReason(declareId);
+    }
+
+    //获取专审结果
+    @GetMapping("getAuditResult")
+    @ResponseBody
+    public AuditResult showAuditResult(@RequestParam int declareId){
+        return this.declareService.getAuditResult(declareId);
+
+    }
+
+    //
+
+
 
 
 
