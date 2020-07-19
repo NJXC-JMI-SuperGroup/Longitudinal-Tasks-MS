@@ -35,5 +35,8 @@ public class AuditService {
     public Integer getAccountNumber(int declareId){
         return this.auditDao.getAccountNumber(declareId);
     }
+
+
+
 }
 

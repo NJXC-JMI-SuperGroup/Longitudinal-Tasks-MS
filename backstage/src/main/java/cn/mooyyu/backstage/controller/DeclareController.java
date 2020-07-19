@@ -1,9 +1,7 @@
 package cn.mooyyu.backstage.controller;
-import cn.mooyyu.backstage.pojo.Bulletin;
-import cn.mooyyu.backstage.pojo.Declare;
-import cn.mooyyu.backstage.pojo.DetailedBulletin;
-import cn.mooyyu.backstage.pojo.ProcessDeclare;
+import cn.mooyyu.backstage.pojo.*;
 import cn.mooyyu.backstage.service.DeclareService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +41,32 @@ public class DeclareController {
     public List<ProcessDeclare> showProcessList(){
         return this.declareService.getProcessList();
     }
+
+    //获取项目申报详情
+    @GetMapping("getDetailedProcessDeclare")
+    @ResponseBody
+    public DetailedProcessDeclare showDatailedProcessDeclare(@RequestParam int declareId){
+        return this.declareService.getDetailedProcessDeclare(declareId);
+    }
+
+    //获取驳回理由
+    @GetMapping("getRejectReason")
+    @ResponseBody
+    public String showRejectReason(@RequestParam int declareId){
+        return this.declareService.getRejectReason(declareId);
+    }
+
+    //获取专审结果
+    @GetMapping("getAuditResult")
+    @ResponseBody
+    public AuditResult showAuditResult(@RequestParam int declareId){
+        return this.declareService.getAuditResult(declareId);
+
+    }
+
+    //
+
+
 
 
 

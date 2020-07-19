@@ -1,6 +1,5 @@
 package cn.mooyyu.backstage.dao;
 
-import cn.mooyyu.backstage.pojo.AuditDeclare;
 import cn.mooyyu.backstage.pojo.AuditResult;
 import cn.mooyyu.backstage.pojo.Project;
 import org.apache.ibatis.annotations.*;
@@ -26,6 +25,7 @@ public interface AuditDao {
 
     @Select("select count(expertId) from tb_declare join tb_bulletin t on tb_declare.bulletinId = t.bulletinId join tb_expert te on t.bulletinId = te.bulletinId where declareId = #{declareId}")
     Integer getAccountNumber(@Param("declareId") int declareId);
+
 
 
 
