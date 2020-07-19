@@ -2,13 +2,13 @@ package cn.mooyyu.backstage.pojo;
 
 import lombok.Data;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Data
 public class Bulletin {
     String title;
-    String type;
-    String level;
-    String depname;
-    Date deadline;
+    int typeId;
+    int levelId;
+    String publishDeptId;
+    String deadline;
 }
