@@ -1,19 +1,18 @@
 package cn.mooyyu.backstage.pojo;
 
-import java.sql.Date;
+import lombok.Data;
 
+import java.sql.Date;
+@Data
 public class DetailedBulletin {
-        int bulletinId;
         String title;
         int index;
-        String publishDeptId;
-        int typeId;
+        String depname;
+        String type;
         boolean isLimit;
         int limitNumber;
         boolean expertAudit;
-        int levelId;
+        String level;
         Date deadline;
-        String context;
-        String link;
-
+        String content;
 }
