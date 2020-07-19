@@ -1,8 +1,8 @@
 package cn.mooyyu.backstage.controller;
 
-import cn.mooyyu.backstage.pojo.AuditDeclare;
+
 import cn.mooyyu.backstage.pojo.AuditResult;
-import cn.mooyyu.backstage.pojo.Project;
+import cn.mooyyu.backstage.pojo.SimpleDeclare;
 import cn.mooyyu.backstage.service.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,15 +23,15 @@ public class AuditController {
     //获取项目列表
     @GetMapping("getProjectList")
     @ResponseBody
-    public List<Project> showProjectList() {
+    public List<SimpleDeclare> showProjectList() {
         return this.auditService.getProjectList();
     }
 
     //添加评审结果
     @PostMapping("addAuditResult")
     @ResponseBody
-    public AuditResult addAuditResult(@RequestParam int declareId) {
-        return this.auditService.addAuditResult(declareId);
+    public void addAuditResult(@RequestParam int declareId,int expertScore,String expertSuggestion) {
+        this.auditService.addAuditResult(declareId,expertScore,expertSuggestion);
     }
 
     //获取评审结果
@@ -44,22 +44,28 @@ public class AuditController {
     //添加驳回理由
     @PostMapping("addRejectionReason")
     @ResponseBody
-    public String addRejectionReason(@RequestParam int declareId){
-        return this.auditService.addRejectionReason(declareId);
+    public void addRejectReson(@RequestParam int declareId, String rejectReason){
+        this.auditService.addRejectReson(declareId,rejectReason);
     }
 
-    //获取已有外审账号数目
-    @PostMapping("getAccountNumber")
-    @ResponseBody
-    public Integer showAccountNumber(@RequestParam int declareId){
-        return this.auditService.getAccountNumber(declareId);
-    }
 
-    //生成外审账号
-    @PostMapping("productAccount")
-    @ResponseBody
-    public String showAccount(@RequestParam int declareId){
-        return null;
-    }
+    //外审账号
+//    @PostMapping("expertAccount")
+//    @ResponseBody
+//    public Integer showAccountNumber(@RequestParam int declareId){
+//        return this.auditService.getAccountNumber(declareId);
+//    }
+//    public List<ExpertAccount> showAccountList(@RequestParam int declareId) {
+//        return this.auditService.getAccountList(declareId);
+//    }
+
+
+//    public Map<int declared,ExpertAccount> map(){
+//     List<Map<int declared,ExpertAccount>> map(){
+//
+//        }
+//    }
+
+  
 
 }

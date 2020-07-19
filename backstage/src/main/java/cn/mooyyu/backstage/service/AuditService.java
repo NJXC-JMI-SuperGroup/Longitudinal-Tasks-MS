@@ -1,9 +1,10 @@
 package cn.mooyyu.backstage.service;
 
 import cn.mooyyu.backstage.dao.AuditDao;
-import cn.mooyyu.backstage.pojo.AuditDeclare;
+
 import cn.mooyyu.backstage.pojo.AuditResult;
-import cn.mooyyu.backstage.pojo.Project;
+import cn.mooyyu.backstage.pojo.ExpertAccount;
+import cn.mooyyu.backstage.pojo.SimpleDeclare;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class AuditService {
         this.auditDao = auditDao;
     }
 
-    public List<Project> getProjectList(){
+    public List<SimpleDeclare> getProjectList(){
         return this.auditDao.getProjectList();
     }
 
@@ -25,15 +26,24 @@ public class AuditService {
         return this.auditDao.getAuditResult(declareId);
     }
 
-    public AuditResult addAuditResult(int declareId){
-        return this.auditDao.addAuditResult(declareId);
+    public void addAuditResult(int declareId,int expertScore,String expertSuggestion){
+        this.auditDao.addAuditResult(declareId,expertScore,expertSuggestion);
     }
 
-    public String addRejectionReason(int declareId){
-        return this.auditDao.addRejectionReason(declareId);
+  public void  addRejectReson(int declareId,String rejectReason){
+        this.auditDao.addRejectReson(declareId,rejectReason);
     }
     public Integer getAccountNumber(int declareId){
         return this.auditDao.getAccountNumber(declareId);
     }
+<<<<<<< HEAD
+    public List<ExpertAccount> getAccountList(int declareId){
+        return this.auditDao.getAccountList();
+    }
+=======
+
+
+
+>>>>>>> bad2a69ce61bb2beb8d4157294c9e5c83ba50f96
 }
 
