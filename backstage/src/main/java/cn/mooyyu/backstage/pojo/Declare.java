@@ -5,14 +5,16 @@ import lombok.Data;
 import java.sql.Date;
 @Data
 public class Declare {
-    int declareId;
-    String projectName;
-    String leaderId;
+    String ProjectName;
     String leaderJobTitle;
     String expectAchievement;
     String index;
-    int BulletinID;
+    int bulletinId;
+    String content;
     int declareDeptId;
-    Date deadline;
+    String depname;
+    String expectDeadline;
+
+
 
 }

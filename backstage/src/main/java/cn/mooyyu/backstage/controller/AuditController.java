@@ -61,7 +61,5 @@ public class AuditController {
     public String showAccount(@RequestParam int declareId){
         return null;
     }
-
-  
-
+    
 }

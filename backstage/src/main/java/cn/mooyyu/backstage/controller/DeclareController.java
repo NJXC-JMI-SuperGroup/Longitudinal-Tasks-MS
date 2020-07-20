@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 
 @RestController
@@ -13,27 +14,13 @@ import java.util.List;
         produces = "application/json;charset=utf-8")
 public class DeclareController {
     final private DeclareService declareService;
+    private Declare declare;
+
     @Autowired
     public DeclareController(DeclareService declareService){
         this.declareService = declareService;
     }
-    //获取课题通知列表
-    @GetMapping("getBulletinList")
-    @ResponseBody
-    public List<Bulletin> showBulletinList() {
-        return  this.declareService.getBulletinList();
-    }
-    //获取课题通知详情
-    @GetMapping("getBulletin")
-    @ResponseBody
-    public DetailedBulletin showBulletin(@RequestParam int bulletinId){
-        return this.declareService.getBulletin(bulletinId);
-    }
 
-    public void putDeclare(Declare declare){
-
-
-    }
 
     //获取项目申报进度
     @GetMapping("getProcessList")
@@ -64,7 +51,19 @@ public class DeclareController {
 
     }
 
-    //
+    //提交项目申报
+    @PostMapping("putDeclare")
+    @ResponseBody
+    public void putDeclare(@RequestBody Declare declare){
+        this.declareService.putDeclare(declare);
+    }
+
+    //获取提交申报修改页面
+    @GetMapping("getModify")
+    @ResponseBody
+    public Declare getModify(@RequestParam int declareId){
+        return this.declareService.getModify(declareId);
+    }
 
 
 

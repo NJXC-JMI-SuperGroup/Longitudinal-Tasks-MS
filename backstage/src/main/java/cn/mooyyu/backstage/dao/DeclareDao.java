@@ -4,21 +4,15 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.eclipse.sisu.Parameters;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Mapper
 @Repository
 public interface DeclareDao {
-    @Select("select title,typeId,levelId,publishDeptId,deadline from tb_bulletin")
-    List<Bulletin> getBulletinList();
-
-    @Select("select bulletinId,title,[index],publishDeptId,typeId,isLimit,limitNumber,expertAudit,levelId,deadline,content,link\n" +
-            "from tb_bulletin\n" +
-            "where bulletinId = #{bulletinId}")
-    DetailedBulletin getBulletin(@Param("bulletinId") int bulletinId);
-
     @Select("select b.title,tdS.state,b.content,u.username\n" +
             "from tb_declare d\n" +
             "        join tb_bulletin b on d.bulletinId=b.bulletinId\n" +
@@ -55,4 +49,18 @@ public interface DeclareDao {
             "from tb_declare\n" +
             "where declareId = #{declareId};\n")
     AuditResult getAuditResult(@Param("declareId") int declareId);
+
+
+
+    @Insert("insert into tb_declare (projectName, leaderJobTitle, expectAchievement, [index], bulletinId, declareDeptId,\n" +
+                "                        expectDeadline, stateId)\n" +
+                "values (#{declare.projectName}, #{declare.leaderJobTitle}, #{declare.expectAchievement}, #{declare.index}, #{declare.bulletinId}, #{declare.declareDeptId}, #{declare.expectDeadline}, 2);\n")
+
+    void  putDeclare(@Param("declare") Declare declare);
+
+
+    @Select("select projectName, leaderJobTitle, expectAchievement, [index], bulletinId, declareDeptId, expectDeadline\n" +
+            "from tb_declare where declareId=#{declareId};\n")
+    Declare getModify(@Param("declare") int declareId);
+
 }

@@ -1,7 +1,6 @@
 package cn.mooyyu.backstage.service;
 import cn.mooyyu.backstage.dao.DeclareDao;
 import cn.mooyyu.backstage.pojo.*;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +12,6 @@ public class DeclareService {
     @Autowired
     public DeclareService(DeclareDao declareDao) {
         this.declareDao = declareDao;
-    }
-    public List<Bulletin> getBulletinList(){
-        return this.declareDao.getBulletinList();
-
-    }
-    public DetailedBulletin getBulletin(int bulletinId){
-        return this.declareDao.getBulletin(bulletinId);
-
     }
 
     public List<ProcessDeclare> getProcessList(){
@@ -37,5 +28,13 @@ public class DeclareService {
 
     public AuditResult getAuditResult(int declareId){
         return this.declareDao.getAuditResult(declareId);
+    }
+
+    public void putDeclare(Declare declare){
+        this.declareDao.putDeclare(declare);
+    }
+
+    public Declare getModify(int declareId){
+       return this.declareDao.getModify(declareId);
     }
 }
