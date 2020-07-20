@@ -23,4 +23,8 @@ public class BulletinService {
    public DetailedBulletin findDetailedBybulletinId(int bulletinId){
         return this.bulletinDao.findDetailedBybulletinId(bulletinId);
    }
+
+   public DetailedBulletin addDetailedBullentin(String title, String index,boolean isLimit){
+        return this.bulletinDao.addDetailedBullentin(title, index,isLimit);
+   }
 }
