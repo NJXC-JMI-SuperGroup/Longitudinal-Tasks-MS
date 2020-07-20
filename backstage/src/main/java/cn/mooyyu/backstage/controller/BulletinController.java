@@ -18,6 +18,7 @@ public class BulletinController {
     public BulletinController(BulletinService bulletinService){
         this.bulletinService=bulletinService;
     }
+
     @GetMapping("getbulletinlist")
     @ResponseBody
     public List<Bulletin> showBulletinList(){
@@ -28,6 +29,12 @@ public class BulletinController {
     @ResponseBody
     public DetailedBulletin showBulletin(@RequestParam int bulletinId){
         return this.bulletinService.findDetailedBybulletinId(bulletinId);
+    }
+
+    @PostMapping("addbulletin")
+    @ResponseBody
+    public DetailedBulletin addDetailedBulletin(@RequestParam String title, String index,boolean isLimit){
+        return this.bulletinService.addDetailedBullentin(title,index,isLimit);
     }
 
 

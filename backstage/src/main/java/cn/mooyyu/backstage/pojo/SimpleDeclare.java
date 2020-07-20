@@ -3,8 +3,7 @@ package cn.mooyyu.backstage.pojo;
 import lombok.Data;
 
 @Data
-public class Project {
-    int declareId;
+public class SimpleDeclare {
     String projectName;
     String title;
     String state;
