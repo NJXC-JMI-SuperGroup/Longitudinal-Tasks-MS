@@ -23,14 +23,17 @@ Vue.use(Toasted, {duration: 10000});
 
 import axios from 'axios';
 axios.defaults.withCredentials = true;
-Vue.prototype.axios = axios;
+Vue.prototype.$axios = axios;
+
+import $ from 'jquery';
+Vue.prototype.$ = $;
 
 import uploader from 'vue-simple-uploader';
 Vue.use(uploader);
 
 import "pikaday/css/pikaday.css";
 import VueFormGenerator from 'vue-form-generator';
-import 'vue-form-generator/dist/vfg.css'
+import 'vue-form-generator/dist/vfg.css';
 Vue.use(VueFormGenerator);
 
 import VueQuillEditor from 'vue-quill-editor'

@@ -1,7 +1,7 @@
 let publicPath = './';
 
 module.exports = {
-  publicPath,
-  productionSourceMap: false,
-  runtimeCompiler: true
+    publicPath,
+    productionSourceMap: false,
+    runtimeCompiler: true
 };
