@@ -2,6 +2,7 @@ package cn.mooyyu.backstage.dao;
 
 import cn.mooyyu.backstage.pojo.Bulletin;
 import cn.mooyyu.backstage.pojo.DetailedBulletin;
+import cn.mooyyu.backstage.pojo.addBulletin;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -24,9 +25,11 @@ public interface BulletinDao {
 
 
 
-    @Insert("insert into tb_bulletin(title, [index],isLimit)\n" +
-            "values (#{title},#{index},#{isLimit});")
-    DetailedBulletin addDetailedBullentin(@Param("title") String title, @Param("index") String index,@Param("isLimit") boolean isLimit);
+    @Insert(value = "insert into tb_bulletin(title, [index], publishDeptId, typeId, isLimit, limitNumber, expertAudit, levelId, deadline, content) " +
+            "values (#{addBulletin.title},#{addBulletin.index},#{addBulletin.publishDeptId},#{addBulletin.typeId},#{addBulletin.isLimit},#{addBulletin.limitNumber}," +
+            "#{addBulletin.expertAudit},#{addBulletin.levelId},#{addBulletin.deadline}," +
+            "#{addBulletin.content})")
+    void addforBullentin(@Param("addBulletin") addBulletin addbulletin);
 
     /* @Update("update tb_bulletin set title=#{title},[index]=#{[index]},isLimit=#{isLimit}, limitNumber=#{limitNumber},deadline=#{deadline}" +
             "where bulletinId=#{bulletinId};")

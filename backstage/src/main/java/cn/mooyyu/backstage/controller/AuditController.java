@@ -2,12 +2,14 @@ package cn.mooyyu.backstage.controller;
 
 
 import cn.mooyyu.backstage.pojo.AuditResult;
+import cn.mooyyu.backstage.pojo.ExpertAccount;
 import cn.mooyyu.backstage.pojo.SimpleDeclare;
 import cn.mooyyu.backstage.service.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "audit",
@@ -58,21 +60,13 @@ public class AuditController {
     
 
     //外审账号
-//    @PostMapping("expertAccount")
-//    @ResponseBody
+    @PostMapping("expertAccount")
+    @ResponseBody
 //    public Integer showAccountNumber(@RequestParam int declareId){
 //        return this.auditService.getAccountNumber(declareId);
 //    }
-//    public List<ExpertAccount> showAccountList(@RequestParam int declareId) {
-//        return this.auditService.getAccountList(declareId);
-//    }
-
-
-//    public Map<int declared,ExpertAccount> map(){
-//     List<Map<int declared,ExpertAccount>> map(){
-//
-//        }
-//    }
-
+    public  List<Map<String, Object>> showAccountList(@RequestParam int declareId) {
+        return this.auditService.getAccountList(declareId);
+    }
 
 }

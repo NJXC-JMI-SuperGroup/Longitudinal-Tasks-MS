@@ -1,14 +1,9 @@
 package cn.mooyyu.backstage.dao;
-
-import cn.mooyyu.backstage.pojo.AuditResult;
-import cn.mooyyu.backstage.pojo.Declare;
-import cn.mooyyu.backstage.pojo.DetailedProcessDeclare;
-import cn.mooyyu.backstage.pojo.ProcessDeclare;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import cn.mooyyu.backstage.pojo.*;
+import org.apache.ibatis.annotations.*;
+import org.eclipse.sisu.Parameters;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -63,6 +58,17 @@ public interface DeclareDao {
 
     @Select("select projectName, leaderJobTitle, expectAchievement, [index], bulletinId, declareDeptId, expectDeadline\n" +
             "from tb_declare where declareId=#{declareId};\n")
-    Declare getModify(@Param("declare") int declareId);
+    Declare getModify(@Param("declareId") int declareId);
+
+    @Update("update tb_declare\n" +
+            "set projectName=#{declare.projectName}\n" +
+            "  , leaderJobTitle=#{declare.leaderJobTitle}\n" +
+            "  , expectAchievement=#{declare.expectAchievement}\n" +
+            "  , [index]=#{declare.index}\n" +
+            "  , bulletinId=#{declare.bulletinId}\n" +
+            "  , declareDeptId=#{declare.declareDeptId}\n" +
+            "  , expectDeadline=#{declare.expectDeadline}\n" +
+            "where declareId = #{declare.declareId};")
+    void putModify(@Param("declare") Declare declare);
 
 }

@@ -17,7 +17,7 @@ public class DeclareController {
     private Declare declare;
 
     @Autowired
-    public DeclareController(DeclareService declareService){
+    public DeclareController(DeclareService declareService) {
         this.declareService = declareService;
     }
 
@@ -25,28 +25,28 @@ public class DeclareController {
     //获取项目申报进度
     @GetMapping("getProcessList")
     @ResponseBody
-    public List<ProcessDeclare> showProcessList(){
+    public List<ProcessDeclare> showProcessList() {
         return this.declareService.getProcessList();
     }
 
     //获取项目申报详情
     @GetMapping("getDetailedProcessDeclare")
     @ResponseBody
-    public DetailedProcessDeclare showDatailedProcessDeclare(@RequestParam int declareId){
+    public DetailedProcessDeclare showDatailedProcessDeclare(@RequestParam int declareId) {
         return this.declareService.getDetailedProcessDeclare(declareId);
     }
 
     //获取驳回理由
     @GetMapping("getRejectReason")
     @ResponseBody
-    public String showRejectReason(@RequestParam int declareId){
+    public String showRejectReason(@RequestParam int declareId) {
         return this.declareService.getRejectReason(declareId);
     }
 
     //获取专审结果
     @GetMapping("getAuditResult")
     @ResponseBody
-    public AuditResult showAuditResult(@RequestParam int declareId){
+    public AuditResult showAuditResult(@RequestParam int declareId) {
         return this.declareService.getAuditResult(declareId);
 
     }
@@ -54,19 +54,28 @@ public class DeclareController {
     //提交项目申报
     @PostMapping("putDeclare")
     @ResponseBody
-    public void putDeclare(@RequestBody Declare declare){
+    public void putDeclare(@RequestBody Declare declare) {
         this.declareService.putDeclare(declare);
     }
 
     //获取提交申报修改页面
     @GetMapping("getModify")
     @ResponseBody
-    public Declare getModify(@RequestParam int declareId){
+    public Declare getModify(@RequestParam int declareId) {
         return this.declareService.getModify(declareId);
     }
 
 
+    //修改提交项目申报
+    @PostMapping("putModify")
+    @ResponseBody
+    public void putModify(@RequestBody Declare declare) {
+        this.declareService.putModify(declare);
 
 
-
+    }
 }
+
+
+
+
