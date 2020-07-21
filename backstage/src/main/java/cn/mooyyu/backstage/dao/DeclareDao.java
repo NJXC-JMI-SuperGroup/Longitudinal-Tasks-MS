@@ -1,12 +1,14 @@
 package cn.mooyyu.backstage.dao;
-import cn.mooyyu.backstage.pojo.*;
+
+import cn.mooyyu.backstage.pojo.AuditResult;
+import cn.mooyyu.backstage.pojo.Declare;
+import cn.mooyyu.backstage.pojo.DetailedProcessDeclare;
+import cn.mooyyu.backstage.pojo.ProcessDeclare;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.eclipse.sisu.Parameters;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
