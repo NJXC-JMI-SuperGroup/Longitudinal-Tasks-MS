@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
@@ -30,7 +31,7 @@ public interface AuditDao {
     Integer getAccountNumber(@Param("declareId") int declareId);
 
     @Select("select username,password from tb_declare join tb_bulletin t on tb_declare.bulletinId = t.bulletinId join tb_expert te on t.bulletinId = te.bulletinId")
-    List<ExpertAccount> getAccountList();
+    List<Map<String, Object>> getAccountList(@Param("declareId") int declareId);
 
 
 
