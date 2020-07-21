@@ -5,6 +5,7 @@ import lombok.Data;
 import java.sql.Date;
 @Data
 public class Declare {
+    int declareId;
     String ProjectName;
     String leaderJobTitle;
     String expectAchievement;

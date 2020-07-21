@@ -37,4 +37,9 @@ public class DeclareService {
     public Declare getModify(int declareId){
        return this.declareDao.getModify(declareId);
     }
+
+
+    public void putModify(Declare declare){
+        this.declareDao.putModify(declare);
+    }
 }
