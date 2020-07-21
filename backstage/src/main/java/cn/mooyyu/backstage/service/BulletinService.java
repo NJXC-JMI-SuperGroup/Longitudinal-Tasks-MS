@@ -3,6 +3,7 @@ package cn.mooyyu.backstage.service;
 import cn.mooyyu.backstage.dao.BulletinDao;
 import cn.mooyyu.backstage.pojo.Bulletin;
 import cn.mooyyu.backstage.pojo.DetailedBulletin;
+import cn.mooyyu.backstage.pojo.addBulletin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class BulletinService {
         return this.bulletinDao.findDetailedBybulletinId(bulletinId);
    }
 
-   public DetailedBulletin addDetailedBullentin(String title, String index,boolean isLimit){
-        return this.bulletinDao.addDetailedBullentin(title, index,isLimit);
+   public void addforBulletin(addBulletin addbulletin){
+        this.bulletinDao.addforBullentin(addbulletin);
    }
 }

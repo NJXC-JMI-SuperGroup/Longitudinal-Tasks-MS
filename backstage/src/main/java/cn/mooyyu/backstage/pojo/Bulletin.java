@@ -10,5 +10,5 @@ public class Bulletin {
     int typeId;
     int levelId;
     String publishDeptId;
-    String deadline;
+    Date deadline;
 }
