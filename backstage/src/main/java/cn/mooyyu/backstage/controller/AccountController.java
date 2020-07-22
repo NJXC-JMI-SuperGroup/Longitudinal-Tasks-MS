@@ -33,4 +33,9 @@ public class AccountController {
     public AccountState login(HttpServletRequest request, @RequestBody AccountState loginInfo) {
         return this.accountService.login(request, loginInfo);
     }
+
+    @GetMapping("logout")
+    public boolean logout(HttpServletRequest request) {
+        return this.accountService.logout(request);
+    }
 }

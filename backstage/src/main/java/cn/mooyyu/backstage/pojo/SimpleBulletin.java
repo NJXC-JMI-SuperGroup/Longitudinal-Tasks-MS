@@ -5,10 +5,11 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Bulletin {
+public class SimpleBulletin {
+    int bulletinId;
     String title;
-    int typeId;
-    int levelId;
-    String publishDeptId;
+    String state;
+    String bulletinLevel;
+    String publishDept;
     Date deadline;
 }

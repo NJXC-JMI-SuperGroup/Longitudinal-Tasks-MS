@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class AccountState {
-    boolean isLogin;
+    boolean loginState;
     int level;
     String username;
     String password;

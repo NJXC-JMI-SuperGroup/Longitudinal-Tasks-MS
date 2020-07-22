@@ -27,9 +27,14 @@ public class AccountService {
             request.getSession().setAttribute("accountState", new AccountState());
             return new AccountState();
         } else {
-            result.setLogin(true);
+            result.setLoginState(true);
             request.getSession().setAttribute("accountState", result);
             return result;
         }
+    }
+
+    public boolean logout(HttpServletRequest request) {
+        request.getSession().setAttribute("accountState", new AccountState());
+        return true;
     }
 }

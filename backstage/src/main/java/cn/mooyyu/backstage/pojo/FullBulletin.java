@@ -5,15 +5,22 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class addBulletin {
+public class FullBulletin {
+     int bulletinId;
      String title;
      String index;
      int publishDeptId;
+     String publishDept;
      int typeId;
-     boolean isLimit;
+     String bulletinType;
+     int levelId;
+     String bulletinLevel;
+     boolean limit;
      int limitNumber;
      boolean expertAudit;
-     int levelId;
      Date deadline;
      String content;
+     String link;
+     boolean addition;
+     String additionUrl;
 }

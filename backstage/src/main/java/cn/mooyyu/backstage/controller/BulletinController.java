@@ -1,8 +1,7 @@
 package cn.mooyyu.backstage.controller;
 
-import cn.mooyyu.backstage.pojo.Bulletin;
-import cn.mooyyu.backstage.pojo.DetailedBulletin;
-import cn.mooyyu.backstage.pojo.addBulletin;
+import cn.mooyyu.backstage.pojo.SimpleBulletin;
+import cn.mooyyu.backstage.pojo.FullBulletin;
 import cn.mooyyu.backstage.service.BulletinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,26 +14,30 @@ import java.util.List;
         produces = "application/json;charset=utf-8")
 public class BulletinController {
     private final BulletinService bulletinService;
+
     @Autowired
-    public BulletinController(BulletinService bulletinService){
-        this.bulletinService=bulletinService;
+    public BulletinController(BulletinService bulletinService) {
+        this.bulletinService = bulletinService;
     }
+
     //获取课题列表
-    @GetMapping("getbulletinlist")
+    @GetMapping("getBulletinList")
     @ResponseBody
-    public List<Bulletin> showBulletinList(){
+    public List<SimpleBulletin> getBulletinList() {
         return this.bulletinService.getBulletinList();
     }
+
     //获取课题详细信息
-    @GetMapping("getbulletin")
+    @GetMapping("getBulletin")
     @ResponseBody
-    public DetailedBulletin showBulletin(@RequestParam int bulletinId){
-        return this.bulletinService.findDetailedBybulletinId(bulletinId);
+    public FullBulletin getBulletin(@RequestParam int bulletinId) {
+        return this.bulletinService.getDetailedById(bulletinId);
     }
+
     //发布课题
-    @PostMapping("addbulletin")
+    @PostMapping("addBulletin")
     @ResponseBody
-    public void addforBulletin(@RequestBody addBulletin addbulletin){
-        this.bulletinService.addforBulletin(addbulletin);
+    public void addBulletin(@RequestBody FullBulletin addBulletin) {
+        this.bulletinService.addBulletin(addBulletin);
     }
 }
