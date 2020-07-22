@@ -52,8 +52,8 @@ Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {
     if (to.meta.hasOwnProperty('role') &&
-        (!store.state.global.accountState.loginState ||
-        to.meta.role.indexOf(store.state.global.accountState.level) === -1)) {
+        (!store.state.global.accountState.loginState || to.meta.role.indexOf(store.state.global.accountState.level) === -1)
+    ) {
         next({
             replace: true,
             name: 'notRole'

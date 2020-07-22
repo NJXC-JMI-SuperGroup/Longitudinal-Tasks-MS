@@ -1,8 +1,8 @@
 <template>
     <div class="row">
-        <vue-form-generator class="col-6" :schema="form.schemaLeft" :model="form.model" :options="form.options" />
+        <vue-form-generator class="col-6" ref="vfg" :schema="form.schemaLeft" :model="model" />
         <div class="col-6">
-            <vue-form-generator :schema="form.schemaRight" :model="form.model" :options="form.option"></vue-form-generator>
+            <vue-form-generator :schema="form.schemaRight" :model="model"></vue-form-generator>
             <uploader>
                 <uploader-unsupport></uploader-unsupport>
                 <uploader-drop>
@@ -13,7 +13,7 @@
             </uploader>
         </div>
         <quill-editor class="mx-4 mb-3 overflow-hidden border-bottom"
-                      :content="quill.content"
+                      :content="model.content" ref="quillEditor"
         />
     </div>
 </template>

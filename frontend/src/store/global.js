@@ -12,11 +12,15 @@ export default {
         },
         model: {
             bulletin: {
+                bulletinId: null,
                 title: null,
                 index: null,
                 publishDept: null,
+                publishDeptId: null,
                 bulletinType: null,
+                typeId: null,
                 bulletinLevel: null,
+                levelId: null,
                 limit: false,
                 limitNumber: null,
                 expertAudit: false,
@@ -26,7 +30,8 @@ export default {
                 addition: false,
                 additionUrl: null
             }
-        }
+        },
+        quillExample: `<h1 class="ql-align-center">关于____课题的通知</h1><p><br></p><p class="ql-indent-1">关于此课题的详细信息。</p><p class="ql-align-right"><br></p><p class="ql-align-right">日期：____年___月___日</p>`
     },
     mutations: {
         updateUserLevel(state, value) {
@@ -58,10 +63,31 @@ export default {
                 type: '游客',
                 level: -1,
                 realname: ''
-            })
+            });
         },
         updateBulletinModel({commit}, value) {
             commit('updateBulletinModel', value);
+        },
+        resetBulletinModel({commit}) {
+            commit('updateBulletinModel', {
+                bulletinId: null,
+                title: null,
+                index: null,
+                publishDept: null,
+                publishDeptId: null,
+                bulletinType: null,
+                typeId: null,
+                bulletinLevel: null,
+                levelId: null,
+                limit: false,
+                limitNumber: null,
+                expertAudit: false,
+                deadline: null,
+                content: null,
+                link: null,
+                addition: false,
+                additionUrl: null
+            });
         }
     },
 };

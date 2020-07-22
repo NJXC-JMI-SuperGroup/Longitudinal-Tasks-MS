@@ -18,12 +18,14 @@
         },
         created() {
             this.$axios.get(this.host + 'account/getState').then(res => {
-                if (res.data.isLogin) {
+                if (res.data.loginState) {
                     res.data.type = this.levelDesc[res.data.level];
                 }
                 this.updateAccountState(res.data);
-                if (!this.accountState.isLogin && this.$router.history.current.path!=='/Crescent/login') {
+                if (!this.accountState.loginState && this.$router.history.current.path!=='/Crescent/login') {
                     this.$router.push('/Crescent/login')
+                } else {
+                    this.$router.push(this.accountState.level === 13 ? '/Crescent/audit/expertDash' : '/Crescent/bulletin/dash')
                 }
             })
         },

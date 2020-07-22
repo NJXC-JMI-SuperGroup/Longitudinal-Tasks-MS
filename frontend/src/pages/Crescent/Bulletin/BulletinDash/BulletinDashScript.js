@@ -76,7 +76,7 @@ export default {
                             id: "showLimitNumber",
                             label: "课题限项数目(视上个条目决定是否显示)",
                             visible: function (model) {
-                                return model.isLimit;
+                                return model.limit;
                             },
                             model: 'limitNumber',
                             readonly: true

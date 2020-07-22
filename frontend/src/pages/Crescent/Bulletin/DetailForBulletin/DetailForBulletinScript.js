@@ -1,4 +1,5 @@
 import validators from "vue-form-generator/src/utils/validators";
+import {mapState} from "vuex";
 
 export default {
     props: {
@@ -9,19 +10,21 @@ export default {
             form: {
                 schemaLeft: {
                     groups: [{
-                        legend: '发布公告信息',
+                        legend: '发布课题信息',
                         fields: [{
                             type: 'input',
                             inputType: 'text',
                             label: '课题标题',
-                            placeholder: '这里填写课题标题',
                             id: 'bulletinTitle',
-                            required: true
+                            model: 'title',
+                            validator: validators.string.locale({
+                                fieldIsRequired: "The title is required!"
+                            })
                         }, {
                             type: 'input',
                             inputType: 'text',
+                            model: 'index',
                             label: '课题编号',
-                            placeholder: '课题编号',
                             id: "bulletinId"
                         }, {
                             type: "select",
@@ -41,7 +44,7 @@ export default {
                             textOff: "不需要",
                             valueOn: true,
                             valueOff: false,
-                            model: "isExpert"
+                            model: "expertAudit"
                         }, {
                             type: "switch",
                             label: "课题是否限项",
@@ -49,18 +52,19 @@ export default {
                             textOff: "不限项",
                             valueOn: true,
                             valueOff: false,
-                            model: "isLimit"
+                            model: "limit"
                         }, {
                             type: "input",
                             inputType: "number",
                             label: "课题限项数目",
+                            model: 'limitNumber',
                             visible: function (model) {
-                                return model.isLimit;
+                                return model.limit;
                             },
-                            validator: "integer"
+                            validator: validators.integer
                         }]
                     }, {
-                        legend: '编辑公告内容'
+                        legend: '编辑课题内容'
                     }]
                 },
                 schemaRight: {
@@ -80,34 +84,55 @@ export default {
                             ]
                         }, {
                             type: "input",
+                            id: 'bulletinLink',
                             label: "课题通知链接",
-                            inputType: "text"
+                            inputType: "text",
+                            model: 'link'
                         }, {
                             type: "pikaday",
                             label: "课题申报截止时间",
                             model: "deadline",
-                            validator: validators.date,
                             pikadayOptions: {
                                 position: "top left"
-                            }
+                            },
+                            validator: validators.string.locale({
+                                fieldIsRequired: "The deadline is required!"
+                            })
                         }]
                     }]
-                },
-                model: {
-                    isLimit: false,
-                    isExpert: false,
-                    limitNumber: 0,
-                    deadline: new Date()
-                },
-                options: {
-                    validateAfterLoad: true,
-                    validateAfterChanged: true,
-                    validateAsync: true
                 }
             },
-            quill: {
-                content: '<h2>this is content.</h2><br/><br/><br/><br/><br/>'
+            model: {
+                bulletinId: null,
+                title: null,
+                index: null,
+                publishDept: null,
+                publishDeptId: null,
+                bulletinType: null,
+                typeId: null,
+                bulletinLevel: null,
+                levelId: null,
+                limit: false,
+                limitNumber: null,
+                expertAudit: false,
+                deadline: null,
+                content: null,
+                link: null,
+                addition: false,
+                additionUrl: null
             }
         }
+    },
+    methods: {
+    },
+    computed: {
+        ...mapState('global', {
+            quillExample: state => state.quillExample,
+            bulletinModel: state => state.model.bulletin
+        })
+    },
+    mounted() {
+        this.model = this.bulletinModel;
+        this.model.content = this.quillExample;
     }
 }
