@@ -25,7 +25,8 @@ public interface BulletinDao {
             "order by deadline desc")
     List<SimpleBulletin> getBulletinList();
 
-    @Select("select title,\n" +
+    @Select("select bulletinId,\n" +
+            "       title,\n" +
             "       [index],\n" +
             "       depname as publishDept, publishDeptId,\n" +
             "       type as bulletinType, tb_bulletin.typeId,\n" +
