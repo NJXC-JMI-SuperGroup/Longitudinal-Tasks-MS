@@ -5,10 +5,27 @@ export default {
         isAudit: true,
         host: 'http://localhost:8216/crescent/',
         accountState: {
-            isLogin: false,
+            loginState: false,
             type: '游客',
             level: -1,
             realname: ''
+        },
+        model: {
+            bulletin: {
+                title: null,
+                index: null,
+                publishDept: null,
+                bulletinType: null,
+                bulletinLevel: null,
+                limit: false,
+                limitNumber: null,
+                expertAudit: false,
+                deadline: null,
+                content: null,
+                link: null,
+                addition: false,
+                additionUrl: null
+            }
         }
     },
     mutations: {
@@ -20,6 +37,9 @@ export default {
         },
         updateAccountState(state, value) {
             state.accountState = value;
+        },
+        updateBulletinModel(state, value) {
+            state.model.bulletin = value;
         }
     },
     actions: {
@@ -31,6 +51,17 @@ export default {
         },
         updateAccountState({commit}, value) {
             commit('updateAccountState', value);
+        },
+        resetAccountState({commit}) {
+            commit('updateAccountState', {
+                loginState: false,
+                type: '游客',
+                level: -1,
+                realname: ''
+            })
+        },
+        updateBulletinModel({commit}, value) {
+            commit('updateBulletinModel', value);
         }
     },
 };

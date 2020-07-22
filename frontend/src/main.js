@@ -51,7 +51,9 @@ Vue.component(VPagination.name, VPagination)
 Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {
-    if (to.meta.hasOwnProperty('role') && to.meta.role.indexOf(store.state.global.userLevel) === -1) {
+    if (to.meta.hasOwnProperty('role') &&
+        (!store.state.global.accountState.loginState ||
+        to.meta.role.indexOf(store.state.global.accountState.level) === -1)) {
         next({
             replace: true,
             name: 'notRole'

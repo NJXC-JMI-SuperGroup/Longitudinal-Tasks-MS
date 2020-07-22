@@ -47,17 +47,17 @@ export default new Router({
                 path: 'dash',
                 name: 'bulletinDash',
                 component: BulletinDash,
-                meta: { role: [1, 2, 4] }
+                meta: { role: [0, 1, 14] }
             }, {
                 path: 'publish',
                 name: 'bulletinPublish',
                 component: BulletinPublish,
-                meta: { role: [2, 4] }
+                meta: { role: [1, 14] }
             }, {
                 path: 'dash/modify',
                 name: 'bulletinModify',
                 component: BulletinModify,
-                meta: { role: [2, 4] }
+                meta: { role: [1, 14] }
             }]
         }, {
             path: 'declare',
@@ -68,17 +68,17 @@ export default new Router({
                 path: 'create',
                 name: 'declareCreate',
                 component: DeclareCreate,
-                meta: { role: [1] }
+                meta: { role: [0] }
             }, {
                 path: 'progress',
                 name: 'declareProgress',
                 component: DeclareProgress,
-                meta: { role: [1] }
+                meta: { role: [0] }
             }, {
                 path: 'progress/modify',
                 name: 'declareModify',
                 component: DeclareModify,
-                meta: { role: [1] }
+                meta: { role: [0] }
             }]
         }, {
             path: 'audit',
@@ -89,22 +89,22 @@ export default new Router({
                 path: 'expertDash',
                 name: 'auditExpertDash',
                 component: ExpertDash,
-                meta: { role: [2, 3, 4] }
+                meta: { role: [1, 13, 14] }
             }, {
                 path: 'departDash',
                 name: 'auditDepartDash',
                 component: DepartDash,
-                meta: { role: [2, 4] }
+                meta: { role: [1, 14] }
             }, {
                 path: 'expertDash/expertAudit',
                 name: 'expertAudit',
                 component: ExpertAudit,
-                meta: { role: [3] }
+                meta: { role: [13] }
             }, {
                 path: 'departDash/departAudit',
                 name: 'departAudit',
                 component: DepartAudit,
-                meta: { role: [2, 4] }
+                meta: { role: [1, 14] }
             }]
         }, {
             path: 'system',
@@ -115,12 +115,12 @@ export default new Router({
                 path: 'userManage',
                 name: 'systemUserManage',
                 component: UserManage,
-                meta: { role: [4] }
+                meta: { role: [14] }
             }, {
                 path: 'log',
                 name: 'systemLog',
                 component: Log,
-                meta: { role: [4] }
+                meta: { role: [14] }
             }]
         }]
     }]

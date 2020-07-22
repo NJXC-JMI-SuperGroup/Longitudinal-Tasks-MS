@@ -9,12 +9,8 @@
                 <router-link to="/Crescent/hello"><span class="primary-word">Crescent</span> App</router-link>
             </header>
             <div class="mt-4 mx-3 p-3 border">
-                当前用户角色:
-                <span v-if="userLevel === 1">教师</span>
-                <span v-else-if="userLevel === 2">二级学院</span>
-                <span v-else-if="userLevel === 3">外审专家</span>
-                <span v-else-if="userLevel === 4">究极BOSS</span>
-                <span v-else>游客</span>
+                欢迎:
+                <span>{{accountState.type}} {{accountState.realname}}</span>
                 <br>
                 <a @click="logout">退出登录</a>
             </div>
@@ -97,7 +93,7 @@
         },
         methods: {
             ...mapActions('layout', ['changeSidebarActive', 'switchSidebar']),
-            ...mapActions('global', ['updateUserLevel']),
+            ...mapActions('global', ['resetAccountState']),
             setActiveByRoute() {
                 const paths = this.$route.fullPath.split('/');
                 paths.pop();
@@ -116,8 +112,12 @@
                 }
             },
             logout() {
-                this.updateUserLevel(0);
-                this.$router.push('/Crescent/login');
+                this.$axios.get(this.host + 'account/logout').finally((res) => {
+                    // eslint-disable-next-line no-console
+                    console.info(res.data);
+                    this.resetAccountState();
+                    this.$router.push('/Crescent/login');
+                })
             }
         },
         created() {
@@ -129,9 +129,7 @@
                 sidebarOpened: state => !state.sidebarClose,
                 activeItem: state => state.sidebarActiveElement,
             }),
-            ...mapState('global', {
-                userLevel: state => state.userLevel
-            })
+            ...mapState('global', ['accountState', 'host'])
         },
     };
 </script>

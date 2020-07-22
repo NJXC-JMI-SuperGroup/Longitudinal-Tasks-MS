@@ -12,6 +12,9 @@
                 </p>
                 <vue-form-generator :schema="form.schema" :model="form.model" :options="form.options" ref="vfg" />
                 <b-button size="sm" class="auth-btn mb-3" variant="inverse" @click="login">Login</b-button>
+                <b-toast id="submit-login" variant="danger" title="登陆失败" static autoHideDelay=260>
+                    请检查用户名密码是否正确。
+                </b-toast>
                 <p class="widget-auth-info">
                     Don't have an account? use out test account!
                 </p>
