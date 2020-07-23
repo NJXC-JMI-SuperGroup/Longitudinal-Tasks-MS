@@ -37,7 +37,7 @@ public class BulletinController {
     //发布课题
     @PostMapping("addBulletin")
     @ResponseBody
-    public void addBulletin(@RequestBody FullBulletin addBulletin) {
-        this.bulletinService.addBulletin(addBulletin);
+    public int addBulletin(@RequestBody FullBulletin bulletin) {
+        return this.bulletinService.addBulletin(bulletin);
     }
 }

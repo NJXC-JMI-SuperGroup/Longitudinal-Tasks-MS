@@ -25,7 +25,13 @@ public class BulletinService {
         return this.bulletinDao.getDetailById(bulletinId);
     }
 
-    public void addBulletin(FullBulletin addBulletin) {
-        this.bulletinDao.addBulletin(addBulletin);
+    public int addBulletin(FullBulletin bulletin) {
+        try {
+            this.bulletinDao.addBulletin(bulletin);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return bulletin.getBulletinId();
     }
 }

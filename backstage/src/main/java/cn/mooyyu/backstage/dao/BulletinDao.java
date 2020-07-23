@@ -45,14 +45,12 @@ public interface BulletinDao {
     FullBulletin getDetailById(@Param("bulletinId") int bulletinId);
 
 
-    @Insert("insert into tb_bulletin(title, [index], publishDeptId, typeId, isLimit, limitNumber, expertAudit, levelId, deadline, content) " +
-            "values (#{addBulletin.title},#{addBulletin.index},#{addBulletin.publishDeptId},#{addBulletin.typeId},#{addBulletin.isLimit},#{addBulletin.limitNumber}," +
-            "#{addBulletin.expertAudit},#{addBulletin.levelId},#{addBulletin.deadline}," +
-            "#{addBulletin.content})")
-    void addBulletin(@Param("addBulletin") FullBulletin addBulletin);
-
-    /* @Update("update tb_bulletin set title=#{title},[index]=#{[index]},isLimit=#{isLimit}, limitNumber=#{limitNumber},deadline=#{deadline}" +
-            "where bulletinId=#{bulletinId};")
-    void updateDetailedBulletin(@Param("bulletinId") int bulletinId,@Param("title") String title,@Param("index") int index,@Param(""))
-    */
+    @Insert("insert into tb_bulletin(title, [index], publishDeptId, typeId, isLimit, limitNumber,\n" +
+            "                        expertAudit, levelId, deadline, content, link)\n" +
+            "values (#{bulletin.title},#{bulletin.index},#{bulletin.publishDeptId},\n" +
+            "        #{bulletin.typeId},#{bulletin.limit},#{bulletin.limitNumber},\n" +
+            "        #{bulletin.expertAudit},#{bulletin.levelId},#{bulletin.deadline},\n" +
+            "        #{bulletin.content},#{bulletin.link})")
+    @Options(useGeneratedKeys = true, keyProperty = "bulletin.bulletinId", keyColumn = "bulletinId")
+    void addBulletin(@Param("bulletin") FullBulletin bulletin);
 }
