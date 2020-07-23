@@ -1,20 +1,11 @@
 <template>
     <div class="row">
-        <vue-form-generator class="col-6" ref="vfg" :schema="form.schemaLeft" :model="model" />
-        <div class="col-6">
-            <vue-form-generator :schema="form.schemaRight" :model="model"></vue-form-generator>
-            <uploader>
-                <uploader-unsupport></uploader-unsupport>
-                <uploader-drop>
-                    <p>{{ text }}</p>
-                    <uploader-btn>选择文件</uploader-btn>
-                </uploader-drop>
-                <uploader-list></uploader-list>
-            </uploader>
-        </div>
+        <vue-form-generator class="col-6" ref="vfgLeft"
+                            :schema="form.schemaLeft" :model="form.model" :options="form.options" />
+        <vue-form-generator class="col-6" ref="vfgRight"
+                            :schema="form.schemaRight" :model="form.model" :options="form.options" />
         <quill-editor class="mx-4 mb-3 overflow-hidden border-bottom"
-                      :content="model.content" ref="quillEditor"
-        />
+                      :content="form.model.content" ref="quillEditor" />
     </div>
 </template>
 

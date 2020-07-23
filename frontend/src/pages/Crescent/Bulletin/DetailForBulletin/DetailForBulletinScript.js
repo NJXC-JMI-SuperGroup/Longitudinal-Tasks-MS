@@ -1,5 +1,6 @@
 import validators from "vue-form-generator/src/utils/validators";
 import {mapState} from "vuex";
+let thisVue = null;
 
 export default {
     props: {
@@ -17,9 +18,8 @@ export default {
                             label: '课题标题',
                             id: 'bulletinTitle',
                             model: 'title',
-                            validator: validators.string.locale({
-                                fieldIsRequired: "The title is required!"
-                            })
+                            required: true,
+                            validator: validators.required
                         }, {
                             type: 'input',
                             inputType: 'text',
@@ -29,14 +29,12 @@ export default {
                         }, {
                             type: "select",
                             label: "课题发布单位",
-                            values: [
-                                "部门一",
-                                "部门二",
-                                "部门三",
-                                "部门四",
-                                "部门五",
-                                "部门六"
-                            ]
+                            required: true,
+                            values: this.$store.state.global.selectionList.deptSelection.map(item => {
+                                return { id: item.depid, name: item.depname };
+                            }),
+                            model: 'publishDeptId',
+                            validator: validators.required
                         }, {
                             type: "switch",
                             label: "课题是否需要专家评审",
@@ -44,6 +42,7 @@ export default {
                             textOff: "不需要",
                             valueOn: true,
                             valueOff: false,
+                            styleClasses: 'col-md-6',
                             model: "expertAudit"
                         }, {
                             type: "switch",
@@ -52,10 +51,12 @@ export default {
                             textOff: "不限项",
                             valueOn: true,
                             valueOff: false,
+                            styleClasses: 'col-md-6',
                             model: "limit"
                         }, {
                             type: "input",
-                            inputType: "number",
+                            inputType: "Number",
+                            min: 1,
                             label: "课题限项数目",
                             model: 'limitNumber',
                             visible: function (model) {
@@ -73,15 +74,21 @@ export default {
                         fields: [{
                             type: "select",
                             label: "课题类型",
-                            values: [
-                                "类型一", "类型二"
-                            ]
+                            values: this.$store.state.global.selectionList.bulletinTypeSelection.map(item => {
+                                return { id: item.typeId, name: item.type };
+                            }),
+                            model: 'typeId',
+                            required: true,
+                            validator: validators.required
                         }, {
                             type: "select",
                             label: "课题级别",
-                            values: [
-                                "级别一", "级别二","级别三","级别四","级别五","级别六"
-                            ]
+                            values: this.$store.state.global.selectionList.bulletinLevelSelection.map(item => {
+                                return { id: item.levelId, name: item.level };
+                            }),
+                            model: 'levelId',
+                            required: true,
+                            validator: validators.required
                         }, {
                             type: "input",
                             id: 'bulletinLink',
@@ -92,47 +99,76 @@ export default {
                             type: "pikaday",
                             label: "课题申报截止时间",
                             model: "deadline",
+                            required: true,
+                            validator: validators.date,
                             pikadayOptions: {
-                                position: "top left"
-                            },
-                            validator: validators.string.locale({
-                                fieldIsRequired: "The deadline is required!"
-                            })
+                                onSelect: function(date) {
+                                    thisVue.form.model.deadline = date;
+                                    thisVue.$refs.vfgRight.validate().then();
+                                    thisVue.$refs.vfgLeft.validate().then();
+                                }
+                            }
+                        }, {
+                            type: 'upload',
+                            label: '课题附件材料',
+                            multiple: true,
+                            onChanged: function(model, schema, event, instance) {
+                                thisVue.files = event.srcElement.files;
+                            }
                         }]
                     }]
+                },
+                model: {
+                    bulletinId: null,
+                    title: null,
+                    index: null,
+                    publishDept: null,
+                    publishDeptId: null,
+                    bulletinType: null,
+                    typeId: null,
+                    bulletinLevel: null,
+                    levelId: null,
+                    limit: false,
+                    limitNumber: 1,
+                    expertAudit: false,
+                    deadline: null,
+                    content: null,
+                    link: null,
+                    addition: false,
+                    additionUrl: null
+                },
+                options: {
+                    validateAfterLoad: false,
+                    validateAfterChanged: true,
+                    validateAsync: true
                 }
             },
-            model: {
-                bulletinId: null,
-                title: null,
-                index: null,
-                publishDept: null,
-                publishDeptId: null,
-                bulletinType: null,
-                typeId: null,
-                bulletinLevel: null,
-                levelId: null,
-                limit: false,
-                limitNumber: null,
-                expertAudit: false,
-                deadline: null,
-                content: null,
-                link: null,
-                addition: false,
-                additionUrl: null
-            }
+            files: []
         }
     },
     methods: {
+        uploadFiles(bulletinId) {
+            // eslint-disable-next-line no-console
+            console.info(this.files, bulletinId);
+            this.$router.push('/Crescent/bulletin/dash');
+        }
     },
     computed: {
+        ...mapState('global', ['selectionList']),
         ...mapState('global', {
             quillExample: state => state.quillExample,
             bulletinModel: state => state.model.bulletin
         })
     },
     mounted() {
-        this.model = this.bulletinModel;
-        this.model.content = this.quillExample;
+        let tmpModel = this.bulletinModel;
+        if (!tmpModel.limit) {
+            tmpModel.limitNumber = 1;
+        }
+        this.form.model = tmpModel;
+        this.form.model.content = this.quillExample;
+    },
+    created() {
+        thisVue = this;
     }
 }

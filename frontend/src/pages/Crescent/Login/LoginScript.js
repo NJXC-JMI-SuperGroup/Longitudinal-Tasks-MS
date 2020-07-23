@@ -1,7 +1,6 @@
 import Widget from "../../../components/Crescent/Widget/Widget";
 import {mapActions, mapState} from "vuex";
 import validators from "vue-form-generator/src/utils/validators";
-import boolean from "less/lib/less/functions/boolean";
 
 export default {
     components: {Widget},
@@ -54,7 +53,7 @@ export default {
         login() {
             this.$refs.vfg.validate().then((res) => {
                 if (res.length===0) {
-                    this.$axios.post(this.host + 'account/login', {
+                    this.$axios.post(this.host + 'basic/login', {
                         username: this.form.model.username,
                         password: this.form.model.password
                     }).then((res) => {

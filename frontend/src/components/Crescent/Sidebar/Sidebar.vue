@@ -112,7 +112,7 @@
                 }
             },
             logout() {
-                this.$axios.get(this.host + 'account/logout').finally((res) => {
+                this.$axios.get(this.host + 'basic/logout').finally((res) => {
                     // eslint-disable-next-line no-console
                     console.info(res.data);
                     this.resetAccountState();

@@ -17,7 +17,7 @@
             }
         },
         created() {
-            this.$axios.get(this.host + 'account/getState').then(res => {
+            this.$axios.get(this.host + 'basic/getAccountState').then(res => {
                 if (res.data.loginState) {
                     res.data.type = this.levelDesc[res.data.level];
                 }
@@ -25,15 +25,22 @@
                 if (!this.accountState.loginState && this.$router.history.current.path!=='/Crescent/login') {
                     this.$router.push('/Crescent/login')
                 } else {
-                    this.$router.push(this.accountState.level === 13 ? '/Crescent/audit/expertDash' : '/Crescent/bulletin/dash')
+                    if (this.accountState.level === 13 && this.$router.history.current.path!=='/Crescent/audit/expertDash') {
+                        this.$router.push('/Crescent/audit/expertDash');
+                    } else if (this.$router.history.current.path!=='/Crescent/bulletin/dash') {
+                        this.$router.push('/Crescent/bulletin/dash');
+                    }
                 }
+            });
+            this.$axios.get(this.host + 'basic/getSelectionList').then(res => {
+                this.updateSelectionList(res.data).then()
             })
         },
         methods: {
-            ...mapActions('global', ['updateAccountState'])
+            ...mapActions('global', ['updateAccountState', 'updateSelectionList'])
         },
         computed: {
-            ...mapState('global', ['host', 'accountState'])
+            ...mapState('global', ['host', 'accountState', 'selectionList'])
         }
     };
 </script>
