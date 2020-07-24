@@ -1,6 +1,6 @@
 <template>
     <div>
-        <detail-for-bulletin ref="detailForm" text="上传课题附件：（拖拽至此处或）" />
+        <detail-for-bulletin v-if="!loading" ref="detailForm" />
         <div class="w-100 d-flex justify-content-center">
             <b-button squared variant="outline-primary" @click="publishBulletin">发布课题</b-button>
         </div>

@@ -162,11 +162,16 @@ Vue.component('table-operation-bulletin',{
     },
     methods:{
         ...mapActions('global', ['updateBulletinModel']),
-        update(){
-            // 参数根据业务场景随意构造
-            // let params = {type:'edit',index:this.index,rowData:this.rowData};
-            // this.$emit('on-custom-comp',params);
-            this.$router.push('/Crescent/bulletin/dash/modify')
+        update(rowData, index){
+            this.$axios.get(this.host + 'bulletin/getBulletin', {
+                params: {
+                    bulletinId: rowData.bulletinId
+                }
+            }).then((res) => {
+                res.data.deadline = res.data.deadline.slice(0, 10);
+                this.updateBulletinModel(res.data);
+                this.$router.push('/Crescent/bulletin/dash/modify');
+            })
         },
         declare() {
             this.$router.push('/Crescent/declare/create')

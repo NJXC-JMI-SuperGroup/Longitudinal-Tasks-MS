@@ -100,5 +100,5 @@ export default {
         updateSelectionList({commit}, value) {
             commit('updateSelectionList', value);
         }
-    },
+    }
 };

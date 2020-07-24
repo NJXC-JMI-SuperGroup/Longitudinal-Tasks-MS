@@ -3,9 +3,6 @@ import {mapState} from "vuex";
 let thisVue = null;
 
 export default {
-    props: {
-        text: String
-    },
     data() {
         return {
             form: {
@@ -151,10 +148,23 @@ export default {
             // eslint-disable-next-line no-console
             console.info(this.files, bulletinId);
             this.$router.push('/Crescent/bulletin/dash');
+        },
+        submit(url) {
+            this.$refs.vfgLeft.validate().then(leftRes => {
+                this.$refs.vfgRight.validate().then(rightRes => {
+                    if (leftRes.length === 0 && rightRes.length === 0) {
+                        this.$axios.post(this.host + url, this.form.model).then(res => {
+                            if (res.data!==-1) {
+                                this.uploadFiles(res.data);
+                            }
+                        })
+                    }
+                })
+            })
         }
     },
     computed: {
-        ...mapState('global', ['selectionList']),
+        ...mapState('global', ['selectionList', 'host']),
         ...mapState('global', {
             quillExample: state => state.quillExample,
             bulletinModel: state => state.model.bulletin
@@ -166,7 +176,9 @@ export default {
             tmpModel.limitNumber = 1;
         }
         this.form.model = tmpModel;
-        this.form.model.content = this.quillExample;
+        if (!this.form.model.content || this.form.model.content.length===0) {
+            this.form.model.content = this.quillExample;
+        }
     },
     created() {
         thisVue = this;

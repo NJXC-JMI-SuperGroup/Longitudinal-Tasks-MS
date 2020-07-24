@@ -16,7 +16,7 @@
                           :layout="['total', 'prev', 'pager', 'next', 'jumper']"/>
         </div>
         <b-modal id="modal-scrollable-bulletin" scrollable hide-footer title="详细">
-            <template v-if="bulletinModel.link && bulletinModel.length">
+            <template v-if="bulletinModel.link && bulletinModel.link.length">
                 课题通知<a class="badge-warning" :href="bulletinModel.link" target="_blank">链接</a><br/>
             </template>
             <template v-if="bulletinModel.addition">
