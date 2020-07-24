@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface AccountDao {
-    @Select("select realname, level from tb_user where username=#{account.username} and password=#{account.password}")
-    public AccountState login(@Param("account") AccountState loginInfo);
+    @Select("select userid, realname, level\n" +
+            "from tb_user\n" +
+            "where username=#{account.username} and\n" +
+            "      password=#{account.password}")
+    AccountState login(@Param("account") AccountState loginInfo);
 }

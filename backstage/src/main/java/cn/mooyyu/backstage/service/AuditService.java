@@ -3,8 +3,7 @@ package cn.mooyyu.backstage.service;
 import cn.mooyyu.backstage.dao.AuditDao;
 
 import cn.mooyyu.backstage.pojo.AuditResult;
-import cn.mooyyu.backstage.pojo.ExpertAccount;
-import cn.mooyyu.backstage.pojo.SimpleDeclare;
+import cn.mooyyu.backstage.pojo.declare.SimpleDeclare;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
 package cn.mooyyu.backstage.service;
 
 import cn.mooyyu.backstage.dao.BulletinDao;
-import cn.mooyyu.backstage.pojo.SimpleBulletin;
-import cn.mooyyu.backstage.pojo.FullBulletin;
+import cn.mooyyu.backstage.pojo.bulletin.SimpleBulletin;
+import cn.mooyyu.backstage.pojo.bulletin.FullBulletin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +28,16 @@ public class BulletinService {
     public int addBulletin(FullBulletin bulletin) {
         try {
             this.bulletinDao.addBulletin(bulletin);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return bulletin.getBulletinId();
+    }
+
+    public int modifyBulletin(FullBulletin bulletin) {
+        try {
+            this.bulletinDao.modifyBulletin(bulletin);
         } catch (Exception e) {
             e.printStackTrace();
             return -1;

@@ -1,11 +1,11 @@
-package cn.mooyyu.backstage.pojo;
+package cn.mooyyu.backstage.pojo.declare;
 
 import lombok.Data;
 
 @Data
 public class SimpleDeclare {
+    int declareId;
     String projectName;
-    String title;
     String state;
-    String leader;
+    String bulletin;
 }

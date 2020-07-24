@@ -2,8 +2,7 @@ package cn.mooyyu.backstage.controller;
 
 
 import cn.mooyyu.backstage.pojo.AuditResult;
-import cn.mooyyu.backstage.pojo.ExpertAccount;
-import cn.mooyyu.backstage.pojo.SimpleDeclare;
+import cn.mooyyu.backstage.pojo.declare.SimpleDeclare;
 import cn.mooyyu.backstage.service.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

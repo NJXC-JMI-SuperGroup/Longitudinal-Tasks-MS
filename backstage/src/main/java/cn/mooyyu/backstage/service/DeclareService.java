@@ -1,9 +1,13 @@
 package cn.mooyyu.backstage.service;
+
 import cn.mooyyu.backstage.dao.DeclareDao;
-import cn.mooyyu.backstage.pojo.*;
+import cn.mooyyu.backstage.pojo.AccountState;
+import cn.mooyyu.backstage.pojo.declare.FullDeclare;
+import cn.mooyyu.backstage.pojo.declare.SimpleDeclare;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
@@ -14,32 +18,12 @@ public class DeclareService {
         this.declareDao = declareDao;
     }
 
-    public List<ProcessDeclare> getProcessList(){
-        return this.declareDao.getProcessList();
+    public List<SimpleDeclare> getDeclareList(HttpServletRequest request) {
+        AccountState state = (AccountState) request.getSession().getAttribute("accountState");
+        return state == null ? null : this.declareDao.getDeclareList(state.getUserid());
     }
 
-    public DetailedProcessDeclare getDetailedProcessDeclare(int declareId){
-        return   this.declareDao.getDetailedProcessDeclare(declareId);
-    }
-
-    public String getRejectReason(int declareId){
-        return this.declareDao.getRejectReason(declareId);
-    }
-
-    public AuditResult getAuditResult(int declareId){
-        return this.declareDao.getAuditResult(declareId);
-    }
-
-    public void putDeclare(Declare declare){
-        this.declareDao.putDeclare(declare);
-    }
-
-    public Declare getModify(int declareId){
-       return this.declareDao.getModify(declareId);
-    }
-
-
-    public void putModify(Declare declare){
-        this.declareDao.putModify(declare);
+    public FullDeclare getDeclare(int declareId) {
+        return this.declareDao.getDeclare(declareId);
     }
 }

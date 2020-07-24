@@ -18,6 +18,7 @@ public class SelectionService {
         result.setDeptSelection(this.selectionDao.getDeptList());
         result.setBulletinTypeSelection(this.selectionDao.getBulletinTypeList());
         result.setBulletinLevelSelection(this.selectionDao.getBulletinLevelList());
+        result.setValidBulletinSelection(this.selectionDao.getValidBulletinList());
         return result;
     }
 }

@@ -1,4 +1,4 @@
-package cn.mooyyu.backstage.pojo;
+package cn.mooyyu.backstage.pojo.bulletin;
 
 import lombok.Data;
 

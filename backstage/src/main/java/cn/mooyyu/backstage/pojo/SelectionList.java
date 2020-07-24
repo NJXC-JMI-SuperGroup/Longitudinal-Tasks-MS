@@ -21,8 +21,14 @@ public class SelectionList {
         int levelId;
         String level;
     }
+    @Data
+    public static class validBulletin {
+        int bulletinId;
+        String bulletin;
+    }
 
     List<dept> deptSelection;
     List<bulletinType> bulletinTypeSelection;
     List<bulletinLevel> bulletinLevelSelection;
+    List<validBulletin> validBulletinSelection;
 }

@@ -1,8 +1,7 @@
 package cn.mooyyu.backstage.dao;
 
 import cn.mooyyu.backstage.pojo.AuditResult;
-import cn.mooyyu.backstage.pojo.ExpertAccount;
-import cn.mooyyu.backstage.pojo.SimpleDeclare;
+import cn.mooyyu.backstage.pojo.declare.SimpleDeclare;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 

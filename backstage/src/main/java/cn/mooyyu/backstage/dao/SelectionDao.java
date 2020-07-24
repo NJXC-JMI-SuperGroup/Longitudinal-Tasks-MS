@@ -18,4 +18,9 @@ public interface SelectionDao {
 
     @Select("select * from tb_bulletinLevel")
     List<SelectionList.bulletinLevel> getBulletinLevelList();
+
+    @Select("select bulletinId, title as bulletin\n" +
+            "from tb_bulletin\n" +
+            "where deadline > getdate()")
+    List<SelectionList.validBulletin> getValidBulletinList();
 }

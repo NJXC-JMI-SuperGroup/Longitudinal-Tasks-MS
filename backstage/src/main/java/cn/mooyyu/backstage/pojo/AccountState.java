@@ -6,6 +6,7 @@ import lombok.Data;
 public class AccountState {
     boolean loginState;
     int level;
+    int userid;
     String username;
     String password;
     String realname;

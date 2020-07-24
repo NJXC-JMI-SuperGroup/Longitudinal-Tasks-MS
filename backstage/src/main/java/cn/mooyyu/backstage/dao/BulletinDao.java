@@ -1,7 +1,7 @@
 package cn.mooyyu.backstage.dao;
 
-import cn.mooyyu.backstage.pojo.SimpleBulletin;
-import cn.mooyyu.backstage.pojo.FullBulletin;
+import cn.mooyyu.backstage.pojo.bulletin.SimpleBulletin;
+import cn.mooyyu.backstage.pojo.bulletin.FullBulletin;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -53,4 +53,19 @@ public interface BulletinDao {
             "        #{bulletin.content},#{bulletin.link})")
     @Options(useGeneratedKeys = true, keyProperty = "bulletin.bulletinId", keyColumn = "bulletinId")
     void addBulletin(@Param("bulletin") FullBulletin bulletin);
+
+    @Update("update tb_bulletin\n" +
+            "set title = #{bulletin.title},\n" +
+            "    [index] = #{bulletin.index},\n" +
+            "    publishDeptId = #{bulletin.publishDeptId},\n" +
+            "    typeId = #{bulletin.typeId},\n" +
+            "    isLimit = #{bulletin.limit},\n" +
+            "    limitNumber = #{bulletin.limitNumber},\n" +
+            "    expertAudit = #{bulletin.expertAudit},\n" +
+            "    levelId = #{bulletin.levelId},\n" +
+            "    deadline = #{bulletin.deadline},\n" +
+            "    content = #{bulletin.content},\n" +
+            "    link = #{bulletin.link}\n" +
+            "where bulletinId = #{bulletin.bulletinId}")
+    void modifyBulletin(@Param("bulletin") FullBulletin bulletin);
 }
