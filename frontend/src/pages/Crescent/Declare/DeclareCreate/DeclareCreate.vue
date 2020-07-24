@@ -1,8 +1,8 @@
 <template>
     <div>
-        <detail-for-declare text="" :textAreaRows=Number(10) />
+        <detail-for-declare v-if="!loading" ref="detailForm" />
         <div class="w-100 d-flex justify-content-center">
-            <b-button squared variant="outline-primary">提交申报</b-button>
+            <b-button squared variant="outline-primary" @click="createDeclare">提交申报</b-button>
         </div>
     </div>
 </template>

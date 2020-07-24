@@ -24,7 +24,7 @@
                 this.updateAccountState(res.data);
                 if (!this.accountState.loginState && this.$router.history.current.path!=='/Crescent/login') {
                     this.$router.push('/Crescent/login')
-                } else {
+                } else if (this.accountState.loginState) {
                     if (this.accountState.level === 13 && this.$router.history.current.path!=='/Crescent/audit/expertDash') {
                         this.$router.push('/Crescent/audit/expertDash');
                     } else if (this.$router.history.current.path!=='/Crescent/bulletin/dash') {

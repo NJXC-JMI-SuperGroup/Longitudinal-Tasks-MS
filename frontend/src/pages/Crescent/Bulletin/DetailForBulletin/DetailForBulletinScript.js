@@ -1,5 +1,6 @@
 import validators from "vue-form-generator/src/utils/validators";
 import {mapState} from "vuex";
+
 let thisVue = null;
 
 export default {
@@ -164,13 +165,14 @@ export default {
         }
     },
     computed: {
-        ...mapState('global', ['selectionList', 'host']),
+        ...mapState('global', ['host', 'quillExample']),
         ...mapState('global', {
-            quillExample: state => state.quillExample,
             bulletinModel: state => state.model.bulletin
         })
     },
     mounted() {
+        // eslint-disable-next-line no-console
+        console.info(this);
         let tmpModel = this.bulletinModel;
         if (!tmpModel.limit) {
             tmpModel.limitNumber = 1;

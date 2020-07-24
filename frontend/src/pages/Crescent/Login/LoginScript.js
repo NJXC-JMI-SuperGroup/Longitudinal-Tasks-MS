@@ -75,5 +75,14 @@ export default {
     },
     computed: {
         ...mapState('global', ['host'])
+    },
+    mounted() {
+        let that = this;
+        this.$('#inputPassword').keypress(function(event){
+            let keyCode = (event.keyCode ? event.keyCode : event.which);
+            if(keyCode === 13){
+                that.login();
+            }
+        });
     }
 };

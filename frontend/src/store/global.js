@@ -29,12 +29,31 @@ export default {
                 link: null,
                 addition: false,
                 additionUrl: null
+            },
+            declare: {
+                declareId: null,
+                projectName: null,
+                index: null,
+                leaderId: null,
+                leaderJobTitle: null,
+                bulletinId: null,
+                declareDeptId: null,
+                exceptDeadline: null,
+                exceptAchievement: null,
+                stateId: null,
+                state: null,
+                rejectionReason: null,
+                expertScore: null,
+                expertSuggestion: null,
+                addition: false,
+                additionUrl: null
             }
         },
         selectionList: {
             bulletinLevelSelection: [],
             bulletinTypeSelection: [],
-            deptSelection: []
+            deptSelection: [],
+            validBulletinSelection: []
         },
         quillExample: `<h1 class="ql-align-center">关于____课题的通知</h1><p><br></p><p class="ql-indent-1">关于此课题的详细信息。</p><p class="ql-align-right"><br></p><p class="ql-align-right">日期：____年___月___日</p>`
     },
@@ -50,6 +69,9 @@ export default {
         },
         updateBulletinModel(state, value) {
             state.model.bulletin = value;
+        },
+        updateDeclareModel(state, value) {
+            state.model.declare = value;
         },
         updateSelectionList(state, value) {
             state.selectionList = value;
@@ -93,6 +115,29 @@ export default {
                 deadline: null,
                 content: null,
                 link: null,
+                addition: false,
+                additionUrl: null
+            });
+        },
+        updateDeclareModel({commit}, value) {
+            commit('updateDeclareModel', value);
+        },
+        resetDeclareModel({commit}) {
+            commit('updateDeclareModel', {
+                declareId: null,
+                projectName: null,
+                index: null,
+                leaderId: null,
+                leaderJobTitle: null,
+                bulletinId: null,
+                declareDeptId: null,
+                exceptDeadline: null,
+                exceptAchievement: null,
+                stateId: null,
+                state: null,
+                rejectionReason: null,
+                expertScore: null,
+                expertSuggestion: null,
                 addition: false,
                 additionUrl: null
             });

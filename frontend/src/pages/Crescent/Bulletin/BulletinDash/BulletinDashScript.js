@@ -110,10 +110,6 @@ export default {
         }
     },
     methods:{
-        customCompFunc(params){
-            console.log(params);
-            alert(`${params.index} ${params.rowData['title']}`)
-        },
         pageChange(index) {
             this.easytable.pageIndex = index;
             this.setTableData(index, this.easytable.pageSize, this.easytable.fullData);
@@ -124,7 +120,7 @@ export default {
         }
     },
     mounted() {
-        this.$axios.get(this.host + '/bulletin/getBulletinList').then((res) => {
+        this.$axios.get(this.host + 'bulletin/getBulletinList').then((res) => {
             this.easytable.fullData = res.data;
             this.easytable.total = res.data.length;
             this.setTableData(this.easytable.pageIndex, this.easytable.pageSize, this.easytable.fullData);
@@ -133,8 +129,8 @@ export default {
         })
     },
     computed: {
+        ...mapState('global', ['host']),
         ...mapState('global', {
-            host: state => state.host,
             bulletinModel: state => state.model.bulletin
         })
     }

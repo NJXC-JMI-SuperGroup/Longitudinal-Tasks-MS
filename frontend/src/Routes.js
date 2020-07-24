@@ -9,7 +9,7 @@ import BulletinDash from "./pages/Crescent/Bulletin/BulletinDash/BulletinDash";
 import BulletinPublish from "./pages/Crescent/Bulletin/BulletinPublish/BulletinPublish";
 import BulletinModify from "./pages/Crescent/Bulletin/BulletinModify/BulletinModify";
 import DeclareCreate from "./pages/Crescent/Declare/DeclareCreate/DeclareCreate";
-import DeclareProgress from "./pages/Crescent/Declare/DeclareProgress/DeclareProgress";
+import DeclareDash from "./pages/Crescent/Declare/DeclareDash/DeclareDash";
 import DeclareModify from "./pages/Crescent/Declare/DeclareModify/DeclareModify";
 import DepartDash from "./pages/Crescent/Audit/DepartDash/DepartDash";
 import ExpertDash from "./pages/Crescent/Audit/ExpertDash/ExpertDash";
@@ -63,19 +63,19 @@ export default new Router({
             path: 'declare',
             name: 'declare',
             component: EmptyLayout,
-            redirect: { name: 'declareProgress' },
+            redirect: { name: 'declareDash' },
             children: [{
+                path: 'dash',
+                name: 'declareDash',
+                component: DeclareDash,
+                meta: { role: [0] }
+            }, {
                 path: 'create',
                 name: 'declareCreate',
                 component: DeclareCreate,
                 meta: { role: [0] }
             }, {
-                path: 'progress',
-                name: 'declareProgress',
-                component: DeclareProgress,
-                meta: { role: [0] }
-            }, {
-                path: 'progress/modify',
+                path: 'dash/modify',
                 name: 'declareModify',
                 component: DeclareModify,
                 meta: { role: [0] }
@@ -84,7 +84,6 @@ export default new Router({
             path: 'audit',
             name: 'audit',
             component: EmptyLayout,
-            redirect: { name: 'auditDepartDash' },
             children: [{
                 path: 'expertDash',
                 name: 'auditExpertDash',
