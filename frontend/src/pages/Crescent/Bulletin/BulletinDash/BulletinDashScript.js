@@ -32,80 +32,7 @@ export default {
                 isLoading: true
             },
             form: {
-                schema: {
-                    groups: [{
-                        legend: '课题信息',
-                        fields: [{
-                            type: 'input',
-                            inputType: 'text',
-                            label: '课题标题',
-                            id: 'showTitle',
-                            model: 'title',
-                            readonly: true
-                        }, {
-                            type: 'input',
-                            inputType: 'text',
-                            label: '课题编号',
-                            id: 'showId',
-                            model: 'index',
-                            readonly: true
-                        }, {
-                            type: "input",
-                            inputType: 'text',
-                            id: "showDept",
-                            label: "课题发布单位",
-                            model: 'publishDept',
-                            readonly: true
-                        }, {
-                            type: "input",
-                            inputType: 'text',
-                            label: "课题类型",
-                            id: "showCategory",
-                            model: 'bulletinType',
-                            readonly: true
-                        }, {
-                            type: "input",
-                            inputType: 'text',
-                            id: "showLimit",
-                            label: "课题是否限项",
-                            model: "limit",
-                            readonly: true
-                        }, {
-                            type: "input",
-                            inputType: "number",
-                            id: "showLimitNumber",
-                            label: "课题限项数目(视上个条目决定是否显示)",
-                            visible: function (model) {
-                                return model.limit;
-                            },
-                            model: 'limitNumber',
-                            readonly: true
-                        }, {
-                            type: "input",
-                            inputType: 'text',
-                            id: "showIsExpert",
-                            label: "课题是否需要专家评审",
-                            model: "expertAudit",
-                            readonly: true
-                        }, {
-                            type: "input",
-                            id: "showLevel",
-                            inputType: "text",
-                            label: "课题级别",
-                            model: 'bulletinLevel',
-                            readonly: true
-                        }, {
-                            type: "input",
-                            id: "showDeadline",
-                            inputType: "text",
-                            label: "课题申报截止时间",
-                            model: "deadline",
-                            readonly: true
-                        }]
-                    }, {
-                        legend: '课题通知内容'
-                    }]
-                }
+                schema: this.$store.state.global.schema.bulletin
             }
         }
     },
@@ -116,7 +43,8 @@ export default {
         },
         setTableData(index, size, fullData) {
             let ex = index * size;
-            this.easytable.tableData = fullData.slice(ex - size, ex);
+            let ret = fullData.slice(ex - size, ex);
+            this.easytable.tableData = ret === "" ? [] : ret;
         }
     },
     mounted() {
@@ -131,7 +59,7 @@ export default {
     computed: {
         ...mapState('global', ['host']),
         ...mapState('global', {
-            bulletinModel: state => state.model.bulletin
+            bulletinModel: state => state.model.bulletin,
         })
     }
 }
@@ -157,30 +85,51 @@ Vue.component('table-operation-bulletin',{
         }
     },
     methods:{
-        ...mapActions('global', ['updateBulletinModel']),
-        update(rowData, index){
+        ...mapActions('global', ['updateBulletinModel', 'updateDeclareModel']),
+        update(rowData){
             this.$axios.get(this.host + 'bulletin/getBulletin', {
                 params: {
                     bulletinId: rowData.bulletinId
                 }
             }).then((res) => {
                 res.data.deadline = res.data.deadline.slice(0, 10);
-                this.updateBulletinModel(res.data);
-                this.$router.push('/Crescent/bulletin/dash/modify');
+                this.updateBulletinModel(res.data).then(() => {
+                    this.$router.push('/Crescent/bulletin/dash/modify').then();
+                })
             })
         },
-        declare() {
-            this.$router.push('/Crescent/declare/create')
+        declare(rowData) {
+            this.$router.push('/Crescent/declare/create').then(() => {
+                this.updateDeclareModel({
+                    declareId: null,
+                    projectName: null,
+                    index: null,
+                    leaderId: null,
+                    leaderJobTitle: null,
+                    bulletinId: rowData.bulletinId,
+                    declareDeptId: null,
+                    exceptDeadline: null,
+                    exceptAchievement: null,
+                    stateId: null,
+                    state: null,
+                    rejectionReason: null,
+                    expertScore: null,
+                    expertSuggestion: null,
+                    addition: false,
+                    additionUrl: null
+                })
+            })
         },
-        showModel(rowData, index) {
+        showModel(rowData) {
             this.$axios.get(this.host + 'bulletin/getBulletin', {
                 params: {
                     bulletinId: rowData.bulletinId
                 }
             }).then((res) => {
                 res.data.deadline = res.data.deadline.slice(0, 10);
-                this.updateBulletinModel(res.data);
-                this.$bvModal.show('modal-scrollable-bulletin');
+                this.updateBulletinModel(res.data).then(() => {
+                    this.$bvModal.show('modal-scrollable-bulletin');
+                });
             })
         }
     },

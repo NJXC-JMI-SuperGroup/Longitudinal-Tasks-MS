@@ -72,7 +72,7 @@ export default {
                             label: "预期成果",
                             hint: "Max 1000 characters",
                             max: 1000,
-                            model: 'expertAchievement',
+                            model: 'expectAchievement',
                             rows: 7,
                             styleClasses: "px-4"
                         }]
@@ -86,8 +86,8 @@ export default {
                     leaderJobTitle: null,
                     bulletinId: null,
                     declareDeptId: null,
-                    exceptDeadline: null,
-                    exceptAchievement: null,
+                    expectDeadline: null,
+                    expectAchievement: null,
                     stateId: null,
                     state: null,
                     rejectionReason: null,
@@ -113,16 +113,15 @@ export default {
         },
         submit(url) {
             this.$refs.vfg.validate().then(res => {
-                // eslint-disable-next-line no-console
-                console.info(res);
                 if (res.length === 0) {
-                    // this.$axios.post(this.host + url, this.form.model).then(res => {
-                    //     if (res.data !== -1) {
-                    //         this.uploadFiles(res.data);
-                    //     }
-                    // })
-                    // eslint-disable-next-line no-console
-                    console.info(this.form.model);
+                    this.$axios.post(this.host + url, this.form.model).then(res => {
+                        if (res.data !== -1) {
+                            this.uploadFiles(res.data);
+                        } else {
+                            // eslint-disable-next-line no-console
+                            console.info(res);
+                        }
+                    })
                 }
             })
         }

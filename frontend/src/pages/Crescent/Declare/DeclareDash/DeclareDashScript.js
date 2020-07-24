@@ -26,66 +26,7 @@ export default {
                 isLoading: true
             },
             form: {
-                schema: {
-                    groups: [{
-                        legend: '项目申报信息',
-                        fields: [{
-                            type: 'input',
-                            inputType: 'text',
-                            id: 'projectName',
-                            label: '项目名称',
-                            model: 'projectName',
-                            readonly: true
-                        }, {
-                            type: 'input',
-                            inputType: 'text',
-                            id: 'projectIndex',
-                            label: '项目编号',
-                            model: 'index',
-                            readonly: true
-                        }, {
-                            type: 'input',
-                            inputType: 'text',
-                            id: 'declareLeader',
-                            label: '负责人',
-                            model: 'leader',
-                            readonly: true
-                        }, {
-                            type: "input",
-                            inputType: "text",
-                            id: "leaderJobTitle",
-                            label: '负责人职称',
-                            model: 'leaderJobTitle',
-                            readonly: true
-                        }, {
-                            type: 'input',
-                            inputType: 'text',
-                            id: "declareBulletin",
-                            label: '申报课题',
-                            model: 'bulletin',
-                            readonly: true
-                        }, {
-                            type: 'input',
-                            inputType: 'text',
-                            label: '申报部门',
-                            id: "declareDept",
-                            model: 'declareDept',
-                            readonly: true
-                        }, {
-                            type: "input",
-                            inputType: "text",
-                            label: "预期完成时间",
-                            model: "expectDeadline",
-                            id: "expectDeadline",
-                            readonly: true
-                        }, {
-                            type: "textArea",
-                            label: "预期成果",
-                            model: 'expectAchievement',
-                            readonly: true
-                        }]
-                    }]
-                }
+                schema: this.$store.state.global.schema.declare
             }
         }
     },
@@ -96,7 +37,8 @@ export default {
         },
         setTableData(index, size, fullData) {
             let ex = index * size;
-            this.easytable.tableData = fullData.slice(ex - size, ex);
+            let ret = fullData.slice(ex - size, ex);
+            this.easytable.tableData = ret === "" ? [] :ret;
         }
     },
     computed: {
@@ -120,9 +62,11 @@ Vue.component('table-operation-declare',{
     template:`
         <span>
             <a @click.stop.prevent="showModel(rowData,index,'modal-scrollable-declare')">查看 </a>
-            <a @click.stop.prevent="showModel(rowData,index,'modal-reason')" v-if="rowData.state==='驳回'">驳回理由 </a>
-            <a @click.stop.prevent="showModel(rowData,index,'modal-expert')" v-if="rowData.state==='已立项' && index%2===0">专审结果 </a>
-            <a @click.stop.prevent="modify(rowData,index)" v-if="rowData.state==='驳回'">修改</a>
+            <a @click.stop.prevent="showModel(rowData,index,'modal-expert')" v-if="rowData.stateId===4 && rowData.expertAudit">专审结果 </a>
+            <template v-if="rowData.stateId===1">
+                <a @click.stop.prevent="showModel(rowData,index,'modal-reason')">驳回理由 </a>
+                <a @click.stop.prevent="update(rowData,index)">修改</a>
+            </template>
         </span>`,
     props:{
         rowData:{
@@ -137,18 +81,16 @@ Vue.component('table-operation-declare',{
     },
     methods:{
         ...mapActions('global', ['updateDeclareModel']),
-        modify() {
-            this.$router.push('/Crescent/declare/dash/modify');
-        },
-        update(rowData, index){
+        update(rowData){
             this.$axios.get(this.host + 'declare/getDeclare', {
                 params: {
                     declareId: rowData.declareId
                 }
             }).then((res) => {
                 res.data.expectDeadline = res.data.expectDeadline.slice(0, 10);
-                this.updateDeclareModel(res.data);
-                this.$router.push('/Crescent/declare/dash/modify');
+                this.updateDeclareModel(res.data).then(() => {
+                    this.$router.push('/Crescent/declare/dash/modify').then();
+                })
             })
         },
         showModel(rowData, index, modelId) {
@@ -158,8 +100,9 @@ Vue.component('table-operation-declare',{
                 }
             }).then((res) => {
                 res.data.expectDeadline = res.data.expectDeadline.slice(0, 10);
-                this.updateDeclareModel(res.data);
-                this.$bvModal.show(modelId);
+                this.updateDeclareModel(res.data).then(() => {
+                    this.$bvModal.show(modelId);
+                })
             })
         }
     },

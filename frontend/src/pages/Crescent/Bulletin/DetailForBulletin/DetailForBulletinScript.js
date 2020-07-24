@@ -157,6 +157,9 @@ export default {
                         this.$axios.post(this.host + url, this.form.model).then(res => {
                             if (res.data!==-1) {
                                 this.uploadFiles(res.data);
+                            } else {
+                                // eslint-disable-next-line no-console
+                                console.info(res);
                             }
                         })
                     }

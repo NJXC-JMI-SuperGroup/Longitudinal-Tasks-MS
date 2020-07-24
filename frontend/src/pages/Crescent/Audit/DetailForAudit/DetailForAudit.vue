@@ -1,16 +1,22 @@
 <template>
     <div class="row mx-3 py-3 shadow detail-for-audit">
         <div class="col-6">
-            <vue-form-generator :schema="form.schemaLeft" :model="form.model" :options="form.options" />
-            <div class="p-2 border" v-html="showContent" />
-            <br />
-            课题通知链接 <a href="https://cn.bing.com" target="_blank">FAKE LINK</a><br/>
-            课题附件链接 <a href="https://cn.bing.com" target="_blank">also FAKE LINK</a>
+            <template v-if="form.model.bulletin.link && form.model.bulletin.link.length">
+                课题通知<a class="badge-warning" :href="form.model.bulletin.link" target="_blank">链接</a><br/>
+            </template>
+            <template v-if="form.model.bulletin.addition">
+                课题附件<a class="badge-warning" :href="form.model.bulletin.additionUrl" target="_blank">链接</a><br/>
+            </template>
+            <br/>
+            <vue-form-generator :schema="form.schema.bulletin" :model="form.model.bulletin"/>
+            <div class="border p-2" v-html="form.model.bulletin.content"/>
         </div>
         <div class="col-6">
-            <vue-form-generator :schema="form.schemaRight" :model="form.model" :options="form.options" />
-            申报书下载链接 <a href="https://cn.bing.com" target="_blank">FAKE LINK</a><br/>
-            其他附件材料链接 <a href="https://cn.bing.com" target="_blank">also FAKE LINK</a>
+            <template v-if="form.model.declare.addition">
+                申报书及附件<a class="badge-warning" :href="form.model.declare.additionUrl" target="_blank">链接</a><br/>
+            </template>
+            <br/>
+            <vue-form-generator :schema="form.schema.declare" :model="form.model.declare"/>
         </div>
     </div>
 </template>

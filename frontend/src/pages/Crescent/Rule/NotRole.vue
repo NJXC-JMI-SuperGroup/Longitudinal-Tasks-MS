@@ -8,15 +8,23 @@
 </template>
 
 <script>
-    import {mapActions} from "vuex";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         methods: {
-            ...mapActions('global', ['updateUserLevel']),
+            ...mapActions('global', ['resetAccountState']),
             logout() {
-                this.updateUserLevel(0);
-                this.$router.push('/Crescent/login');
+                this.$axios.get(this.host + 'basic/logout').then(res => {
+                    // eslint-disable-next-line no-console
+                    console.info(res.data);
+                }).finally(() => {
+                    this.resetAccountState();
+                    this.$router.push('/Crescent/login');
+                })
             }
+        },
+        computed: {
+            ...mapState('global', ['host'])
         }
     }
 </script>

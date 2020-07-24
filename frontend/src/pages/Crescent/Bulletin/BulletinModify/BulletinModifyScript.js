@@ -8,7 +8,5 @@ export default {
         updateBulletin() {
             this.$refs.detailForm.submit('bulletin/modifyBulletin');
         }
-    },
-    computed: {
     }
 }

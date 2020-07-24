@@ -4,12 +4,15 @@
                  is-horizontal-resize
                  :columns="easytable.columns"
                  :table-data="easytable.tableData"
+                 :paging-index="(easytable.pageIndex - 1) * easytable.pageSize"
+                 :is-loading="easytable.isLoading"
                  row-hover-color="#eee"
                  row-click-color="#edf7ff"
-                 @on-custom-comp="customCompFunc"
         />
         <div class="d-flex justify-content-center">
-            <v-pagination class="mt-2" :total="600" :page-size="10" />
+            <v-pagination class="mt-2" @page-change="pageChange" :total="easytable.total"
+                          :page-size="Number(easytable.pageSize)"
+                          :layout="['total', 'prev', 'pager', 'next', 'jumper']"/>
         </div>
     </div>
 </template>
