@@ -22,10 +22,10 @@ public class AuditController {
     }
 
     //获取项目列表
-    @GetMapping("getProjectList")
+    @GetMapping("getDeclareList")
     @ResponseBody
-    public List<SimpleDeclare> showProjectList() {
-        return this.auditService.getProjectList();
+    public List<SimpleDeclare> getDeclareList() {
+        return this.auditService.getDeclareList();
     }
 
     //添加评审结果

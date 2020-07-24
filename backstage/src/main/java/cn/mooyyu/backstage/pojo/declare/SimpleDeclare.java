@@ -7,5 +7,9 @@ public class SimpleDeclare {
     int declareId;
     String projectName;
     String state;
+    int stateId;
+    String leader;
+    boolean expertAudit;
+    int bulletinId;
     String bulletin;
 }

@@ -4,16 +4,20 @@ import cn.mooyyu.backstage.pojo.AuditResult;
 import cn.mooyyu.backstage.pojo.declare.SimpleDeclare;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Map;
 
 @Mapper
 @Repository
 public interface AuditDao {
-
-    @Select("select d.projectName,b.title,s.state,u.username from tb_declare d join tb_user u on d.leaderId = u.userid  join tb_bulletin b on d.bulletinId=b.bulletinId join tb_declareState s on d.stateId = s.stateId")
-    List<SimpleDeclare> getProjectList();
+    @Select("select declareId, tb_declare.bulletinId, realname as leader, projectName, tb_declare.stateId,\n" +
+            "       state, title as bulletin, expertAudit\n" +
+            "from tb_declare\n" +
+            "         inner join dbo.tb_declareState on tb_declare.stateId = tb_declareState.stateId\n" +
+            "         inner join dbo.tb_bulletin on tb_declare.bulletinId = tb_bulletin.bulletinId\n" +
+            "         inner join dbo.tb_user on tb_declare.leaderId = tb_user.userid\n" +
+            "order by tb_declare.stateId")
+    List<SimpleDeclare> getDeclareList();
 
     @Update("update tb_declare set expertScore = #{expertScore},expertSuggestion = #{expertSuggestion} where declareId = #{declareId}")
     void addAuditResult( @Param("declareId") int declareId,@Param("expertScore") int expertScore,@Param("expertSuggestion") String expertSuggestion);

@@ -26,4 +26,33 @@ public class DeclareService {
     public FullDeclare getDeclare(int declareId) {
         return this.declareDao.getDeclare(declareId);
     }
+
+    public int createDeclare(HttpServletRequest request, FullDeclare declare) {
+        AccountState state = (AccountState) request.getSession().getAttribute("accountState");
+        if (state == null) {
+            return -1;
+        }
+        try {
+            declare.setLeaderId(state.getUserid());
+            declare.setStateId(2);
+            // todo: how to generate index ?
+            declare.setIndex("HJDLKJD2012084");
+            this.declareDao.createDeclare(declare);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return declare.getDeclareId();
+    }
+
+    public int modifyDeclare(FullDeclare declare) {
+        declare.setStateId(2);
+        try {
+            this.declareDao.modifyDeclare(declare);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return declare.getDeclareId();
+    }
 }

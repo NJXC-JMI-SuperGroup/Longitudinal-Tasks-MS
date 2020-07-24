@@ -20,8 +20,8 @@ public class AuditService {
         this.auditDao = auditDao;
     }
 
-    public List<SimpleDeclare> getProjectList(){
-        return this.auditDao.getProjectList();
+    public List<SimpleDeclare> getDeclareList(){
+        return this.auditDao.getDeclareList();
     }
 
     public AuditResult getAuditResult(int declareId){
