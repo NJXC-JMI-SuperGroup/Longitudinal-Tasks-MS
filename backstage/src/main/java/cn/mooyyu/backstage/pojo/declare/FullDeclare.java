@@ -20,8 +20,6 @@ public class FullDeclare {
     int stateId;
     String state;
     String rejectionReason;
-    int expertScore;
-    String expertSuggestion;
     boolean addition;
     String additionUrl;
 }

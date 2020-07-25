@@ -1,11 +1,10 @@
 package cn.mooyyu.backstage.dao;
 
-import cn.mooyyu.backstage.pojo.AuditResult;
 import cn.mooyyu.backstage.pojo.declare.SimpleDeclare;
+import cn.mooyyu.backstage.pojo.expert.ExpertAudit;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 @Repository
@@ -19,23 +18,44 @@ public interface AuditDao {
             "order by tb_declare.stateId")
     List<SimpleDeclare> getDeclareList();
 
-    @Update("update tb_declare set expertScore = #{expertScore},expertSuggestion = #{expertSuggestion} where declareId = #{declareId}")
-    void addAuditResult( @Param("declareId") int declareId,@Param("expertScore") int expertScore,@Param("expertSuggestion") String expertSuggestion);
+    @Select("select declareId, tb_declare.bulletinId, realname as leader, projectName, tb_declare.stateId,\n" +
+            "       state, title as bulletin\n" +
+            "from tb_declare\n" +
+            "         inner join dbo.tb_declareState on tb_declare.stateId = tb_declareState.stateId\n" +
+            "         inner join dbo.tb_bulletin on tb_declare.bulletinId = tb_bulletin.bulletinId\n" +
+            "         inner join dbo.tb_user on tb_declare.leaderId = tb_user.userid\n" +
+            "where expertAudit=1 and\n" +
+            "      (tb_declare.stateId =3 or tb_declare.stateId =6)\n" +
+            "order by tb_declare.stateId")
+    List<SimpleDeclare> getDeclareListForExpert();
 
-    @Select("select expertScore,expertSuggestion from tb_declare where declareId = #{declareId}")
-    AuditResult getAuditResult(@Param("declareId") int declareId);
+    @Select("select declareId, tb_declare.bulletinId, realname as leader, projectName, tb_declare.stateId,\n" +
+            "       state, title as bulletin\n" +
+            "from tb_declare\n" +
+            "         inner join dbo.tb_declareState on tb_declare.stateId = tb_declareState.stateId\n" +
+            "         inner join dbo.tb_bulletin on tb_declare.bulletinId = tb_bulletin.bulletinId\n" +
+            "         inner join dbo.tb_user on tb_declare.leaderId = tb_user.userid\n" +
+            "where expertAudit=1 and\n" +
+            "      (tb_declare.stateId =3 or tb_declare.stateId =6) and\n" +
+            "      tb_declare.bulletinId=#{bulletinId}" +
+            "order by tb_declare.stateId")
+    List<SimpleDeclare> getDeclareListForExpertAudit(@Param("bulletinId") int bulletinId);
 
     @Update("update tb_declare\n" +
-            "set rejectionReason = #{rejectReason}\n" +
-            "where declareId = #{declareId};")
-    void addRejectReson( @Param("declareId") int declareId,@Param("rejectReason")String rejectReason);
+            "set stateId = #{stateId}\n" +
+            "where declareId = #{declareId}")
+    void updateDeclareState(@Param("declareId") int declareId, @Param("stateId") int stateId);
 
-    @Select("select count(expertId) from tb_declare join tb_bulletin t on tb_declare.bulletinId = t.bulletinId join tb_expert te on t.bulletinId = te.bulletinId where declareId = #{declareId}")
-    Integer getAccountNumber(@Param("declareId") int declareId);
+    @Update("update tb_declare\n" +
+            "set rejectionReason = #{rejectionReason}\n" +
+            "where declareId = #{declareId}")
+    void setRejectionReason(@Param("declareId") int declareId, @Param("rejectionReason") String rejectionReason);
 
-    @Select("select username,password from tb_declare join tb_bulletin t on tb_declare.bulletinId = t.bulletinId join tb_expert te on t.bulletinId = te.bulletinId")
-    List<Map<String, Object>> getAccountList(@Param("declareId") int declareId);
+    @Select("select score, suggestion from tb_expertAudit\n" +
+            "where expertId=#{expertId} and declareId=#{declareId}")
+    ExpertAudit getExpertAudit(@Param("expertId") int expertId, @Param("declareId") int declareId);
 
-
-
+    @Insert("insert into tb_expertAudit (score, suggestion, expertId, declareId)\n" +
+            "values (#{audit.score}, #{audit.suggestion}, #{audit.expertId}, #{audit.declareId})")
+    void setExpertAudit(@Param("audit") ExpertAudit expertAudit);
 }

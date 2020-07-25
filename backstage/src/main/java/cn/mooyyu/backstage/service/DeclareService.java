@@ -35,9 +35,8 @@ public class DeclareService {
         try {
             declare.setLeaderId(state.getUserid());
             declare.setStateId(2);
-            // todo: how to generate index ?
-            declare.setIndex("HJDLKJD2012084");
             this.declareDao.createDeclare(declare);
+            this.declareDao.updateIndex(declare.getDeclareId());
         } catch (Exception e) {
             e.printStackTrace();
             return -1;

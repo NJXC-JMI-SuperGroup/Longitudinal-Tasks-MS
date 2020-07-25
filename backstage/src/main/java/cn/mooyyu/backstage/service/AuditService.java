@@ -1,99 +1,94 @@
 package cn.mooyyu.backstage.service;
 
 import cn.mooyyu.backstage.dao.AuditDao;
-
-import cn.mooyyu.backstage.pojo.AuditResult;
+import cn.mooyyu.backstage.dao.ExpertAccountDao;
+import cn.mooyyu.backstage.pojo.AccountState;
+import cn.mooyyu.backstage.pojo.expert.ExpertAccount;
 import cn.mooyyu.backstage.pojo.declare.SimpleDeclare;
+import cn.mooyyu.backstage.pojo.expert.ExpertAudit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class AuditService {
     private final AuditDao auditDao;
+    private final ExpertAccountDao expertAccountDao;
     @Autowired
-    public AuditService(AuditDao auditDao) {
+    public AuditService(AuditDao auditDao, ExpertAccountDao expertAccountDao) {
         this.auditDao = auditDao;
+        this.expertAccountDao = expertAccountDao;
     }
 
     public List<SimpleDeclare> getDeclareList(){
         return this.auditDao.getDeclareList();
     }
 
-    public AuditResult getAuditResult(int declareId){
-        return this.auditDao.getAuditResult(declareId);
-    }
-
-    public void addAuditResult(int declareId,int expertScore,String expertSuggestion){
-        this.auditDao.addAuditResult(declareId,expertScore,expertSuggestion);
-    }
-
-  public void  addRejectReson(int declareId,String rejectReason){
-        this.auditDao.addRejectReson(declareId,rejectReason);
-    }
-//    public Integer getAccountNumber(int declareId){
-//        return this.auditDao.getAccountNumber(declareId);
-//    }
-
-    //循环遍历取出外审账号的 username 和 password
-    public List<Map<String, Object>> getAccountList(int declareId){
-        return this.auditDao.getAccountList(declareId);
-    }
-
-    //外审账号
-//    public void getAccount(int declareId) {
-//
-//    }
-
-
-    // 随机生成账号
-    // num 需生成账号数量
-    public static List<String> getUserIds(List<String> oldUserIds,int num){
-        String number = "0123456789";
-        List<String> ids=new ArrayList<String>();
-        while(ids.size()<num){
-            StringBuffer userId = new StringBuffer();
-            // 限制账号长度为 6
-            for (int i = 0; i < 6;i++) {
-                Random random = new Random();
-                int u = random.nextInt(number.length() + 1);
-                char one = number.charAt(u);
-                userId.append(one);
-            }
-            String userName=userId.toString();
-            if(oldUserIds.contains(userName)||ids.contains(userName)){
-                //已存在，重新生成一个
-
-            }else{
-                ids.add(userName);
-            }
+    public List<SimpleDeclare> getDeclareListForExpert(boolean limit, HttpServletRequest request){
+        if (limit) {
+            AccountState state = (AccountState) request.getSession().getAttribute("accountState");
+            return state == null ? null : this.auditDao.getDeclareListForExpertAudit(state.getBulletinId());
+        } else {
+            return this.auditDao.getDeclareListForExpert();
         }
-        return ids;
     }
 
-    // 随机生成密码
-    // num 需生成账号数量
-    public static List<String> getPasswords(int num){
-        String allsymbol = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*_+-{}<>.*";
-        List<String> pwd =new ArrayList<String>();
-        while(pwd.size()<num){
-            StringBuffer sb = new StringBuffer();
-            // 限制账号长度为 6
-            for (int i = 0; i < 8;i++) {
-                Random random = new Random();
-                int u = random.nextInt(allsymbol.length() + 1);
-                char one = allsymbol.charAt(u);
-                sb.append(one);
+    public boolean departAudit(int declareId, int stateId, String rejectionReason) {
+        try {
+            this.auditDao.updateDeclareState(declareId, stateId);
+            if (stateId == 1) {
+                this.auditDao.setRejectionReason(declareId, rejectionReason);
             }
-            String password=sb.toString();
-            pwd.add(password);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-        return pwd;
+        return true;
     }
 
+    public List<ExpertAccount> createExpertAccount(int bulletinId, int cnt) {
+        try {
+            String username;
+            String password;
+            while (cnt-- > 0) {
+                username = UUID.randomUUID().toString();
+                password = UUID.randomUUID().toString();
+                this.expertAccountDao.addExpertAccount(bulletinId, username, password);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return getExpertAccountList(bulletinId);
+    }
+
+    public List<ExpertAccount> getExpertAccountList(int bulletinId) {
+        return this.expertAccountDao.getExpertAccount(bulletinId);
+    }
+
+    public ExpertAudit getExpertAudit(HttpServletRequest request, int declareId) {
+        AccountState state = (AccountState) request.getSession().getAttribute("accountState");
+        if (state == null) {
+            return null;
+        }
+        return this.auditDao.getExpertAudit(state.getUserid(), declareId);
+    }
+
+    public boolean setExpertAudit(HttpServletRequest request, ExpertAudit audit) {
+        AccountState state = (AccountState) request.getSession().getAttribute("accountState");
+        if (state == null) {
+            return false;
+        }
+        audit.setExpertId(state.getUserid());
+        try {
+            this.auditDao.setExpertAudit(audit);
+            this.auditDao.updateDeclareState(audit.getDeclareId(), 6);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 }
 

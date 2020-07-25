@@ -1,14 +1,16 @@
 package cn.mooyyu.backstage.controller;
 
 
-import cn.mooyyu.backstage.pojo.AuditResult;
+import cn.mooyyu.backstage.pojo.expert.ExpertAccount;
 import cn.mooyyu.backstage.pojo.declare.SimpleDeclare;
+import cn.mooyyu.backstage.pojo.expert.ExpertAudit;
 import cn.mooyyu.backstage.service.AuditService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "audit",
@@ -21,51 +23,51 @@ public class AuditController {
         this.auditService = auditService;
     }
 
-    //获取项目列表
     @GetMapping("getDeclareList")
     @ResponseBody
     public List<SimpleDeclare> getDeclareList() {
         return this.auditService.getDeclareList();
     }
 
-    //添加评审结果
-    @PostMapping("addAuditResult")
+    @GetMapping("getDeclareListForExpert")
     @ResponseBody
-    public void addAuditResult(@RequestParam int declareId,int expertScore,String expertSuggestion) {
-        this.auditService.addAuditResult(declareId,expertScore,expertSuggestion);
+    public List<SimpleDeclare> getDeclareListForExpert(@RequestParam boolean limit, HttpServletRequest request) {
+        return this.auditService.getDeclareListForExpert(limit, request);
     }
 
-    //获取评审结果
-    @PostMapping("getAuditResult")
+    @Data
+    private static class Body {
+        int declareId;
+        int stateId;
+        String rejectionReason;
+    }
+    @PostMapping("departAudit")
     @ResponseBody
-    public AuditResult showAuditResult(@RequestParam int declareId) {
-        return this.auditService.getAuditResult(declareId);
+    public boolean departAudit(@RequestBody Body body) {
+        return this.auditService.departAudit(body.getDeclareId(), body.getStateId(), body.getRejectionReason());
     }
 
-    //添加驳回理由
-    @PostMapping("addRejectionReason")
+    @GetMapping("createExpertAccount")
     @ResponseBody
-    public void addRejectReson(@RequestParam int declareId, String rejectReason){
-        this.auditService.addRejectReson(declareId,rejectReason);
+    public List<ExpertAccount> createExpertAccount(@RequestParam int bulletinId, @RequestParam int cnt) {
+        return this.auditService.createExpertAccount(bulletinId, cnt);
     }
 
-
-    //生成外审账号
-    @PostMapping("productAccount")
+    @GetMapping("getExpertAccount")
     @ResponseBody
-    public String showAccount(@RequestParam int declareId){
-        return null;
-    }
-    
-
-    //外审账号
-    @PostMapping("expertAccount")
-    @ResponseBody
-//    public Integer showAccountNumber(@RequestParam int declareId){
-//        return this.auditService.getAccountNumber(declareId);
-//    }
-    public  List<Map<String, Object>> showAccountList(@RequestParam int declareId) {
-        return this.auditService.getAccountList(declareId);
+    public List<ExpertAccount> getExpertAccount(@RequestParam int bulletinId) {
+        return this.auditService.getExpertAccountList(bulletinId);
     }
 
+    @GetMapping("getExpertAudit")
+    @ResponseBody
+    public ExpertAudit getExpertAudit(HttpServletRequest request, int declareId) {
+        return this.auditService.getExpertAudit(request, declareId);
+    }
+
+    @PostMapping("setExpertAudit")
+    @ResponseBody
+    public boolean setExpertAccount(HttpServletRequest request, @RequestBody ExpertAudit audit) {
+        return this.auditService.setExpertAudit(request, audit);
+    }
 }

@@ -7,6 +7,7 @@ public class AccountState {
     boolean loginState;
     int level;
     int userid;
+    int bulletinId;
     String username;
     String password;
     String realname;

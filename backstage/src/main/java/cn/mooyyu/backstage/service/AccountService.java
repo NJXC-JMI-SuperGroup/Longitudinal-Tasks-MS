@@ -24,13 +24,18 @@ public class AccountService {
             e.printStackTrace();
         }
         if (result == null) {
-            request.getSession().setAttribute("accountState", new AccountState());
-            return new AccountState();
-        } else {
-            result.setLoginState(true);
-            request.getSession().setAttribute("accountState", result);
-            return result;
+            try {
+                result = this.accountDao.expertLogin(loginInfo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (result == null) {
+                request.getSession().setAttribute("accountState", new AccountState());
+                return new AccountState();
+            }
         }
+        request.getSession().setAttribute("accountState", result);
+        return result;
     }
 
     public boolean logout(HttpServletRequest request) {

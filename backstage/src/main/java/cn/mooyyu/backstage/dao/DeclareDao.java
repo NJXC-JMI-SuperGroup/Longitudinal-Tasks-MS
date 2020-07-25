@@ -2,6 +2,7 @@ package cn.mooyyu.backstage.dao;
 
 import cn.mooyyu.backstage.pojo.declare.FullDeclare;
 import cn.mooyyu.backstage.pojo.declare.SimpleDeclare;
+import cn.mooyyu.backstage.pojo.expert.ExpertAudit;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -45,4 +46,12 @@ public interface DeclareDao {
             "    stateId = #{declare.stateId}\n" +
             "where declareId = #{declare.declareId}")
     void modifyDeclare(@Param("declare") FullDeclare declare);
+
+    @Update("update tb_declare\n" +
+            "set [index] = N'JSHY' + cast(year(getdate()) as varchar) + \n" +
+            "              N'KTSB' + right('0000' + cast(declareId as varchar), 4)\n" +
+            "where declareId = #{declareId}")
+    void updateIndex(@Param("declareId") int declareId);
+
+    List<ExpertAudit> getExpertAudit(@Param("declareId") int declareId);
 }
