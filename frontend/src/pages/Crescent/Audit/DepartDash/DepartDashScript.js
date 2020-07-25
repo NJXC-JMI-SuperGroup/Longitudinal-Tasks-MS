@@ -71,23 +71,24 @@ Vue.component('table-operation-audit-depart',{
     methods:{
         ...mapActions('global', ['updateIsAudit', 'updateModel']),
         audit(rowData) {
-            this.updateIsAudit(rowData.stateId === 2);
-            this.$axios.get(this.host + 'bulletin/getBulletin', {
-                params: {
-                    bulletinId: rowData.bulletinId
-                }
-            }).then(bulletinRes => {
-                this.$axios.get(this.host + 'declare/getDeclare', {
+            this.updateIsAudit(rowData.stateId === 2).then(() => {
+                this.$axios.get(this.host + 'bulletin/getBulletin', {
                     params: {
-                        declareId: rowData.declareId
+                        bulletinId: rowData.bulletinId
                     }
-                }).then(declareRes => {
-                    this.updateModel({
-                        bulletin: bulletinRes.data,
-                        declare: declareRes.data
-                    }).then(() => {
-                        this.$router.push('/Crescent/audit/departDash/departAudit').then();
-                    });
+                }).then(bulletinRes => {
+                    this.$axios.get(this.host + 'declare/getDeclare', {
+                        params: {
+                            declareId: rowData.declareId
+                        }
+                    }).then(declareRes => {
+                        this.updateModel({
+                            bulletin: bulletinRes.data,
+                            declare: declareRes.data
+                        }).then(() => {
+                            this.$router.push('/Crescent/audit/departDash/departAudit').then();
+                        });
+                    })
                 })
             })
         }

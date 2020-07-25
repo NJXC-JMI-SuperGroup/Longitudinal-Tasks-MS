@@ -22,11 +22,13 @@
             <vue-form-generator :schema="form.schema" :model="declareModel"/>
             <br/>
         </b-modal>
-        <b-modal id="modal-reason" scrollable hide-footer title="驳回理由">{{ declareModel.rejectionReason }}</b-modal>
+        <b-modal id="modal-reason" scrollable hide-footer title="驳回理由">
+            <pre>{{ declareModel.rejectionReason }}</pre>
+        </b-modal>
         <b-modal id="modal-expert" scrollable hide-footer title="专审结果">
             专家评分：{{ declareModel.expertScore }} <br>
             专家意见与建议：
-            <div class="p-2 border">{{ declareModel.expertSuggestion }}</div>
+            <div class="p-2 border"><pre>{{ declareModel.expertSuggestion }}</pre></div>
         </b-modal>
     </div>
 </template>

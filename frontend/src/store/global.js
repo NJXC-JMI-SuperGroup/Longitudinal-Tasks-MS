@@ -43,8 +43,6 @@ export default {
                 stateId: null,
                 state: null,
                 rejectionReason: null,
-                expertScore: null,
-                expertSuggestion: null,
                 addition: false,
                 additionUrl: null
             }
@@ -231,7 +229,8 @@ export default {
                 loginState: false,
                 type: '游客',
                 level: -1,
-                realname: ''
+                realname: '',
+                bulletinId: null
             });
         },
         updateBulletinModel({commit}, value) {
@@ -275,8 +274,6 @@ export default {
                 stateId: null,
                 state: null,
                 rejectionReason: null,
-                expertScore: null,
-                expertSuggestion: null,
                 addition: false,
                 additionUrl: null
             });

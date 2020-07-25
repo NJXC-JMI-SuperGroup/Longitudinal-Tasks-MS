@@ -113,8 +113,6 @@ Vue.component('table-operation-bulletin',{
                     stateId: null,
                     state: null,
                     rejectionReason: null,
-                    expertScore: null,
-                    expertSuggestion: null,
                     addition: false,
                     additionUrl: null
                 })
