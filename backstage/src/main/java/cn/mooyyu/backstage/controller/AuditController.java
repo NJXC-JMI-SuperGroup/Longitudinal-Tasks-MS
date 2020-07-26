@@ -59,9 +59,15 @@ public class AuditController {
         return this.auditService.getExpertAccountList(bulletinId);
     }
 
+    @GetMapping("getExpertAuditList")
+    @ResponseBody
+    public List<ExpertAudit> getExpertAuditList(@RequestParam int declareId) {
+        return this.auditService.getExpertAuditList(declareId);
+    }
+
     @GetMapping("getExpertAudit")
     @ResponseBody
-    public ExpertAudit getExpertAudit(HttpServletRequest request, int declareId) {
+    public ExpertAudit getExpertAudit(HttpServletRequest request, @RequestParam int declareId) {
         return this.auditService.getExpertAudit(request, declareId);
     }
 

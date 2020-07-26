@@ -25,7 +25,7 @@ public interface AuditDao {
             "         inner join dbo.tb_bulletin on tb_declare.bulletinId = tb_bulletin.bulletinId\n" +
             "         inner join dbo.tb_user on tb_declare.leaderId = tb_user.userid\n" +
             "where expertAudit=1 and\n" +
-            "      (tb_declare.stateId =3 or tb_declare.stateId =6)\n" +
+            "      tb_declare.stateId =3\n" +
             "order by tb_declare.stateId")
     List<SimpleDeclare> getDeclareListForExpert();
 
@@ -36,7 +36,7 @@ public interface AuditDao {
             "         inner join dbo.tb_bulletin on tb_declare.bulletinId = tb_bulletin.bulletinId\n" +
             "         inner join dbo.tb_user on tb_declare.leaderId = tb_user.userid\n" +
             "where expertAudit=1 and\n" +
-            "      (tb_declare.stateId =3 or tb_declare.stateId =6) and\n" +
+            "      tb_declare.stateId =3 and\n" +
             "      tb_declare.bulletinId=#{bulletinId}" +
             "order by tb_declare.stateId")
     List<SimpleDeclare> getDeclareListForExpertAudit(@Param("bulletinId") int bulletinId);
@@ -58,4 +58,8 @@ public interface AuditDao {
     @Insert("insert into tb_expertAudit (score, suggestion, expertId, declareId)\n" +
             "values (#{audit.score}, #{audit.suggestion}, #{audit.expertId}, #{audit.declareId})")
     void setExpertAudit(@Param("audit") ExpertAudit expertAudit);
+
+    @Select("select score, suggestion from tb_expertAudit\n" +
+            "where declareId=#{declareId}")
+    List<ExpertAudit> getExpertAuditList(@Param("declareId") int declareId);
 }

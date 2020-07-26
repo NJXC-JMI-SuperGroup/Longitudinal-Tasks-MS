@@ -52,6 +52,4 @@ public interface DeclareDao {
             "              N'KTSB' + right('0000' + cast(declareId as varchar), 4)\n" +
             "where declareId = #{declareId}")
     void updateIndex(@Param("declareId") int declareId);
-
-    List<ExpertAudit> getExpertAudit(@Param("declareId") int declareId);
 }

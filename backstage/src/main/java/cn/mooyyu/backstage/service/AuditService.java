@@ -67,6 +67,10 @@ public class AuditService {
         return this.expertAccountDao.getExpertAccount(bulletinId);
     }
 
+    public List<ExpertAudit> getExpertAuditList(int declareId) {
+        return this.auditDao.getExpertAuditList(declareId);
+    }
+
     public ExpertAudit getExpertAudit(HttpServletRequest request, int declareId) {
         AccountState state = (AccountState) request.getSession().getAttribute("accountState");
         if (state == null) {
@@ -83,7 +87,6 @@ public class AuditService {
         audit.setExpertId(state.getUserid());
         try {
             this.auditDao.setExpertAudit(audit);
-            this.auditDao.updateDeclareState(audit.getDeclareId(), 6);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
