@@ -112,7 +112,7 @@ export default {
         submit(url) {
             this.$refs.vfg.validate().then(res => {
                 if (res.length === 0) {
-                    this.$axios.post(this.host + url, this.form.model).then(res => {
+                    this.$axios.post(this.apiHost + url, this.form.model).then(res => {
                         if (res.data !== -1) {
                             this.uploadFiles(res.data);
                         } else {

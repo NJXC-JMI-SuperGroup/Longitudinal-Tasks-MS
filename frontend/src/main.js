@@ -52,6 +52,8 @@ import {VTable,VPagination} from 'vue-easytable'
 Vue.component(VTable.name, VTable)
 Vue.component(VPagination.name, VPagination)
 
+Vue.prototype.apiHost = 'http://10.64.216.18:8216/crescent/';
+
 Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {

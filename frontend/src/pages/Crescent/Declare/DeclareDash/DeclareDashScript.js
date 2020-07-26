@@ -51,7 +51,7 @@ export default {
         })
     },
     mounted() {
-        this.$axios.get(this.host + 'declare/getDeclareList').then((res) => {
+        this.$axios.get(this.apiHost + 'declare/getDeclareList').then((res) => {
             this.easytable.fullData = res.data;
             this.easytable.total = res.data.length;
             this.setTableData(this.easytable.pageIndex, this.easytable.pageSize, this.easytable.fullData);
@@ -89,7 +89,7 @@ Vue.component('table-operation-declare',{
     methods:{
         ...mapActions('global', ['updateDeclareModel']),
         update(rowData){
-            this.$axios.get(this.host + 'declare/getDeclare', {
+            this.$axios.get(this.apiHost + 'declare/getDeclare', {
                 params: {
                     declareId: rowData.declareId
                 }
@@ -101,7 +101,7 @@ Vue.component('table-operation-declare',{
             })
         },
         showModel(rowData, index, modelId) {
-            this.$axios.get(this.host + 'declare/getDeclare', {
+            this.$axios.get(this.apiHost + 'declare/getDeclare', {
                 params: {
                     declareId: rowData.declareId
                 }
@@ -113,7 +113,7 @@ Vue.component('table-operation-declare',{
             })
         },
         showExpertAudit(rowData) {
-            this.$axios.get(this.host + 'audit/getExpertAuditList', {
+            this.$axios.get(this.apiHost + 'audit/getExpertAuditList', {
                 params: {
                     declareId: rowData.declareId
                 }
@@ -122,8 +122,5 @@ Vue.component('table-operation-declare',{
                 this.$bvModal.show('modal-expert');
             })
         }
-    },
-    computed: {
-        ...mapState('global', ['host'])
     }
 })

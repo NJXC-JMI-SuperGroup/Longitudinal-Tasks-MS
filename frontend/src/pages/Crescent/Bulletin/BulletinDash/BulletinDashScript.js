@@ -48,7 +48,7 @@ export default {
         }
     },
     mounted() {
-        this.$axios.get(this.host + 'bulletin/getBulletinList').then((res) => {
+        this.$axios.get(this.apiHost + 'bulletin/getBulletinList').then((res) => {
             this.easytable.fullData = res.data;
             this.easytable.total = res.data.length;
             this.setTableData(this.easytable.pageIndex, this.easytable.pageSize, this.easytable.fullData);
@@ -85,16 +85,21 @@ Vue.component('table-operation-bulletin',{
         }
     },
     methods:{
-        ...mapActions('global', ['updateBulletinModel', 'updateDeclareModel']),
+        ...mapActions('global', ['updateBulletinModel', 'updateDeclareModel', 'updateUploader']),
         update(rowData){
-            this.$axios.get(this.host + 'bulletin/getBulletin', {
+            this.$axios.get(this.apiHost + 'bulletin/getBulletin', {
                 params: {
                     bulletinId: rowData.bulletinId
                 }
             }).then((res) => {
                 res.data.deadline = res.data.deadline.slice(0, 10);
                 this.updateBulletinModel(res.data).then(() => {
-                    this.$router.push('/Crescent/bulletin/dash/modify').then();
+                    this.updateUploader({
+                        hint: '提交后请等待文件上传',
+                        target: this.apiHost + 'bulletin/uploadFiles'
+                    }).then(() => {
+                        this.$router.push('/Crescent/bulletin/dash/modify').then();
+                    });
                 })
             })
         },
@@ -119,12 +124,13 @@ Vue.component('table-operation-bulletin',{
             })
         },
         showModel(rowData) {
-            this.$axios.get(this.host + 'bulletin/getBulletin', {
+            this.$axios.get(this.apiHost + 'bulletin/getBulletin', {
                 params: {
                     bulletinId: rowData.bulletinId
                 }
             }).then((res) => {
                 res.data.deadline = res.data.deadline.slice(0, 10);
+                res.data.additionUrl = this.apiHost + res.data.additionUrl;
                 this.updateBulletinModel(res.data).then(() => {
                     this.$bvModal.show('modal-scrollable-bulletin');
                 });
@@ -132,6 +138,6 @@ Vue.component('table-operation-bulletin',{
         }
     },
     computed: {
-        ...mapState('global', ['host', 'accountState'])
+        ...mapState('global', ['accountState'])
     }
 })

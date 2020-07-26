@@ -29,7 +29,7 @@
             <b-card no-body>
                 <b-tabs pills card>
                     <template v-for="(item, index) in tabs">
-                        <b-tab :title="'t-'+index"><b-card-text>
+                        <b-tab :title="'t-'+index" :key="'tabs-'+index"><b-card-text>
                             <p>总评：{{item.score}}</p>
                             <p>专家意见：</p>
                             <pre>{{item.suggestion}}</pre>

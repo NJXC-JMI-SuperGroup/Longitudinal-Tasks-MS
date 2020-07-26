@@ -17,7 +17,7 @@
             }
         },
         created() {
-            this.$axios.get(this.host + 'basic/getAccountState').then(res => {
+            this.$axios.get(this.apiHost + 'basic/getAccountState').then(res => {
                 if (res.data.loginState) {
                     res.data.type = this.levelDesc[res.data.level];
                 }
@@ -32,7 +32,7 @@
                     }
                 }
             });
-            this.$axios.get(this.host + 'basic/getSelectionList').then(res => {
+            this.$axios.get(this.apiHost + 'basic/getSelectionList').then(res => {
                 this.updateSelectionList(res.data).then()
             })
         },
@@ -40,7 +40,7 @@
             ...mapActions('global', ['updateAccountState', 'updateSelectionList'])
         },
         computed: {
-            ...mapState('global', ['host', 'accountState', 'selectionList'])
+            ...mapState('global', ['accountState', 'selectionList'])
         }
     };
 </script>

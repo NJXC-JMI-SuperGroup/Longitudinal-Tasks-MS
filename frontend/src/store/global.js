@@ -3,7 +3,6 @@ export default {
     state: {
         userLevel: 0,
         isAudit: true,
-        host: 'http://10.64.216.18:8216/crescent/',
         accountState: {
             loginState: false,
             type: '游客',
@@ -21,7 +20,7 @@ export default {
                 typeId: null,
                 bulletinLevel: null,
                 levelId: null,
-                limit: false,
+                limit: true,
                 limitNumber: 1,
                 expertAudit: false,
                 deadline: null,
@@ -189,7 +188,11 @@ export default {
             deptSelection: [],
             validBulletinSelection: []
         },
-        quillExample: `<h1 class="ql-align-center">关于____课题的通知</h1><p><br></p><p class="ql-indent-1">关于此课题的详细信息。</p><p class="ql-align-right"><br></p><p class="ql-align-right">日期：____年___月___日</p>`
+        quillExample: `<h1 class="ql-align-center">关于____课题的通知</h1><p><br></p><p class="ql-indent-1">关于此课题的详细信息。</p><p class="ql-align-right"><br></p><p class="ql-align-right">日期：____年___月___日</p>`,
+        uploader: {
+            hint: null,
+            target: null
+        }
     },
     mutations: {
         updateUserLevel(state, value) {
@@ -212,6 +215,9 @@ export default {
         },
         updateModel(state, value) {
             state.model = value;
+        },
+        updateUploader(state, value) {
+            state.uploader = value;
         }
     },
     actions: {
@@ -247,7 +253,7 @@ export default {
                 typeId: null,
                 bulletinLevel: null,
                 levelId: null,
-                limit: false,
+                limit: true,
                 limitNumber: 1,
                 expertAudit: false,
                 deadline: null,
@@ -283,6 +289,9 @@ export default {
         },
         updateModel({commit}, value) {
             commit('updateModel', value);
+        },
+        updateUploader({commit}, value) {
+            commit('updateUploader', value);
         }
     }
 };

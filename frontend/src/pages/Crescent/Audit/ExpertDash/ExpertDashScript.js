@@ -79,7 +79,7 @@ export default {
         createAccount() {
             this.$refs.accountVFG.validate().then(res => {
                 if (res.length === 0) {
-                    this.$axios.get(this.host + 'audit/createExpertAccount', {
+                    this.$axios.get(this.apiHost + 'audit/createExpertAccount', {
                         params: {
                             bulletinId: this.bulletinId,
                             cnt: this.form.expertAccount.model.createCnt
@@ -94,7 +94,7 @@ export default {
             })
         },
         submit() {
-            this.$axios.post(this.host + 'audit/departAudit', {
+            this.$axios.post(this.apiHost + 'audit/departAudit', {
                 declareId: this.declareId,
                 stateId: 4
             }).then(res => {
@@ -105,10 +105,10 @@ export default {
         }
     },
     computed: {
-        ...mapState('global', ['host', 'accountState'])
+        ...mapState('global', ['accountState'])
     },
     mounted() {
-        this.$axios.get(this.host + 'audit/getDeclareListForExpert', {
+        this.$axios.get(this.apiHost + 'audit/getDeclareListForExpert', {
             params: {
                 limit: this.accountState.level === 13
             }
@@ -149,12 +149,12 @@ Vue.component('table-operation-audit-expert',{
     methods:{
         ...mapActions('global', ['updateIsAudit', 'updateModel']),
         audit(rowData) {
-            this.$axios.get(this.host + 'bulletin/getBulletin', {
+            this.$axios.get(this.apiHost + 'bulletin/getBulletin', {
                 params: {
                     bulletinId: rowData.bulletinId
                 }
             }).then(bulletinRes => {
-                this.$axios.get(this.host + 'declare/getDeclare', {
+                this.$axios.get(this.apiHost + 'declare/getDeclare', {
                     params: {
                         declareId: rowData.declareId
                     }
@@ -169,7 +169,7 @@ Vue.component('table-operation-audit-expert',{
             });
         },
         showDetail(rowData) {
-            this.$axios.get(this.host + 'audit/getExpertAuditList', {
+            this.$axios.get(this.apiHost + 'audit/getExpertAuditList', {
                 params: {
                     declareId: rowData.declareId
                 }
@@ -181,7 +181,7 @@ Vue.component('table-operation-audit-expert',{
         },
         expertAccount(rowData) {
             thisVue.bulletinId = rowData.bulletinId;
-            this.$axios.get(this.host + 'audit/getExpertAccount', {
+            this.$axios.get(this.apiHost + 'audit/getExpertAccount', {
                 params: {
                     bulletinId: rowData.bulletinId
                 }
@@ -193,6 +193,6 @@ Vue.component('table-operation-audit-expert',{
         }
     },
     computed: {
-        ...mapState('global', ['host', 'accountState'])
+        ...mapState('global', ['accountState'])
     }
 })

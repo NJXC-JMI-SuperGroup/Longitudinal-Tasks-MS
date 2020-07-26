@@ -45,7 +45,7 @@ export default {
             }
         },
         logout() {
-            this.$axios.get(this.host + 'basic/logout').then(res => {
+            this.$axios.get(this.apiHost + 'basic/logout').then(res => {
                 // eslint-disable-next-line no-console
                 console.info(res.data);
             }).finally(() => {
@@ -63,6 +63,6 @@ export default {
             sidebarOpened: state => !state.sidebarClose,
             activeItem: state => state.sidebarActiveElement,
         }),
-        ...mapState('global', ['accountState', 'host'])
+        ...mapState('global', ['accountState'])
     },
 };

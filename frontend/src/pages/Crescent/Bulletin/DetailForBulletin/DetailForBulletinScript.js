@@ -1,9 +1,13 @@
 import validators from "vue-form-generator/src/utils/validators";
 import {mapState} from "vuex";
+import FileUploader from '../../../../components/Crescent/FileUploader/FileUploader';
 
 let thisVue = null;
 
 export default {
+    components: {
+        FileUploader
+    },
     data() {
         return {
             form: {
@@ -25,6 +29,12 @@ export default {
                             label: '课题编号',
                             id: "bulletinId"
                         }, {
+                            type: "input",
+                            id: 'bulletinLink',
+                            label: "课题通知链接",
+                            inputType: "text",
+                            model: 'link'
+                        }, {
                             type: "select",
                             label: "课题发布单位",
                             required: true,
@@ -33,6 +43,43 @@ export default {
                             }),
                             model: 'publishDeptId',
                             validator: validators.required
+                        }, {
+                            type: "select",
+                            label: "课题类型",
+                            values: this.$store.state.global.selectionList.bulletinTypeSelection.map(item => {
+                                return { id: item.typeId, name: item.type };
+                            }),
+                            model: 'typeId',
+                            required: true,
+                            validator: validators.required
+                        }, {
+                            type: "select",
+                            label: "课题级别",
+                            values: this.$store.state.global.selectionList.bulletinLevelSelection.map(item => {
+                                return { id: item.levelId, name: item.level };
+                            }),
+                            model: 'levelId',
+                            required: true,
+                            validator: validators.required
+                        }]
+                    }]
+                },
+                schemaRight: {
+                    groups: [{
+                        legend: " ",
+                        fields: [{
+                            type: "pikaday",
+                            label: "课题申报截止时间",
+                            model: "deadline",
+                            required: true,
+                            validator: validators.date,
+                            pikadayOptions: {
+                                onSelect: function(date) {
+                                    thisVue.form.model.deadline = date;
+                                    thisVue.$refs.vfgRight.validate().then();
+                                    thisVue.$refs.vfgLeft.validate().then();
+                                }
+                            }
                         }, {
                             type: "switch",
                             label: "课题是否需要专家评审",
@@ -62,58 +109,6 @@ export default {
                             },
                             validator: validators.integer
                         }]
-                    }, {
-                        legend: '编辑课题内容'
-                    }]
-                },
-                schemaRight: {
-                    groups: [{
-                        legend: " ",
-                        fields: [{
-                            type: "select",
-                            label: "课题类型",
-                            values: this.$store.state.global.selectionList.bulletinTypeSelection.map(item => {
-                                return { id: item.typeId, name: item.type };
-                            }),
-                            model: 'typeId',
-                            required: true,
-                            validator: validators.required
-                        }, {
-                            type: "select",
-                            label: "课题级别",
-                            values: this.$store.state.global.selectionList.bulletinLevelSelection.map(item => {
-                                return { id: item.levelId, name: item.level };
-                            }),
-                            model: 'levelId',
-                            required: true,
-                            validator: validators.required
-                        }, {
-                            type: "input",
-                            id: 'bulletinLink',
-                            label: "课题通知链接",
-                            inputType: "text",
-                            model: 'link'
-                        }, {
-                            type: "pikaday",
-                            label: "课题申报截止时间",
-                            model: "deadline",
-                            required: true,
-                            validator: validators.date,
-                            pikadayOptions: {
-                                onSelect: function(date) {
-                                    thisVue.form.model.deadline = date;
-                                    thisVue.$refs.vfgRight.validate().then();
-                                    thisVue.$refs.vfgLeft.validate().then();
-                                }
-                            }
-                        }, {
-                            type: 'upload',
-                            label: '课题附件材料',
-                            multiple: true,
-                            onChanged: function(model, schema, event, instance) {
-                                thisVue.files = event.srcElement.files;
-                            }
-                        }]
                     }]
                 },
                 model: {
@@ -126,7 +121,7 @@ export default {
                     typeId: null,
                     bulletinLevel: null,
                     levelId: null,
-                    limit: false,
+                    limit: true,
                     limitNumber: 1,
                     expertAudit: false,
                     deadline: null,
@@ -140,42 +135,42 @@ export default {
                     validateAfterChanged: true,
                     validateAsync: true
                 }
-            },
-            files: []
+            }
         }
     },
     methods: {
-        uploadFiles(bulletinId) {
-            // eslint-disable-next-line no-console
-            console.info(this.files, bulletinId);
-            this.$router.push('/Crescent/bulletin/dash');
-        },
-        submit(url) {
+        submit(url, urlForCommit) {
             this.$refs.vfgLeft.validate().then(leftRes => {
                 this.$refs.vfgRight.validate().then(rightRes => {
                     if (leftRes.length === 0 && rightRes.length === 0) {
-                        this.$axios.post(this.host + url, this.form.model).then(res => {
-                            if (res.data!==-1) {
-                                this.uploadFiles(res.data);
-                            } else {
-                                // eslint-disable-next-line no-console
-                                console.info(res);
-                            }
-                        })
+                        if (this.$refs.fu.$refs.uploader.uploader.isComplete()) {
+                            this.$axios.post(this.apiHost + url, this.form.model).then(res => {
+                                if (res.data!==-1) {
+                                    this.$axios.post(this.apiHost + urlForCommit, {
+                                        bulletinId: res.data,
+                                        filenames: this.$refs.fu.$refs.uploader.uploader.fileList.map(item => item.name)
+                                    }).then(res => {
+                                        // eslint-disable-next-line no-console
+                                        console.info(res.data);
+                                        this.$router.push('/Crescent/bulletin/dash').then();
+                                    })
+                                }
+                            })
+                        } else {
+                            this.$bvToast.show('submit-bulletin-wait-files');
+                        }
                     }
                 })
             })
         }
     },
     computed: {
-        ...mapState('global', ['host', 'quillExample']),
+        ...mapState('global', ['quillExample']),
         ...mapState('global', {
             bulletinModel: state => state.model.bulletin
         })
     },
     mounted() {
-        // eslint-disable-next-line no-console
-        console.info(this);
         let tmpModel = this.bulletinModel;
         if (!tmpModel.limit) {
             tmpModel.limitNumber = 1;

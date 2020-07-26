@@ -27,11 +27,11 @@ export default {
         DetailForAudit
     },
     computed: {
-        ...mapState('global', ['host', 'isAudit'])
+        ...mapState('global', ['isAudit'])
     },
     methods: {
         submit(stateId) {
-            this.$axios.post(this.host + 'audit/departAudit', {
+            this.$axios.post(this.apiHost + 'audit/departAudit', {
                 declareId: this.$refs.detailForm.form.model.declare.declareId,
                 stateId: stateId,
                 rejectionReason: this.form.model.rejectionReason

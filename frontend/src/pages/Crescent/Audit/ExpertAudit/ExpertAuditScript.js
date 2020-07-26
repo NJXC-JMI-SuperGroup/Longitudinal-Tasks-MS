@@ -72,7 +72,7 @@ export default {
     },
     mounted() {
         this.form.model.declareId = this.declareId;
-        this.$axios.get(this.host + 'audit/getExpertAudit', {
+        this.$axios.get(this.apiHost + 'audit/getExpertAudit', {
             params: {
                 declareId: this.declareId
             }
@@ -88,7 +88,7 @@ export default {
         submit() {
             this.$refs.vfg.validate().then(res => {
                 if (res.length === 0) {
-                    this.$axios.post(this.host + 'audit/setExpertAudit', this.form.model).then(res => {
+                    this.$axios.post(this.apiHost + 'audit/setExpertAudit', this.form.model).then(res => {
                         // eslint-disable-next-line no-console
                         console.info(res.data);
                         this.$router.push('/Crescent/audit/expertDash').then();

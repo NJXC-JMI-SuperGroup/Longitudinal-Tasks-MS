@@ -18,7 +18,7 @@
             <b-card no-body>
                 <b-tabs pills card>
                     <template v-for="(item, index) in tabs">
-                        <b-tab :title="'t-'+index"><b-card-text>
+                        <b-tab :title="'t-'+index" :key="'tabs-'+index"><b-card-text>
                             <p>总评：{{item.score}}</p>
                             <p>专家意见：</p>
                             <pre>{{item.suggestion}}</pre>
@@ -38,8 +38,8 @@
             </div>
             <b-list-group class="border p-2">
                 <template v-for="(item, index) in form.model.list">
-                    <b-list-group-item class="py-0">账号{{index}}：{{item.username}}</b-list-group-item>
-                    <b-list-group-item class="py-0"><span class="mx-3" />密码：{{item.password}}</b-list-group-item>
+                    <b-list-group-item :key="'username-'+index" class="py-0">账号{{index}}：{{item.username}}</b-list-group-item>
+                    <b-list-group-item :key="'pwd-'+index" class="py-0"><span class="mx-3" />密码：{{item.password}}</b-list-group-item>
                 </template>
             </b-list-group>
         </b-modal>

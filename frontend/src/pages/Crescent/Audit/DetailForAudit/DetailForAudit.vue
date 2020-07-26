@@ -23,4 +23,9 @@
 
 <script src="./DetailForAuditScript.js" />
 
-<style src="./DetailForAuditStyle.less" lang="less" scoped/>
+<style lang="less" scoped>
+    .detail-for-audit {
+        height: 64vh;
+        overflow-y: scroll;
+    }
+</style>

@@ -39,11 +39,8 @@ export default {
             this.easytable.tableData = ret === "" ? [] :ret;
         }
     },
-    computed: {
-        ...mapState('global', ['host'])
-    },
     mounted() {
-        this.$axios.get(this.host + 'audit/getDeclareList').then((res) => {
+        this.$axios.get(this.apiHost + 'audit/getDeclareList').then((res) => {
             this.easytable.fullData = res.data;
             this.easytable.total = res.data.length;
             this.setTableData(this.easytable.pageIndex, this.easytable.pageSize, this.easytable.fullData);
@@ -72,12 +69,12 @@ Vue.component('table-operation-audit-depart',{
         ...mapActions('global', ['updateIsAudit', 'updateModel']),
         audit(rowData) {
             this.updateIsAudit(rowData.stateId === 2).then(() => {
-                this.$axios.get(this.host + 'bulletin/getBulletin', {
+                this.$axios.get(this.apiHost + 'bulletin/getBulletin', {
                     params: {
                         bulletinId: rowData.bulletinId
                     }
                 }).then(bulletinRes => {
-                    this.$axios.get(this.host + 'declare/getDeclare', {
+                    this.$axios.get(this.apiHost + 'declare/getDeclare', {
                         params: {
                             declareId: rowData.declareId
                         }
@@ -94,6 +91,6 @@ Vue.component('table-operation-audit-depart',{
         }
     },
     computed: {
-        ...mapState('global', ['host', 'model'])
+        ...mapState('global', ['model'])
     }
 })

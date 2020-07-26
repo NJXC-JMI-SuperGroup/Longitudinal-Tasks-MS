@@ -6,7 +6,7 @@ export default {
     },
     methods: {
         updateBulletin() {
-            this.$refs.detailForm.submit('bulletin/modifyBulletin');
+            this.$refs.detailForm.submit('bulletin/modifyBulletin', 'bulletin/commit');
         }
     }
 }

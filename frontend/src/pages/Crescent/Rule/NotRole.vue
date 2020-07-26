@@ -14,7 +14,7 @@
         methods: {
             ...mapActions('global', ['resetAccountState']),
             logout() {
-                this.$axios.get(this.host + 'basic/logout').then(res => {
+                this.$axios.get(this.apiHost + 'basic/logout').then(res => {
                     // eslint-disable-next-line no-console
                     console.info(res.data);
                 }).finally(() => {
@@ -22,9 +22,6 @@
                     this.$router.push('/Crescent/login');
                 })
             }
-        },
-        computed: {
-            ...mapState('global', ['host'])
         }
     }
 </script>

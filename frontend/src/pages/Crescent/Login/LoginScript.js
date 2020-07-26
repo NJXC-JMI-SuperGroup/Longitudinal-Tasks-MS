@@ -53,7 +53,7 @@ export default {
         login() {
             this.$refs.vfg.validate().then((res) => {
                 if (res.length===0) {
-                    this.$axios.post(this.host + 'basic/login', {
+                    this.$axios.post(this.apiHost + 'basic/login', {
                         username: this.form.model.username,
                         password: this.form.model.password
                     }).then((res) => {
@@ -72,9 +72,6 @@ export default {
                 }
             })
         },
-    },
-    computed: {
-        ...mapState('global', ['host'])
     },
     mounted() {
         let that = this;
