@@ -26,9 +26,17 @@
             <pre>{{ declareModel.rejectionReason }}</pre>
         </b-modal>
         <b-modal id="modal-expert" scrollable hide-footer title="专审结果">
-            专家评分：{{ declareModel.expertScore }} <br>
-            专家意见与建议：
-            <div class="p-2 border"><pre>{{ declareModel.expertSuggestion }}</pre></div>
+            <b-card no-body>
+                <b-tabs pills card>
+                    <template v-for="(item, index) in tabs">
+                        <b-tab :title="'t-'+index"><b-card-text>
+                            <p>总评：{{item.score}}</p>
+                            <p>专家意见：</p>
+                            <pre>{{item.suggestion}}</pre>
+                        </b-card-text></b-tab>
+                    </template>
+                </b-tabs>
+            </b-card>
         </b-modal>
     </div>
 </template>

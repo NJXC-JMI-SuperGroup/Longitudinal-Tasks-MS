@@ -30,40 +30,30 @@ export default {
                 isLoading: true
             },
             form: {
-                expertAccount: {
-                    schema: {
-                        groups: [{
-                            legend: '发布公告信息',
-                            fields: [{
-                                type: 'input',
-                                inputType: 'text',
-                                label: '当前账号数目',
-                                id: 'currentAccountNumber',
-                                model: 'currentCnt',
-                                readonly: true
-                            }, {
-                                type: "input",
-                                inputType: "number",
-                                label: "继续生成账号数目",
-                                model: 'createCnt',
-                                min: 1,
-                                validator: validators.integer
-                            }]
+                schema: {
+                    groups: [{
+                        legend: '发布公告信息',
+                        fields: [{
+                            type: 'input',
+                            inputType: 'text',
+                            label: '当前账号数目',
+                            id: 'currentAccountNumber',
+                            model: 'currentCnt',
+                            readonly: true
+                        }, {
+                            type: "input",
+                            inputType: "number",
+                            label: "继续生成账号数目",
+                            model: 'createCnt',
+                            min: 1,
+                            validator: validators.integer
                         }]
-                    },
-                    model: {
-                        currentCnt: 0,
-                        createCnt: 0,
-                        list: []
-                    }
+                    }]
                 },
-                expertAuditResult: {
-                    schema: {
-
-                    },
-                    model: {
-
-                    }
+                model: {
+                    currentCnt: 0,
+                    createCnt: 1,
+                    list: []
                 },
                 options: {
                     validateAfterLoad: false,
@@ -71,7 +61,9 @@ export default {
                     validateAsync: true
                 }
             },
-            bulletinId: null
+            bulletinId: null,
+            declareId: null,
+            tabs: []
         }
     },
     methods:{
@@ -100,6 +92,16 @@ export default {
             }).finally(() => {
                 this.form.expertAccount.model.createCnt = 1;
             })
+        },
+        submit() {
+            this.$axios.post(this.host + 'audit/departAudit', {
+                declareId: this.declareId,
+                stateId: 4
+            }).then(res => {
+                // eslint-disable-next-line no-console
+                console.info(res.data);
+                this.$router.go(0);
+            })
         }
     },
     computed: {
@@ -126,11 +128,11 @@ export default {
 Vue.component('table-operation-audit-expert',{
     template:`
         <span v-if="accountState.level===13">
-            <a @click.stop.prevent="audit(rowData,index)">{{ rowData.stateId===3 ? '评审' : '查看' }}</a>
+            <a @click.stop.prevent="audit(rowData,index)">评审/查看</a>
         </span>
         <span v-else-if="accountState.level===1||accountState.level===14">
-            <a v-if="rowData.stateId===3" @click.stop.prevent="expertAccount(rowData,index)">外审账号</a>
-            <a v-else @click.stop.prevent="showDetail(rowData,index)">查看外审结果</a>
+            <a @click.stop.prevent="expertAccount(rowData,index)">外审账号</a>
+            <a @click.stop.prevent="showDetail(rowData,index)">外审结果</a>
         </span>
     `,
     props:{
@@ -147,29 +149,35 @@ Vue.component('table-operation-audit-expert',{
     methods:{
         ...mapActions('global', ['updateIsAudit', 'updateModel']),
         audit(rowData) {
-            this.updateIsAudit(rowData.stateId === 3).then(() => {
-                this.$axios.get(this.host + 'bulletin/getBulletin', {
+            this.$axios.get(this.host + 'bulletin/getBulletin', {
+                params: {
+                    bulletinId: rowData.bulletinId
+                }
+            }).then(bulletinRes => {
+                this.$axios.get(this.host + 'declare/getDeclare', {
                     params: {
-                        bulletinId: rowData.bulletinId
+                        declareId: rowData.declareId
                     }
-                }).then(bulletinRes => {
-                    this.$axios.get(this.host + 'declare/getDeclare', {
-                        params: {
-                            declareId: rowData.declareId
-                        }
-                    }).then(declareRes => {
-                        this.updateModel({
-                            bulletin: bulletinRes.data,
-                            declare: declareRes.data
-                        }).then(() => {
-                            this.$router.push('/Crescent/audit/expertDash/expertAudit').then();
-                        });
-                    })
+                }).then(declareRes => {
+                    this.updateModel({
+                        bulletin: bulletinRes.data,
+                        declare: declareRes.data
+                    }).then(() => {
+                        this.$router.push('/Crescent/audit/expertDash/expertAudit').then();
+                    });
                 })
-            })
+            });
         },
         showDetail(rowData) {
-            this.$bvModal.show('show-expert-result');
+            this.$axios.get(this.host + 'audit/getExpertAuditList', {
+                params: {
+                    declareId: rowData.declareId
+                }
+            }).then(res => {
+                thisVue.tabs = res.data;
+                thisVue.declareId = rowData.declareId;
+                this.$bvModal.show('show-expert-result');
+            })
         },
         expertAccount(rowData) {
             thisVue.bulletinId = rowData.bulletinId;
@@ -178,8 +186,8 @@ Vue.component('table-operation-audit-expert',{
                     bulletinId: rowData.bulletinId
                 }
             }).then(res => {
-                thisVue.form.expertAccount.model.currentCnt = res.data.length;
-                thisVue.form.expertAccount.model.list = res.data;
+                thisVue.form.model.currentCnt = res.data.length;
+                thisVue.form.model.list = res.data;
                 this.$bvModal.show('show-expert-account');
             })
         }

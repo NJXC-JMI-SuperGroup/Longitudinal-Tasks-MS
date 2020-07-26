@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import {mapActions, mapState} from "vuex";
 
+let thisVue = null;
+
 export default {
     name: "DeclareProgress",
     data() {
@@ -27,7 +29,8 @@ export default {
             },
             form: {
                 schema: this.$store.state.global.schema.declare
-            }
+            },
+            tabs: []
         }
     },
     methods:{
@@ -55,6 +58,9 @@ export default {
         }).finally(() => {
             this.easytable.isLoading = false;
         })
+    },
+    created() {
+        thisVue = this;
     }
 }
 
@@ -62,7 +68,8 @@ Vue.component('table-operation-declare',{
     template:`
         <span>
             <a @click.stop.prevent="showModel(rowData,index,'modal-scrollable-declare')">查看 </a>
-            <a @click.stop.prevent="showModel(rowData,index,'modal-expert')" v-if="rowData.stateId===4 && rowData.expertAudit">专审结果 </a>
+            <a @click.stop.prevent="showExpertAudit(rowData)" 
+               v-if="(rowData.stateId===3||rowData.stateId===4) && rowData.expertAudit">专审结果 </a>
             <template v-if="rowData.stateId===1">
                 <a @click.stop.prevent="showModel(rowData,index,'modal-reason')">驳回理由 </a>
                 <a @click.stop.prevent="update(rowData,index)">修改</a>
@@ -103,6 +110,16 @@ Vue.component('table-operation-declare',{
                 this.updateDeclareModel(res.data).then(() => {
                     this.$bvModal.show(modelId);
                 })
+            })
+        },
+        showExpertAudit(rowData) {
+            this.$axios.get(this.host + 'audit/getExpertAuditList', {
+                params: {
+                    declareId: rowData.declareId
+                }
+            }).then(res => {
+                thisVue.tabs = res.data;
+                this.$bvModal.show('modal-expert');
             })
         }
     },

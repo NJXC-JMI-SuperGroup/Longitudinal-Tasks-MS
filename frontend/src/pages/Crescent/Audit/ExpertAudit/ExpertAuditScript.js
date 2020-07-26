@@ -57,36 +57,34 @@ export default {
                     validateAfterChanged: true,
                     validateAsync: true
                 }
-            }
+            },
+            isAudit: false
         }
     },
     components: {
         DetailForAudit
     },
     computed: {
-        ...mapState('global', ['isAudit', 'host']),
+        ...mapState('global', ['host']),
         ...mapState('global', {
             declareId: state => state.model.declare.declareId
         })
     },
     mounted() {
         this.form.model.declareId = this.declareId;
+        this.$axios.get(this.host + 'audit/getExpertAudit', {
+            params: {
+                declareId: this.declareId
+            }
+        }).then(res => {
+            if (res.data === null || res.data.length===0) {
+                this.isAudit = true;
+            } else {
+                this.form.model = res.data;
+            }
+        })
     },
     methods: {
-        showModal() {
-            if (!this.isAudit) {
-                this.$axios.get(this.host + 'audit/getExpertAudit', {
-                    params: {
-                        declareId: this.declareId
-                    }
-                }).then(res => {
-                    this.form.model = res.data;
-                    this.$bvModal.show('modal-scrollable-audit');
-                })
-            } else {
-                this.$bvModal.show('modal-scrollable-audit');
-            }
-        },
         submit() {
             this.$refs.vfg.validate().then(res => {
                 if (res.length === 0) {
