@@ -57,7 +57,6 @@ export default {
         })
     },
     computed: {
-        ...mapState('global', ['host']),
         ...mapState('global', {
             bulletinModel: state => state.model.bulletin,
         })

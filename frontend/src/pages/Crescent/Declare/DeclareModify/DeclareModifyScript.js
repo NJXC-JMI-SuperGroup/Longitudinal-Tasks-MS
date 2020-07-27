@@ -6,7 +6,7 @@ export default {
     },
     methods: {
         updateDeclare() {
-            this.$refs.detailForm.submit('declare/modifyDeclare');
+            this.$refs.detailForm.submit('declare/modifyDeclare', 'declare/commit');
         }
     }
 }

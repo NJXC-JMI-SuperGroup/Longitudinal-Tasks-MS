@@ -1,13 +1,17 @@
 import validators from "vue-form-generator/src/utils/validators";
 import {mapState} from "vuex";
+import FileUploader from '../../../../components/Crescent/FileUploader/FileUploader';
 
 let thisVue = null;
 
 export default {
+    components: {
+        FileUploader
+    },
     data() {
         return {
             form: {
-                schema: {
+                schemaLeft: {
                     groups: [{
                         legend: '新建项目申报',
                         fields: [{
@@ -16,36 +20,14 @@ export default {
                             id: 'projectTitle',
                             label: '项目名称',
                             required: true,
-                            styleClasses: "col-md-6",
                             validator: validators.required,
                             model: 'projectName'
-                        }, {
-                            type: 'select',
-                            label: '申报课题',
-                            values: this.$store.state.global.selectionList.validBulletinSelection.map(item => {
-                                return { id: item.bulletinId, name: item.bulletin };
-                            }),
-                            styleClasses: "col-md-6",
-                            required: true,
-                            validator: validators.required,
-                            model: 'bulletinId'
                         }, {
                             type: "input",
                             inputType: "text",
                             id: "managerTitle",
                             label: '负责人职称',
-                            styleClasses: "col-md-6",
                             model: 'leaderJobTitle'
-                        }, {
-                            type: 'select',
-                            label: '申报部门',
-                            values: this.$store.state.global.selectionList.deptSelection.map(item => {
-                                return { id: item.depid, name: item.depname };
-                            }),
-                            required: true,
-                            styleClasses: "col-md-6",
-                            validator: validators.required,
-                            model: 'declareDeptId'
                         }, {
                             type: "pikaday",
                             label: "预期完成时间",
@@ -55,26 +37,41 @@ export default {
                             pikadayOptions: {
                                 onSelect: function(date) {
                                     thisVue.form.model.expectDeadline = date;
-                                    thisVue.$refs.vfg.validate().then();
+                                    thisVue.$refs.vfgLeft.validate().then();
+                                    thisVue.$refs.vfgRight.validate().then();
                                 }
-                            },
-                            styleClasses: "col-md-6"
-                        }, {
-                            type: 'upload',
-                            label: '申报书及其他附件材料',
-                            multiple: true,
-                            onChanged: function (model, schema, event, instance) {
-                                thisVue.files = event.srcElement.files;
-                            },
-                            styleClasses: "col-md-6"
+                            }
                         }, {
                             type: "textArea",
                             label: "预期成果",
                             hint: "Max 1000 characters",
                             max: 1000,
                             model: 'expectAchievement',
-                            rows: 7,
-                            styleClasses: "px-4"
+                            rows: 7
+                        }]
+                    }]
+                },
+                schemaRight: {
+                    groups: [{
+                        legend: " ",
+                        fields: [{
+                            type: 'select',
+                            label: '申报课题',
+                            values: this.$store.state.global.selectionList.validBulletinSelection.map(item => {
+                                return { id: item.bulletinId, name: item.bulletin };
+                            }),
+                            required: true,
+                            validator: validators.required,
+                            model: 'bulletinId'
+                        }, {
+                            type: 'select',
+                            label: '申报部门',
+                            values: this.$store.state.global.selectionList.deptSelection.map(item => {
+                                return { id: item.depid, name: item.depname };
+                            }),
+                            required: true,
+                            validator: validators.required,
+                            model: 'declareDeptId'
                         }]
                     }]
                 },
@@ -104,28 +101,30 @@ export default {
         }
     },
     methods: {
-        uploadFiles(declareId) {
-            // eslint-disable-next-line no-console
-            console.info(this.files, declareId);
-            this.$router.push('/Crescent/declare/dash');
-        },
-        submit(url) {
-            this.$refs.vfg.validate().then(res => {
-                if (res.length === 0) {
-                    this.$axios.post(this.apiHost + url, this.form.model).then(res => {
-                        if (res.data !== -1) {
-                            this.uploadFiles(res.data);
-                        } else {
-                            // eslint-disable-next-line no-console
-                            console.info(res);
+        submit(url, urlForCommit) {
+            this.$refs.vfgLeft.validate().then(resLeft => {
+                this.$refs.vfgRight.validate().then(resRight => {
+                    if (resLeft.length === 0 && resRight.length === 0) {
+                        if (this.$refs.fu.$refs.uploader.uploader.isComplete()) {
+                            this.$axios.post(this.apiHost + url, this.form.model).then(res => {
+                                if (res.data !== -1) {
+                                    this.$axios.post(this.apiHost + urlForCommit, {
+                                        declareId: res.data,
+                                        filenames: this.$refs.fu.$refs.uploader.uploader.fileList.map(item => item.name)
+                                    }).then(res => {
+                                        // eslint-disable-next-line no-console
+                                        console.info(res.data);
+                                        this.$router.push('/Crescent/declare/dash').then();
+                                    })
+                                }
+                            })
                         }
-                    })
-                }
+                    }
+                })
             })
         }
     },
     computed: {
-        ...mapState('global', ['host']),
         ...mapState('global', {
             declareModel: state => state.model.declare
         })

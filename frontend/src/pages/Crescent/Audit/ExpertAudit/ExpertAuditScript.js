@@ -65,7 +65,6 @@ export default {
         DetailForAudit
     },
     computed: {
-        ...mapState('global', ['host']),
         ...mapState('global', {
             declareId: state => state.model.declare.declareId
         })

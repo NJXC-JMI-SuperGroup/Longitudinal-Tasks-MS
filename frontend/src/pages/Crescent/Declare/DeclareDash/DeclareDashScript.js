@@ -45,7 +45,6 @@ export default {
         }
     },
     computed: {
-        ...mapState('global', ['host']),
         ...mapState('global', {
             declareModel: state => state.model.declare
         })
@@ -96,7 +95,12 @@ Vue.component('table-operation-declare',{
             }).then((res) => {
                 res.data.expectDeadline = res.data.expectDeadline.slice(0, 10);
                 this.updateDeclareModel(res.data).then(() => {
-                    this.$router.push('/Crescent/declare/dash/modify').then();
+                    this.updateUploader({
+                        hint: '提交后请等待文件上传',
+                        target: this.apiHost + 'declare/uploadFiles'
+                    }).then(() => {
+                        this.$router.push('/Crescent/declare/dash/modify').then();
+                    });
                 })
             })
         },
@@ -107,6 +111,7 @@ Vue.component('table-operation-declare',{
                 }
             }).then((res) => {
                 res.data.expectDeadline = res.data.expectDeadline.slice(0, 10);
+                res.data.additionUrl = this.apiHost + res.data.additionUrl;
                 this.updateDeclareModel(res.data).then(() => {
                     this.$bvModal.show(modelId);
                 })

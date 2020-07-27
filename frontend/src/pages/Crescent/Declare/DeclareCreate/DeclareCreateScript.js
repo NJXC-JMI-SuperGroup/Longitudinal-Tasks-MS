@@ -6,9 +6,9 @@ export default {
         DetailForDeclare
     },
     methods: {
-        ...mapActions('global', ['resetDeclareModel']),
+        ...mapActions('global', ['resetDeclareModel', 'updateUploader']),
         createDeclare() {
-            this.$refs.detailForm.submit('declare/createDeclare');
+            this.$refs.detailForm.submit('declare/createDeclare', 'declare/commit');
         }
     },
     data() {
@@ -17,6 +17,10 @@ export default {
         }
     },
     mounted() {
+        this.updateUploader({
+            hint: '提交后请等待文件上传',
+            target: this.apiHost + 'declare/uploadFiles'
+        }).then();
         this.resetDeclareModel().then(() => {
             this.loading = false;
         });
