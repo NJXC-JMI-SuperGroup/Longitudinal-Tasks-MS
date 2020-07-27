@@ -1,10 +1,11 @@
 <template>
     <div :class="[{root: true, sidebarClose, sidebarStatic}, 'crescent-dashboard']">
+        <header-for-j-m-i />
         <Sidebar/>
         <div class="wrap">
             <Header/>
             <v-touch class="content" @swipe="handleSwipe" :swipe-options="{direction: 'horizontal'}">
-                <breadcrumb-history></breadcrumb-history>
+                <breadcrumb-history class="pt-3" />
                 <transition name="router-animation">
                     <router-view/>
                 </transition>
@@ -24,12 +25,13 @@
     import Sidebar from '@/components/Crescent/Sidebar/Sidebar';
     import Header from '@/components/Crescent/Header/Header';
     import BreadcrumbHistory from '@/components/Crescent/BreadcrumbHistory/BreadcrumbHistory';
+    import HeaderForJMI from '../HeaderForJMI/HeaderForJMI';
 
     import './Layout.scss';
 
     export default {
         name: 'Layout',
-        components: {Sidebar, Header, BreadcrumbHistory},
+        components: {Sidebar, Header, BreadcrumbHistory, HeaderForJMI},
         methods: {
             ...mapActions(['switchSidebar', 'handleSwipe', 'changeSidebarActive', 'toggleSidebar'],
             ),

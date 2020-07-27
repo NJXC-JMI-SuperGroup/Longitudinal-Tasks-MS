@@ -1,5 +1,5 @@
 import Widget from "../../../components/Crescent/Widget/Widget";
-import {mapActions, mapState} from "vuex";
+import {mapActions} from "vuex";
 import validators from "vue-form-generator/src/utils/validators";
 
 export default {
