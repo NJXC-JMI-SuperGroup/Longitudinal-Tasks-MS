@@ -8,10 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.util.List;
 
 @Service
 public class DeclareService {
+    private static final File StaticDeclareDir = new File("StaticFile", "declare");
+
     private final DeclareDao declareDao;
     @Autowired
     public DeclareService(DeclareDao declareDao) {
@@ -24,7 +27,12 @@ public class DeclareService {
     }
 
     public FullDeclare getDeclare(int declareId) {
-        return this.declareDao.getDeclare(declareId);
+        FullDeclare declare = this.declareDao.getDeclare(declareId);
+        if (new File(StaticDeclareDir, declareId + ".zip").exists()) {
+            declare.setAddition(true);
+            declare.setAdditionUrl("declare/getAddition/" + declareId + ".zip");
+        }
+        return declare;
     }
 
     public int createDeclare(HttpServletRequest request, FullDeclare declare) {
@@ -41,10 +49,11 @@ public class DeclareService {
             e.printStackTrace();
             return -1;
         }
+        request.getSession().setAttribute("declareId", declare.getBulletinId());
         return declare.getDeclareId();
     }
 
-    public int modifyDeclare(FullDeclare declare) {
+    public int modifyDeclare(FullDeclare declare, HttpServletRequest request) {
         declare.setStateId(2);
         try {
             this.declareDao.modifyDeclare(declare);
@@ -52,6 +61,7 @@ public class DeclareService {
             e.printStackTrace();
             return -1;
         }
+        request.getSession().setAttribute("declareId", declare.getBulletinId());
         return declare.getDeclareId();
     }
 }

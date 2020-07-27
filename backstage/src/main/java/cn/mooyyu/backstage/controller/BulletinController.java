@@ -1,18 +1,16 @@
 package cn.mooyyu.backstage.controller;
 
 import cn.mooyyu.backstage.pojo.Chunk;
-import cn.mooyyu.backstage.pojo.bulletin.SimpleBulletin;
 import cn.mooyyu.backstage.pojo.bulletin.FullBulletin;
+import cn.mooyyu.backstage.pojo.bulletin.SimpleBulletin;
 import cn.mooyyu.backstage.service.BulletinService;
 import cn.mooyyu.backstage.service.FileManagerService;
-import com.sun.deploy.net.HttpResponse;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.util.List;
 
 @RestController
@@ -56,7 +54,7 @@ public class BulletinController {
     @PostMapping("uploadFiles")
     @ResponseBody
     public boolean uploadFiles(Chunk chunk, HttpServletRequest request) {
-        return fileManagerService.uploadFiles(chunk, request);
+        return fileManagerService.uploadFiles(chunk, request, "bulletin");
     }
 
     @GetMapping("getAddition/{file}")
@@ -72,6 +70,6 @@ public class BulletinController {
     @PostMapping("commit")
     @ResponseBody
     public boolean commit(HttpServletRequest request, @RequestBody Body body) {
-        return this.fileManagerService.moveFiles(request, body.bulletinId, body.filenames);
+        return this.fileManagerService.moveFiles(request, body.bulletinId, body.filenames, "bulletin");
     }
 }

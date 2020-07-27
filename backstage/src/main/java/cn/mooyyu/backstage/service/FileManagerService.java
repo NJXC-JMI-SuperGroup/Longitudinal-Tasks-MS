@@ -17,12 +17,11 @@ import java.util.zip.ZipOutputStream;
 
 @Service
 public class FileManagerService {
-    private static final File tmpBulletinDir = new File("TmpFile", "bulletin");
-    private static final File StaticBulletinDir = new File("StaticFile", "bulletin");
     private static final int  BUFFER_SIZE = 2 * 1024;
 
-    public boolean uploadFiles(Chunk chunk, HttpServletRequest request) {
-        String folderPath = new File(tmpBulletinDir, request.getRequestedSessionId()).getPath();
+    public boolean uploadFiles(Chunk chunk, HttpServletRequest request, String folder) {
+        File tmpDir = new File("TmpFile", folder);
+        String folderPath = new File(tmpDir, request.getRequestedSessionId()).getPath();
         MultipartFile file = chunk.getFile();
         String filename = chunk.getFilename();
         try {
@@ -58,9 +57,11 @@ public class FileManagerService {
         }
     }
 
-    public boolean moveFiles(HttpServletRequest request, int bulletinId, List<String> filenames) {
-        File rawDir = new File(tmpBulletinDir, request.getRequestedSessionId());
-        File targetDir = new File(StaticBulletinDir, String.valueOf(bulletinId));
+    public boolean moveFiles(HttpServletRequest request, int folderId, List<String> filenames, String folder) {
+        File tmpDir = new File("TmpFile", folder);
+        File StaticDir = new File("StaticFile", folder);
+        File rawDir = new File(tmpDir, request.getRequestedSessionId());
+        File targetDir = new File(StaticDir, String.valueOf(folderId));
         if (!cleanDir(targetDir)) {
             return false;
         }
@@ -90,7 +91,7 @@ public class FileManagerService {
         }
         try {
             toZip(targetDir.getAbsolutePath(), new FileOutputStream(
-                    new File(StaticBulletinDir, bulletinId + ".zip")
+                    new File(StaticDir, folderId + ".zip")
             ), true);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
