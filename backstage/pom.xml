@@ -30,8 +30,8 @@
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>net.sourceforge.jtds</groupId>
+            <artifactId>jtds</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -49,6 +49,11 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.sisu</groupId>
+            <artifactId>org.eclipse.sisu.inject</artifactId>
+            <version>0.3.4</version>
         </dependency>
     </dependencies>
 
