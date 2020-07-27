@@ -34,7 +34,6 @@ Vue.use(uploader);
 import LoadScript from "vue-plugin-load-script";
 Vue.use(LoadScript);
 
-Vue.loadScript('https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.8.0/pikaday.min.js');
 import "pikaday/css/pikaday.css";
 import VueFormGenerator from 'vue-form-generator';
 import 'vue-form-generator/dist/vfg.css';

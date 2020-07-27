@@ -1,5 +1,5 @@
 import validators from "vue-form-generator/src/utils/validators";
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 import FileUploader from '../../../../components/Crescent/FileUploader/FileUploader';
 
 let thisVue = null;
@@ -101,10 +101,13 @@ export default {
         }
     },
     methods: {
+        ...mapActions('global', ['updateSelectionList']),
         submit(url, urlForCommit) {
             this.$refs.vfgLeft.validate().then(resLeft => {
                 this.$refs.vfgRight.validate().then(resRight => {
                     if (resLeft.length === 0 && resRight.length === 0) {
+                        // eslint-disable-next-line no-console
+                        console.info(this.$refs.fu.$refs.uploader.uploader.isComplete());
                         if (this.$refs.fu.$refs.uploader.uploader.isComplete()) {
                             this.$axios.post(this.apiHost + url, this.form.model).then(res => {
                                 if (res.data !== -1) {
@@ -118,6 +121,8 @@ export default {
                                     })
                                 }
                             })
+                        } else {
+                            this.$bvToast.show('submit-declare-wait-files');
                         }
                     }
                 })
@@ -131,6 +136,9 @@ export default {
     },
     mounted() {
         this.form.model = this.declareModel;
+        this.$axios.get(this.apiHost + 'basic/getSelectionList').then(res => {
+            this.updateSelectionList(res.data).then()
+        })
     },
     created() {
         thisVue = this;

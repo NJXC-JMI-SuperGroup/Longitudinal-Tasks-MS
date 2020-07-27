@@ -144,6 +144,7 @@ export default {
                 this.$refs.vfgRight.validate().then(rightRes => {
                     if (leftRes.length === 0 && rightRes.length === 0) {
                         if (this.$refs.fu.$refs.uploader.uploader.isComplete()) {
+                            this.form.model.content = this.$refs.quillEditor._content;
                             this.$axios.post(this.apiHost + url, this.form.model).then(res => {
                                 if (res.data!==-1) {
                                     this.$axios.post(this.apiHost + urlForCommit, {

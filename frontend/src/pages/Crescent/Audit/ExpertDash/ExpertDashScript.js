@@ -82,15 +82,15 @@ export default {
                     this.$axios.get(this.apiHost + 'audit/createExpertAccount', {
                         params: {
                             bulletinId: this.bulletinId,
-                            cnt: this.form.expertAccount.model.createCnt
+                            cnt: this.form.model.createCnt
                         }
                     }).then(res => {
-                        this.form.expertAccount.model.currentCnt = res.data.length;
-                        this.form.expertAccount.model.list = res.data;
+                        this.form.model.currentCnt = res.data.length;
+                        this.form.model.list = res.data;
                     })
                 }
             }).finally(() => {
-                this.form.expertAccount.model.createCnt = 1;
+                this.form.model.createCnt = 1;
             })
         },
         submit() {

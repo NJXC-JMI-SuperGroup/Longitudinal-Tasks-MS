@@ -6,7 +6,7 @@ export default {
         DetailForDeclare
     },
     methods: {
-        ...mapActions('global', ['resetDeclareModel', 'updateUploader']),
+        ...mapActions('global', ['resetDeclareModel', 'updateUploader', 'updateSelectionList']),
         createDeclare() {
             this.$refs.detailForm.submit('declare/createDeclare', 'declare/commit');
         }
@@ -22,7 +22,11 @@ export default {
             target: this.apiHost + 'declare/uploadFiles'
         }).then();
         this.resetDeclareModel().then(() => {
-            this.loading = false;
+            this.$axios.get(this.apiHost + 'basic/getSelectionList').then(res => {
+                this.updateSelectionList(res.data).then(() => {
+                    this.loading = false;
+                })
+            })
         });
     }
 }

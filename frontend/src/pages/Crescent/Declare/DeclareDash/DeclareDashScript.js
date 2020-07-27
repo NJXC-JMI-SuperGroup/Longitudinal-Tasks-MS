@@ -86,7 +86,7 @@ Vue.component('table-operation-declare',{
         }
     },
     methods:{
-        ...mapActions('global', ['updateDeclareModel']),
+        ...mapActions('global', ['updateDeclareModel', 'updateUploader']),
         update(rowData){
             this.$axios.get(this.apiHost + 'declare/getDeclare', {
                 params: {
