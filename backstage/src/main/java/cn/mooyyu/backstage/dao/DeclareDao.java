@@ -42,7 +42,8 @@ public interface DeclareDao {
             "    expectDeadline = #{declare.expectDeadline},\n" +
             "    [index] = #{declare.index},\n" +
             "    expectAchievement = #{declare.expectAchievement},\n" +
-            "    bulletinId = #{declare.declareDeptId},\n" +
+            "    bulletinId = #{declare.bulletinId},\n" +
+            "    declareDeptId = #{declare.declareDeptId},\n" +
             "    stateId = #{declare.stateId}\n" +
             "where declareId = #{declare.declareId}")
     void modifyDeclare(@Param("declare") FullDeclare declare);
