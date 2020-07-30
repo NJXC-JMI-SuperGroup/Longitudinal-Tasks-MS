@@ -39,8 +39,6 @@ export default {
                                 format: 'YYYY-MM-DD',
                                 onSelect: function(date) {
                                     thisVue.form.model.expectDeadline = date;
-                                    thisVue.$refs.vfgLeft.validate().then();
-                                    thisVue.$refs.vfgRight.validate().then();
                                 }
                             }
                         }, {
@@ -144,6 +142,11 @@ export default {
     },
     mounted() {
         this.form.model = this.declareModel;
+        if (this.form.model.leaderJobTitle === null || this.form.model.leaderJobTitle.length === 0) {
+            this.$axios.get(this.apiHost + 'basic/getJobTitle').then(res => {
+                this.form.model.leaderJobTitle = res.data;
+            })
+        }
         this.$axios.get(this.apiHost + 'basic/getSelectionList').then(res => {
             this.updateSelectionList(res.data).then()
         });

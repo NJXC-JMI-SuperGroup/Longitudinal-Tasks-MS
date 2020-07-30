@@ -20,4 +20,7 @@ public interface AccountDao {
             "where username=#{account.username} and\n" +
             "      password=#{account.password}")
     AccountState expertLogin(@Param("account") AccountState loginInfo);
+
+    @Select("select jobTitle from tb_user where userid = #{userid}")
+    String getJobTitle(@Param("userid") int userid);
 }

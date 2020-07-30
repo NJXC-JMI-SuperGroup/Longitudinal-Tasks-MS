@@ -47,4 +47,9 @@ public class BasicController {
     public SelectionList getSelectionList() {
         return this.selectionService.getSelectionList();
     }
+
+    @GetMapping("getJobTitle")
+    public String getJobTitle(HttpServletRequest request) {
+        return this.accountService.getJobTitle(request);
+    }
 }

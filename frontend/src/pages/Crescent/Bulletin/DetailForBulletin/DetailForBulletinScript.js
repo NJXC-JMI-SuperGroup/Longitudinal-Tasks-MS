@@ -23,12 +23,6 @@ export default {
                             required: true,
                             validator: validators.required
                         }, {
-                            type: 'input',
-                            inputType: 'text',
-                            model: 'index',
-                            label: '课题编号',
-                            id: "bulletinId"
-                        }, {
                             type: "input",
                             id: 'bulletinLink',
                             label: "课题通知链接",
@@ -86,8 +80,6 @@ export default {
                                 format: 'YYYY-MM-DD',
                                 onSelect: function(date) {
                                     thisVue.form.model.deadline = date;
-                                    thisVue.$refs.vfgRight.validate().then();
-                                    thisVue.$refs.vfgLeft.validate().then();
                                 }
                             }
                         }, {

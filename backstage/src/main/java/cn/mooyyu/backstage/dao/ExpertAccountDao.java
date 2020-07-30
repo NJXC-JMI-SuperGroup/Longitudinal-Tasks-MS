@@ -1,7 +1,6 @@
 package cn.mooyyu.backstage.dao;
 
 import cn.mooyyu.backstage.pojo.expert.ExpertAccount;
-import cn.mooyyu.backstage.pojo.expert.ExpertTitle;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
