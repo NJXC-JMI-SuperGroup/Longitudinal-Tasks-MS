@@ -15,8 +15,11 @@ import DepartDash from "./pages/Crescent/Audit/DepartDash/DepartDash";
 import ExpertDash from "./pages/Crescent/Audit/ExpertDash/ExpertDash";
 import DepartAudit from "./pages/Crescent/Audit/DepartAudit/DepartAudit";
 import ExpertAudit from "./pages/Crescent/Audit/ExpertAudit/ExpertAudit";
-import Log from "./pages/Crescent/System/Log/Log";
-import UserManage from "./pages/Crescent/System/UserManage/UserManage";
+import ProjectManage from "./pages/Crescent/Audit/ProjectManage/ProjectManage";
+import DepartHelp from "./pages/Crescent/Help/DepartHelp/DepartHelp";
+import BossHelp from "./pages/Crescent/Help/BossHelp/BossHelp";
+import TeacherHelp from "./pages/Crescent/Help/TeacherHelp/TeacherHelp";
+import ExpertHelp from "./pages/Crescent/Help/ExpertHelp/ExpertHelp";
 
 Vue.use(Router);
 
@@ -88,12 +91,12 @@ export default new Router({
                 path: 'expertDash',
                 name: 'auditExpertDash',
                 component: ExpertDash,
-                meta: { role: [1, 13, 14] }
+                meta: { role: [13] }
             }, {
                 path: 'departDash',
                 name: 'auditDepartDash',
                 component: DepartDash,
-                meta: { role: [1, 14] }
+                meta: { role: [1] }
             }, {
                 path: 'expertDash/expertAudit',
                 name: 'expertAudit',
@@ -103,23 +106,33 @@ export default new Router({
                 path: 'departDash/departAudit',
                 name: 'departAudit',
                 component: DepartAudit,
-                meta: { role: [1, 14] }
+                meta: { role: [1] }
+            }, {
+                path: 'projectManage',
+                name: 'projectManage',
+                component: ProjectManage,
+                meta: { role: [14] }
             }]
         }, {
-            path: 'system',
-            name: 'system',
+            path: 'help',
+            name: 'name',
             component: EmptyLayout,
-            redirect: 'systemUserManage',
             children: [{
-                path: 'userManage',
-                name: 'systemUserManage',
-                component: UserManage,
-                meta: { role: [14] }
+                path: 'teacherHelp',
+                name: 'teacherHelp',
+                component: TeacherHelp
             }, {
-                path: 'log',
-                name: 'systemLog',
-                component: Log,
-                meta: { role: [14] }
+                path: 'departHelp',
+                name: 'departHelp',
+                component: DepartHelp
+            }, {
+                path: 'expertHelp',
+                name: 'expertHelp',
+                component: ExpertHelp
+            }, {
+                path: 'bossHelp',
+                name: 'bossHelp',
+                component: BossHelp
             }]
         }]
     }]

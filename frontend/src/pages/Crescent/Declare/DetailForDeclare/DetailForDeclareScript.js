@@ -1,6 +1,6 @@
-import validators from "vue-form-generator/src/utils/validators";
 import {mapActions, mapState} from "vuex";
 import FileUploader from '../../../../components/Crescent/FileUploader/FileUploader';
+import validators from "../../../../validators";
 
 let thisVue = null;
 
@@ -20,6 +20,7 @@ export default {
                             id: 'projectTitle',
                             label: '项目名称',
                             required: true,
+                            // eslint-disable-next-line no-console
                             validator: validators.required,
                             model: 'projectName'
                         }, {
@@ -35,6 +36,7 @@ export default {
                             validator: validators.date,
                             required: true,
                             pikadayOptions: {
+                                format: 'YYYY-MM-DD',
                                 onSelect: function(date) {
                                     thisVue.form.model.expectDeadline = date;
                                     thisVue.$refs.vfgLeft.validate().then();
@@ -60,6 +62,9 @@ export default {
                             values: this.$store.state.global.selectionList.validBulletinSelection.map(item => {
                                 return { id: item.bulletinId, name: item.bulletin };
                             }),
+                            selectOptions: {
+                                hideNoneSelectedText: true
+                            },
                             required: true,
                             validator: validators.required,
                             model: 'bulletinId'
@@ -69,6 +74,9 @@ export default {
                             values: this.$store.state.global.selectionList.deptSelection.map(item => {
                                 return { id: item.depid, name: item.depname };
                             }),
+                            selectOptions: {
+                                hideNoneSelectedText: true
+                            },
                             required: true,
                             validator: validators.required,
                             model: 'declareDeptId'
@@ -138,7 +146,7 @@ export default {
         this.form.model = this.declareModel;
         this.$axios.get(this.apiHost + 'basic/getSelectionList').then(res => {
             this.updateSelectionList(res.data).then()
-        })
+        });
     },
     created() {
         thisVue = this;

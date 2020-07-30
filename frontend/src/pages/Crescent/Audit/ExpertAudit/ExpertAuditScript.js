@@ -1,6 +1,6 @@
 import DetailForAudit from "../DetailForAudit/DetailForAudit";
 import {mapState} from "vuex";
-import validators from "vue-form-generator/src/utils/validators";
+import validators from "../../../../validators";
 
 export default {
     data() {

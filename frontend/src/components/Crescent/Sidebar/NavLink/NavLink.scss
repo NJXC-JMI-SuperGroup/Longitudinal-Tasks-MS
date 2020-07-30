@@ -85,7 +85,7 @@
   }
 }
 
-.carretActive i {
+.caretActive i {
   transform: rotate(-90deg);
 }
 
@@ -127,7 +127,7 @@ a.router-link-active {
     }
 
     a {
-      padding: 10px 20px 10px 26px;
+      padding: 5px 10px 5px 36px;
       font-size: $font-size-mini;
 
       &:hover {
@@ -135,4 +135,11 @@ a.router-link-active {
       }
     }
   }
+}
+
+a.router-link-exact-active {
+  background-color: rgb(105, 182, 224);
+}
+a.router-link-exact-active:hover {
+  background-color: rgb(105, 182, 224) !important;
 }

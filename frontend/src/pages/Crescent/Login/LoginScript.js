@@ -1,6 +1,6 @@
 import Widget from "../../../components/Crescent/Widget/Widget";
 import {mapActions} from "vuex";
-import validators from "vue-form-generator/src/utils/validators";
+import validators from "../../../validators";
 
 export default {
     components: {Widget},
@@ -15,9 +15,7 @@ export default {
                         model: "username",
                         placeholder: '账号',
                         required: true,
-                        validator: validators.string.locale({
-                            fieldIsRequired: "The username is required!"
-                        })
+                        validator: validators.required
                     }, {
                         type: 'input',
                         inputType: 'password',
@@ -25,9 +23,7 @@ export default {
                         model: "password",
                         placeholder: '密码',
                         required: true,
-                        validator: validators.string.locale({
-                            fieldIsRequired: "The password is required!"
-                        })
+                        validator: validators.required
                     }]
                 },
                 model: {

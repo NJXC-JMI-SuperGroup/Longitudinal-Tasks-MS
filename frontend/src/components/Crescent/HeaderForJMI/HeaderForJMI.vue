@@ -1,9 +1,11 @@
 <template>
     <div class="header overflow-hidden bg-white fixed-top">
-        <div class="topH"><div class="img" /></div>
-        <div class="bottomH bg-white d-flex flex-row justify-content-start">
+        <div class="topH pt-1">
+            <div class="img d-block h-100">- 课题管理一体化平台</div>
+        </div>
+        <div class="bottomH w-100 d-flex flex-row justify-content-start">
             <template v-for="(item, index) in list">
-                <a class="HButton" :href="item.link" :key="'list' + index" target="_blank">{{item.title}}</a>
+                <a :class="'HButton ' + (item.title === '课题申报立项管理系统' ? 'active' : '')"  :href="item.link" :key="'list' + index" target="_blank">{{item.title}}</a>
             </template>
         </div>
     </div>
@@ -29,23 +31,28 @@
         height: 60px;
         div.topH {
             height: 37px;
-            background: linear-gradient(173deg, rgb(72, 134, 232) 0%, rgb(80, 145, 222) 10%, rgba(105,166,236,1) 27%, rgba(242,242,242,1) 100%);
+            background: linear-gradient(to bottom, rgb(90, 170, 200), rgb(160, 190, 210));
             div.img {
                 height: 37px;
                 background-position-x: 10px;
                 background-image: url("../../../asserts/jmi.png");
                 background-size: contain;
                 background-repeat: no-repeat;
+                padding-left: 240px;
+                font-size: 16px;
+                line-height: 39px;
+                color: rgb(80, 110, 140);
+                font-weight: bold;
             }
         }
         div.bottomH {
             height: 23px;
-            background: linear-gradient(173deg, rgb(152, 189, 246) 0%, rgb(161, 197, 239) 10%, rgb(160, 187, 219) 29%, rgba(242,242,242,1) 100%);
+            background-color: rgb(56, 120, 200);
             a.HButton {
+                text-decoration: none;
                 display: block;
                 height: 23px;
-                width: 87px;
-                background: linear-gradient(to bottom, #4eb5e5 0%,#389ed5 100%);
+                background: linear-gradient(to bottom, rgb(40, 100, 190) 0%,rgb(60, 130, 220) 100%);
                 border: none;
                 border-radius: 3px;
                 border-bottom: 4px solid #2b8bc6;
@@ -58,6 +65,11 @@
                 margin-right: 2px;
                 padding-left: 5px;
                 padding-right: 5px;
+            }
+            a.active {
+                background: white;
+                border-bottom: 4px solid lightgray;
+                color: #0a0303;
             }
         }
     }

@@ -1,6 +1,6 @@
-import validators from "vue-form-generator/src/utils/validators";
 import {mapState} from "vuex";
 import FileUploader from '../../../../components/Crescent/FileUploader/FileUploader';
+import validators from "../../../../validators";
 
 let thisVue = null;
 
@@ -41,6 +41,9 @@ export default {
                             values: this.$store.state.global.selectionList.deptSelection.map(item => {
                                 return { id: item.depid, name: item.depname };
                             }),
+                            selectOptions: {
+                                hideNoneSelectedText: true
+                            },
                             model: 'publishDeptId',
                             validator: validators.required
                         }, {
@@ -49,6 +52,9 @@ export default {
                             values: this.$store.state.global.selectionList.bulletinTypeSelection.map(item => {
                                 return { id: item.typeId, name: item.type };
                             }),
+                            selectOptions: {
+                                hideNoneSelectedText: true
+                            },
                             model: 'typeId',
                             required: true,
                             validator: validators.required
@@ -58,6 +64,9 @@ export default {
                             values: this.$store.state.global.selectionList.bulletinLevelSelection.map(item => {
                                 return { id: item.levelId, name: item.level };
                             }),
+                            selectOptions: {
+                                hideNoneSelectedText: true
+                            },
                             model: 'levelId',
                             required: true,
                             validator: validators.required
@@ -74,6 +83,7 @@ export default {
                             required: true,
                             validator: validators.date,
                             pikadayOptions: {
+                                format: 'YYYY-MM-DD',
                                 onSelect: function(date) {
                                     thisVue.form.model.deadline = date;
                                     thisVue.$refs.vfgRight.validate().then();
