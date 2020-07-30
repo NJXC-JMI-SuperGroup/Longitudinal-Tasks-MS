@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 public class BulletinService {
-    private static final File StaticBulletinDir = new File("StaticFile", "bulletin");
+    private static final File StaticBulletinDir = new File("staticFile","bulletin");
 
     private final BulletinDao bulletinDao;
 

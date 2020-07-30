@@ -1,6 +1,7 @@
 package cn.mooyyu.backstage.dao;
 
 import cn.mooyyu.backstage.pojo.expert.ExpertAccount;
+import cn.mooyyu.backstage.pojo.expert.ExpertTitle;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,4 +21,9 @@ public interface ExpertAccountDao {
 
     @Select("select * from tb_expert where bulletinId=#{bulletinId}")
     List<ExpertAccount> getExpertAccount(@Param("bulletinId") int bulletinId);
+
+    @Select("select title from tb_bulletin where bulletinId=#{bulletinId}")
+    String  getExpertTitle(@Param("bulletinId") int bulletinId);
+
+
 }

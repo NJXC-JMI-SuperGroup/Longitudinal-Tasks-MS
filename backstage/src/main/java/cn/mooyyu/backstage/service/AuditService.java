@@ -6,11 +6,18 @@ import cn.mooyyu.backstage.pojo.AccountState;
 import cn.mooyyu.backstage.pojo.expert.ExpertAccount;
 import cn.mooyyu.backstage.pojo.declare.SimpleDeclare;
 import cn.mooyyu.backstage.pojo.expert.ExpertAudit;
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
-import java.util.UUID;
+import java.util.Random;
 
 @Service
 public class AuditService {
@@ -52,9 +59,52 @@ public class AuditService {
         try {
             String username;
             String password;
+            String title = this.expertAccountDao.getExpertTitle(bulletinId);
+
             while (cnt-- > 0) {
-                username = UUID.randomUUID().toString();
-                password = UUID.randomUUID().toString();
+                StringBuilder pybf = new StringBuilder();
+                char[] arr = title.toCharArray();
+                HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
+                defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+                defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+                for (char c : arr) {
+                    if (c > 128) {
+                        try {
+                            String[] t = PinyinHelper.toHanyuPinyinStringArray(c, defaultFormat);
+                            if (t != null) {
+                                pybf.append(t[0].charAt(0));
+                            }
+                        } catch (BadHanyuPinyinOutputFormatCombination e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        pybf.append(c);
+                    }
+                }
+                    String pybf01 = pybf.toString().replaceAll("\\W","").trim().substring(0,3);
+                    int n = this.expertAccountDao.getExpertAccount(bulletinId).size();
+                    String ii = "";
+                    if( n < 10){
+                         ii = "00";
+                    }else if(n>10&&n<100){
+                         ii = "0";
+                    }
+                    NumberFormat numberFormat = NumberFormat.getNumberInstance();
+                    String s = numberFormat.format(n+1);
+
+                    StringBuilder val = new StringBuilder();
+                    Random random = new Random();
+                    for(int i=0;i < 3;i++){
+                        String charOrNum = random.nextInt(2)%2 == 0 ? "char" : "num";
+                        if("char".equalsIgnoreCase(charOrNum)){
+                            int choice = random.nextInt(2)%2 == 0 ? 65 :97;
+                            val.append((char) (choice + random.nextInt(26)));
+                        }else {
+                            val.append(random.nextInt(10));
+                        }
+                    }
+                username = pybf01+"_"+"jmi"+"-"+ii+(Integer.parseInt(s));
+                password = pybf01+"_"+"jmi"+"-"+val;
                 this.expertAccountDao.addExpertAccount(bulletinId, username, password);
             }
         } catch (Exception e) {
