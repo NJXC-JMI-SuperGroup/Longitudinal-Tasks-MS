@@ -1,6 +1,7 @@
 import {mapState, mapActions} from 'vuex';
 import isScreen from '../../../core/screenHelper';
 import NavLink from './NavLink/NavLink';
+let moment = require('moment');
 
 export default {
     components: {NavLink},
@@ -21,7 +22,7 @@ export default {
                     footer: 'Provide required notes',
                     color: 'primary',
                 },
-            ],
+            ]
         };
     },
     methods: {
@@ -44,14 +45,8 @@ export default {
                 this.changeSidebarActive(null);
             }
         },
-        logout() {
-            this.$axios.get(this.apiHost + 'basic/logout').then(res => {
-                // eslint-disable-next-line no-console
-                console.info(res.data);
-            }).finally(() => {
-                this.resetAccountState();
-                this.$router.push('/Crescent/login');
-            })
+        today() {
+            return moment().format('YYYY年MM月DD日');
         }
     },
     created() {

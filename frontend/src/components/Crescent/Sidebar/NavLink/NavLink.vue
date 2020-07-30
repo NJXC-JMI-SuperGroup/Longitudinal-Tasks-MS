@@ -1,9 +1,6 @@
 <template>
     <li v-if="!childrenLinks && isHeader" :class="{headerLink: true, className}">
         <router-link :to="link" class="sidebar-link">
-      <span class="icon">
-        <i :class="fullIconName"></i>
-      </span>
             {{header}} <sup v-if="label" :class="'text-' + labelColor" class="headerLabel">{{label}}</sup>
             <b-badge v-if="badge" variant="primary" pill>{{badge}}</b-badge>
         </router-link>
@@ -14,10 +11,8 @@
         <span class="icon">
           <i :class="fullIconName"></i>
         </span>
+                <span class="mx-1"></span>
                 {{header}} <sup v-if="label" :class="'text-' + labelColor" class="ml-1 headerLabel">{{label}}</sup>
-                <div :class="{caretWrapper: true, caretActive: isActive}">
-                    <i class="fa fa-angle-left"/>
-                </div>
             </router-link>
         </div>
         <b-collapse :id="'collapse' + index" :visible="isActive">
@@ -35,7 +30,7 @@
     </li>
     <li v-else>
         <router-link :to="index !== 'menu' && link">
-            {{header}} <sup v-if="label" :class="'text-' + labelColor" class="headerLabel">{{label}}</sup>
+            ▸ {{header}} <sup v-if="label" :class="'text-' + labelColor" class="headerLabel">{{label}}</sup>
         </router-link>
     </li>
 </template>

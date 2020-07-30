@@ -188,3 +188,19 @@
 .groupTitle {
   margin-bottom: 15px;
 }
+
+div.leseNav {
+  height: 40px;
+  background-image: url("../../../asserts/nav.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-top: 37px;
+  color: white;
+  font-weight: bold;
+  padding-left: 35px;
+  padding-top: 9px;
+}
+
+span.highName {
+  color: rgb(39, 37, 195);
+}

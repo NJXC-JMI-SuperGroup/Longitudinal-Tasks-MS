@@ -1,15 +1,20 @@
 <template>
     <div class="header overflow-hidden bg-white fixed-top">
-        <div class="topH"><div class="img" /></div>
-        <div class="bottomH bg-white d-flex flex-row justify-content-start">
+        <div class="topH py-2 position-relative">
+            <div class="img d-block h-100">- 课题管理一体化平台</div>
+            <span @click="logout" class="exitBTN position-absolute">退出</span>
+        </div>
+        <div class="bottomH w-100 d-flex flex-row justify-content-start">
             <template v-for="(item, index) in list">
-                <a class="HButton" :href="item.link" :key="'list' + index" target="_blank">{{item.title}}</a>
+                <a :class="'HButton text-center ' + (item.title === '纵向课题申报' ? 'active' : '')"  :href="item.link" :key="'list' + index" target="_blank">{{item.title}}</a>
             </template>
         </div>
     </div>
 </template>
 
 <script>
+    import {mapActions} from 'vuex';
+
     export default {
         data() {
             return {
@@ -20,44 +25,78 @@
             this.$axios.get(this.apiHost + 'linkList/getLinkList').then(res => {
                 this.list = res.data;
             })
+        },
+        methods: {
+            ...mapActions('global', ['resetAccountState']),
+            logout() {
+                this.$axios.get(this.apiHost + 'basic/logout').then(res => {
+                    // eslint-disable-next-line no-console
+                    console.info(res.data);
+                }).finally(() => {
+                    this.resetAccountState();
+                    this.$router.push('/Crescent/login');
+                })
+            }
         }
     }
 </script>
 
 <style lang="less" scoped>
     div.header {
-        height: 60px;
+        height: 79px;
         div.topH {
-            height: 37px;
-            background: linear-gradient(173deg, rgb(72, 134, 232) 0%, rgb(80, 145, 222) 10%, rgba(105,166,236,1) 27%, rgba(242,242,242,1) 100%);
+            height: 52px;
+            background: linear-gradient(to bottom, rgb(90, 170, 200), rgb(160, 190, 210));
             div.img {
-                height: 37px;
-                background-position-x: 10px;
+                height: 52px;
+                background-position-x: 12px;
                 background-image: url("../../../asserts/jmi.png");
                 background-size: contain;
                 background-repeat: no-repeat;
+                padding-left: 284px;
+                font-size: 16px;
+                line-height: 39px;
+                color: rgb(80, 110, 140);
+                font-weight: bold;
+            }
+            .exitBTN {
+                right: 30px;
+                top: 16px;
+                color: white;
+                cursor: pointer;
             }
         }
         div.bottomH {
-            height: 23px;
-            background: linear-gradient(173deg, rgb(152, 189, 246) 0%, rgb(161, 197, 239) 10%, rgb(160, 187, 219) 29%, rgba(242,242,242,1) 100%);
+            height: 27px;
+            background-color: rgb(56, 120, 200);
             a.HButton {
+                text-decoration: none;
                 display: block;
-                height: 23px;
-                width: 87px;
-                background: linear-gradient(to bottom, #4eb5e5 0%,#389ed5 100%);
-                border: none;
-                border-radius: 3px;
+                height: 27px;
+                background: linear-gradient(to bottom, rgb(40, 100, 190) 0%,rgb(60, 130, 220) 100%);
+                border-radius: 1px;
                 border-bottom: 4px solid #2b8bc6;
+                border-left: 1px solid darkblue;
                 color: #fbfbfb;
-                font-family: serif;
+                font-family: sans-serif;
                 text-shadow: 1px 1px 1px rgba(0,0,0,.4);
                 text-indent: 5px;
-                box-shadow: 0 3px 0 0 rgba(0,0,0,.2);
+                font-size: 12px;
                 cursor: pointer;
-                margin-right: 2px;
+                font-weight: bold;
                 padding-left: 5px;
                 padding-right: 5px;
+                line-height: 27px;
+                width: 92px;
+            }
+            a.active {
+                background: white;
+                border: none;
+                border-top: 3px solid lightgreen;
+                border-bottom: 1px solid lightgray;
+                color: #0a0303;
+                text-shadow: none;
+                line-height: 24px;
             }
         }
     }
