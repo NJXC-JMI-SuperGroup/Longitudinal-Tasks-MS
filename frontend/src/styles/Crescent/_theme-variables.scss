@@ -4,9 +4,9 @@
     --body-bg: #ffffff;
     --light-color: #353d3b;
 
-    --sidebar-bg-color: rgb(219, 233, 241);
+    --sidebar-bg-color: rgb(241, 249, 252);
     --sidebar-color: #0a0303;
-    --sidebar-action-bg: rgb(219, 233, 241);
+    --sidebar-action-bg: rgb(241, 249, 252);
     --sidebar-item-active: var(--light-color);
     --sidebar-badge-bg: #005792;
 
@@ -21,7 +21,7 @@
     // dependable variables
     --sidebar-progress-bg-color: var(--sidebar-action-bg);
     --sidebar-icon-active: var(--sidebar-bg-color);
-    --sidebar-item-hover-bg-color: var(--sidebar-action-bg);
+    --sidebar-item-hover-bg-color: rgb(216, 230, 239);
     --widget-shadow: 4px 4px 30px rgba(var(--widget-shadow-color), 0.2);
   }
 }

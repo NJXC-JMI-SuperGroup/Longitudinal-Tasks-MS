@@ -8,19 +8,18 @@
             <header class="logo">
                 <router-link to="/Crescent/hello"><span class="primary-word">Crescent</span> App</router-link>
             </header>
-            <div class="mt-4 mx-3 p-3 border">
-                欢迎:
-                <span>{{accountState.type}} {{accountState.realname}}</span>
-                <br>
-                <a @click="logout">退出登录</a>
+            <div class="leseNav">导航栏</div>
+            <div class="text-center small">
+                <span>欢迎您, <span class="highName">{{accountState.realname}}</span> !</span><br>
+                <span>{{today()}}</span>
             </div>
-            <ul class="nav">
+            <ul class="nav p-0">
                 <NavLink
                         v-if="[0, 1, 14].indexOf(accountState.level) !== -1"
                         :activeItem="activeItem"
                         header="课题通知"
                         link="/Crescent/bulletin"
-                        iconName="flaticon-network"
+                        iconName="flaticon-home"
                         index="bulletin"
                         class="jmiNavLink"
                         :childrenLinks="accountState.level === 0 ? [
@@ -48,7 +47,7 @@
                         :activeItem="activeItem"
                         header="项目评审"
                         link="/Crescent/audit"
-                        iconName="flaticon-network"
+                        iconName="flaticon-menu"
                         index="audit"
                         class="jmiNavLink"
                         :children-links="{
@@ -61,15 +60,15 @@
                         :activeItem="activeItem"
                         header="网站帮助"
                         link="/Crescent/help"
-                        iconName="flaticon-network"
+                        iconName="flaticon-notepad"
                         index="help"
                         class="jmiNavLink"
-                        :children-links="[
-                            { header: '教师手册', link: '/Crescent/help/teacherHelp' },
-                            { header: '二级学院手册', link: '/Crescent/help/departHelp' },
-                            { header: '外审专家手册', link: '/Crescent/help/expertHelp' },
-                            { header: '科技处手册', link: '/Crescent/help/bossHelp' }
-                        ]"
+                        :children-links="{
+                            0: [{ header: '教师手册', link: '/Crescent/help/teacherHelp' }],
+                            1: [{ header: '二级学院手册', link: '/Crescent/help/departHelp' }],
+                            13: [{ header: '外审专家手册', link: '/Crescent/help/expertHelp' }],
+                            14: [{ header: '科技处手册', link: '/Crescent/help/bossHelp' }]
+                        }[accountState.level]"
                 />
             </ul>
         </nav>

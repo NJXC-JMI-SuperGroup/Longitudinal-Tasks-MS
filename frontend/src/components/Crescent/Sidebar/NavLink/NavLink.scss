@@ -23,33 +23,24 @@
   > div a {
     align-items: center;
     position: relative;
-    padding-left: 50px;
+    padding-left: 18px;
     line-height: 35px;
     border-top: 1px solid $sidebar-item-border-color;
-
-    &:hover {
-      background-color: var(--sidebar-item-hover-bg-color);
-    }
 
     > i {
       margin-right: 7px;
     }
 
     @media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px) {
-      line-height: 55px;
+      line-height: 35px;
     }
   }
 
   .icon {
     font-size: $font-size-larger;
     display: block;
-    position: absolute;
-    top: 3px;
-    left: 11px;
-    width: 28px;
-    height: 28px;
-    line-height: 28px;
     text-align: center;
+    color: #1A86D0;
 
     @media (min-width: map_get($grid-breakpoints, lg)) and (min-height: $screen-lg-height), (max-width: map_get($grid-breakpoints, md) - 1px) {
       top: 12px;
@@ -91,15 +82,6 @@
 
 a.router-link-active {
   color: var(--sidebar-item-active);
-
-  .icon {
-    border-radius: 50%;
-    background-color: var(--sidebar-item-active);
-
-    i {
-      color: var(--sidebar-icon-active);
-    }
-  }
 }
 
 .collapse,
@@ -113,14 +95,12 @@ a.router-link-active {
     line-height: 20px !important;
 
     &.router-link-active {
-      font-weight: $font-weight-semi-bold;
-      color: var(--sidebar-color);
+      background-color: rgb(63, 175, 224);
+      color: white;
     }
   }
 
   ul {
-    background: var(--sidebar-action-bg);
-    padding: $spacer;
 
     li {
       list-style: none;
@@ -129,17 +109,44 @@ a.router-link-active {
     a {
       padding: 5px 10px 5px 36px;
       font-size: $font-size-mini;
-
-      &:hover {
-        background-color: var(--sidebar-item-hover-bg-color);
-      }
     }
   }
 }
 
-a.router-link-exact-active {
-  background-color: rgb(105, 182, 224);
+.sidebar-link {
+  background-color: rgb(212, 231, 240);
+  border-bottom: 1px solid rgb(191, 204, 213);
+  font-weight: bold;
 }
-a.router-link-exact-active:hover {
-  background-color: rgb(105, 182, 224) !important;
+
+.sidebar-link:hover {
+  background-color: rgb(212, 231, 240);
+  border-bottom: 1px solid rgb(191, 204, 213);
+  font-weight: bold;
+}
+
+ul.sub-menu > li > a.router-link-active {
+  position: relative;
+}
+
+ul.sub-menu > li > a.router-link-active:before {
+  position: absolute;
+  left: 0;
+  top: -1px;
+  width: 3px;
+  height: 31px;
+  content: '';
+  background-color: red;
+}
+
+ul.sub-menu > li > a.router-link-active:after {
+  position: absolute;
+  right: 0;
+  top: 7px;
+  height: 15px;
+  content: '';
+  border-top: 7px solid transparent;
+  border-right: 7px solid white;
+  border-bottom: 7px solid transparent;
+  border-left: 0;
 }

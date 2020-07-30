@@ -22,3 +22,10 @@
 @import 'overrides';
 @import 'general';
 @import 'utils';
+
+tr.v-table-header-row {
+  background-color: rgb(242, 246, 248);
+  td > div.v-table-title-cell.vertical-border.horizontal-border {
+    border-bottom: 4px solid rgb(186, 204, 224);
+  }
+}

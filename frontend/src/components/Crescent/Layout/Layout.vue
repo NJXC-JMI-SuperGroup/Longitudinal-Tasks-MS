@@ -3,7 +3,7 @@
         <header-for-j-m-i />
         <Sidebar/>
         <div class="wrap">
-            <Header class="mb-4"/>
+            <Header class="mb-5"/>
             <v-touch class="content" @swipe="handleSwipe" :swipe-options="{direction: 'horizontal'}">
                 <breadcrumb-history class="d-none" />
                 <transition name="router-animation">
