@@ -21,7 +21,7 @@
                         link="/Crescent/bulletin"
                         iconName="flaticon-home"
                         index="bulletin"
-                        class="jmiNavLink"
+                        class="jmiNavLink overflow-hidden"
                         :childrenLinks="accountState.level === 0 ? [
                             { header: '课题一览', link: '/Crescent/bulletin/dash' }
                         ] : [
@@ -36,7 +36,7 @@
                         link="/Crescent/declare"
                         iconName="flaticon-network"
                         index="declare"
-                        class="jmiNavLink"
+                        class="jmiNavLink overflow-hidden"
                         :childrenLinks="[
                             { header: '项目申报进度', link: '/Crescent/declare/dash' },
                             { header: '新建项目申报', link: '/Crescent/declare/create' }
@@ -49,7 +49,7 @@
                         link="/Crescent/audit"
                         iconName="flaticon-menu"
                         index="audit"
-                        class="jmiNavLink"
+                        class="jmiNavLink overflow-hidden"
                         :children-links="{
                             1: [{ header: '部门评审', link: '/Crescent/audit/departDash' }],
                             13: [{ header: '专家评审', link: '/Crescent/audit/expertDash' }],
@@ -62,7 +62,7 @@
                         link="/Crescent/help"
                         iconName="flaticon-notepad"
                         index="help"
-                        class="jmiNavLink"
+                        class="jmiNavLink overflow-hidden"
                         :children-links="{
                             0: [{ header: '教师手册', link: '/Crescent/help/teacherHelp' }],
                             1: [{ header: '二级学院手册', link: '/Crescent/help/departHelp' }],

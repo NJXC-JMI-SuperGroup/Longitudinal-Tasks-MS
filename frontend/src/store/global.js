@@ -58,13 +58,6 @@ export default {
                         model: 'title',
                         readonly: true
                     }, {
-                        type: 'input',
-                        inputType: 'text',
-                        label: '课题编号',
-                        id: 'showId',
-                        model: 'index',
-                        readonly: true
-                    }, {
                         type: "input",
                         inputType: 'text',
                         id: "showDept",

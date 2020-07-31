@@ -23,17 +23,18 @@ import java.util.Random;
 public class AuditService {
     private final AuditDao auditDao;
     private final ExpertAccountDao expertAccountDao;
+
     @Autowired
     public AuditService(AuditDao auditDao, ExpertAccountDao expertAccountDao) {
         this.auditDao = auditDao;
         this.expertAccountDao = expertAccountDao;
     }
 
-    public List<SimpleDeclare> getDeclareList(){
+    public List<SimpleDeclare> getDeclareList() {
         return this.auditDao.getDeclareList();
     }
 
-    public List<SimpleDeclare> getDeclareListForExpert(boolean limit, HttpServletRequest request){
+    public List<SimpleDeclare> getDeclareListForExpert(boolean limit, HttpServletRequest request) {
         if (limit) {
             AccountState state = (AccountState) request.getSession().getAttribute("accountState");
             return state == null ? null : this.auditDao.getDeclareListForExpertAudit(state.getBulletinId());
@@ -72,7 +73,12 @@ public class AuditService {
                         try {
                             String[] t = PinyinHelper.toHanyuPinyinStringArray(c, defaultFormat);
                             if (t != null) {
-                                pybf.append(t[0].charAt(0));
+                                try {
+                                    pybf.append(t[0].charAt(0));
+                                } catch (ArrayIndexOutOfBoundsException e) {
+                                    e.printStackTrace();
+                                    pybf.append('x');
+                                }
                             }
                         } catch (BadHanyuPinyinOutputFormatCombination e) {
                             e.printStackTrace();
@@ -81,30 +87,30 @@ public class AuditService {
                         pybf.append(c);
                     }
                 }
-                    String pybf01 = pybf.toString().replaceAll("\\W","").trim().substring(0,3);
-                    int n = this.expertAccountDao.getExpertAccount(bulletinId).size();
-                    String ii = "";
-                    if( n < 10){
-                         ii = "00";
-                    }else if(n>10&&n<100){
-                         ii = "0";
-                    }
-                    NumberFormat numberFormat = NumberFormat.getNumberInstance();
-                    String s = numberFormat.format(n+1);
+                String subpy = pybf.toString().replaceAll("\\W", "").trim().substring(0, 3);
+                int n = this.expertAccountDao.getExpertAccount(bulletinId).size();
+                String prefix = "";
+                if (n < 10) {
+                    prefix = "00";
+                } else if (n > 10 && n < 100) {
+                    prefix = "0";
+                }
+                NumberFormat numberFormat = NumberFormat.getNumberInstance();
+                String s = numberFormat.format(n + 1);
 
-                    StringBuilder val = new StringBuilder();
-                    Random random = new Random();
-                    for(int i=0;i < 3;i++){
-                        String charOrNum = random.nextInt(2)%2 == 0 ? "char" : "num";
-                        if("char".equalsIgnoreCase(charOrNum)){
-                            int choice = random.nextInt(2)%2 == 0 ? 65 :97;
-                            val.append((char) (choice + random.nextInt(26)));
-                        }else {
-                            val.append(random.nextInt(10));
-                        }
+                StringBuilder val = new StringBuilder();
+                Random random = new Random();
+                for (int i = 0; i < 3; i++) {
+                    String charOrNum = random.nextInt(2) % 2 == 0 ? "char" : "num";
+                    if ("char".equalsIgnoreCase(charOrNum)) {
+                        int choice = random.nextInt(2) % 2 == 0 ? 65 : 97;
+                        val.append((char) (choice + random.nextInt(26)));
+                    } else {
+                        val.append(random.nextInt(10));
                     }
-                username = pybf01+"_"+"jmi"+"-"+ii+(Integer.parseInt(s));
-                password = pybf01+"_"+"jmi"+"-"+val;
+                }
+                username = subpy + "_" + "jmi" + "-" + prefix + (Integer.parseInt(s));
+                password = subpy + "_" + "jmi" + "-" + val;
                 this.expertAccountDao.addExpertAccount(bulletinId, username, password);
             }
         } catch (Exception e) {
