@@ -10,6 +10,6 @@ import java.util.List;
 @Mapper
 @Repository
 public interface LinkListDao {
-    @Select("select * from linkList")
+    @Select("select * from linkList order by idx")
     List<LinkList> getLinkList();
 }

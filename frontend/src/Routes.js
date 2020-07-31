@@ -40,7 +40,8 @@ export default new Router({
         children: [{
             path: 'notRole',
             name: 'notRole',
-            component: NotRole
+            component: NotRole,
+            meta: { chShow: '无权访问' }
         }, {
             path: 'bulletin',
             name: 'bulletin',
@@ -50,17 +51,17 @@ export default new Router({
                 path: 'dash',
                 name: 'bulletinDash',
                 component: BulletinDash,
-                meta: { role: [0, 1, 14] }
+                meta: { role: [0, 1, 14], chShow: '课题通知 > 列表' }
             }, {
                 path: 'publish',
                 name: 'bulletinPublish',
                 component: BulletinPublish,
-                meta: { role: [1, 14] }
+                meta: { role: [1, 14], chShow: '课题通知 > 发布课题' }
             }, {
                 path: 'dash/modify',
                 name: 'bulletinModify',
                 component: BulletinModify,
-                meta: { role: [1, 14] }
+                meta: { role: [1, 14], chShow: '课题通知 > 列表 > 修改' }
             }]
         }, {
             path: 'declare',
@@ -71,17 +72,17 @@ export default new Router({
                 path: 'dash',
                 name: 'declareDash',
                 component: DeclareDash,
-                meta: { role: [0] }
+                meta: { role: [0], chShow: '项目申报 > 列表' }
             }, {
                 path: 'create',
                 name: 'declareCreate',
                 component: DeclareCreate,
-                meta: { role: [0] }
+                meta: { role: [0], chShow: '项目申报 > 新建申报' }
             }, {
                 path: 'dash/modify',
                 name: 'declareModify',
                 component: DeclareModify,
-                meta: { role: [0] }
+                meta: { role: [0], chShow: '项目申报 > 列表 > 修改' }
             }]
         }, {
             path: 'audit',
@@ -91,27 +92,27 @@ export default new Router({
                 path: 'expertDash',
                 name: 'auditExpertDash',
                 component: ExpertDash,
-                meta: { role: [13] }
+                meta: { role: [13], chShow: '项目评审 > 列表' }
             }, {
                 path: 'departDash',
                 name: 'auditDepartDash',
                 component: DepartDash,
-                meta: { role: [1] }
+                meta: { role: [1], chShow: '项目评审 > 列表' }
             }, {
                 path: 'expertDash/expertAudit',
                 name: 'expertAudit',
                 component: ExpertAudit,
-                meta: { role: [13] }
+                meta: { role: [13], chShow: '项目评审 > 列表 > 专家评审' }
             }, {
                 path: 'departDash/departAudit',
                 name: 'departAudit',
                 component: DepartAudit,
-                meta: { role: [1] }
+                meta: { role: [1], chShow: '项目评审 > 列表 > 部门审核' }
             }, {
                 path: 'projectManage',
                 name: 'projectManage',
                 component: ProjectManage,
-                meta: { role: [14] }
+                meta: { role: [14], chShow: '项目评审 > 立项管理' }
             }]
         }, {
             path: 'help',
@@ -120,19 +121,23 @@ export default new Router({
             children: [{
                 path: 'teacherHelp',
                 name: 'teacherHelp',
-                component: TeacherHelp
+                component: TeacherHelp,
+                meta: { chShow: '帮助 > 教师手册' }
             }, {
                 path: 'departHelp',
                 name: 'departHelp',
-                component: DepartHelp
+                component: DepartHelp,
+                meta: { chShow: '帮助 > 二级学院手册' }
             }, {
                 path: 'expertHelp',
                 name: 'expertHelp',
-                component: ExpertHelp
+                component: ExpertHelp,
+                meta: { chShow: '帮助 > 专家手册' }
             }, {
                 path: 'bossHelp',
                 name: 'bossHelp',
-                component: BossHelp
+                component: BossHelp,
+                meta: { chShow: '帮助 > 科技处手册' }
             }]
         }]
     }]

@@ -38,7 +38,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  padding: 0 $content-padding ($content-padding + 20px);
+  margin-top: 19px;
   background-color: $body-bg;
 
   @media (max-width: breakpoint-max(sm)) {

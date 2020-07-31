@@ -87,7 +87,7 @@
                 padding-left: 5px;
                 padding-right: 5px;
                 line-height: 27px;
-                width: 92px;
+                width: 93px;
             }
             a.active {
                 background: white;

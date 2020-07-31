@@ -3,13 +3,13 @@
         <header-for-j-m-i />
         <Sidebar/>
         <div class="wrap">
-            <Header class="mb-5"/>
+            <Header/>
             <v-touch class="content" @swipe="handleSwipe" :swipe-options="{direction: 'horizontal'}">
-                <breadcrumb-history class="d-none" />
+                <breadcrumb-history />
                 <transition name="router-animation">
-                    <router-view/>
+                    <router-view class="px-4 py-2"/>
                 </transition>
-                <footer class="contentFooter">
+                <footer class="contentFooter mx-5">
                     JMI© 课题申报立项管理系统
                 </footer>
             </v-touch>

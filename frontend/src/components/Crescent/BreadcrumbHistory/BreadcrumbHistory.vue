@@ -1,6 +1,6 @@
 <template>
     <div v-if="!excluded">
-        <b-breadcrumb :items="tree"></b-breadcrumb>
+        <div class="tree"><span class="font-weight-bold">位置:</span><span class="mx-1" />{{tree}}</div>
     </div>
 </template>
 <script>
@@ -14,17 +14,19 @@
                 return this.exclude.indexOf(this.$route.path.split('/').pop()) > -1;
             },
             tree() {
-                return ['当前位置']
-                    .concat(this.$route.path
-                        .split('/')
-                        .slice(1)
-                        .map(route => route
-                            .split('-')
-                            .map(word => word[0].toUpperCase() + word.slice(1))
-                            .join(' ')
-                        )
-                    );
+                return this.$route.meta.chShow;
             }
         }
     }
 </script>
+
+<style lang="less" scoped>
+    div.tree {
+        height: 39px;
+        padding-left: 20px;
+        background-color: rgb(237, 246, 250);
+        border-bottom: 1px solid rgb(210, 230, 230);
+        line-height: 39px;
+        font-size: 13px;
+    }
+</style>
