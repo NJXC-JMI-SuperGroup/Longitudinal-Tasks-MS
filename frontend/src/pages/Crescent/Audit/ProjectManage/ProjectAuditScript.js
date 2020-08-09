@@ -1,6 +1,7 @@
 import DetailForAudit from "../DetailForAudit/DetailForAudit";
 import {mapState} from "vuex";
 import validators from "../../../../validators";
+let moment = require('moment');
 
 export default {
     data() {
@@ -66,7 +67,8 @@ export default {
                     validateAsync: true
                 }
             },
-            tabs: []
+            tabs: [],
+            processList: []
         }
     },
     components: {
@@ -121,6 +123,23 @@ export default {
                 this.formAccount.model.currentCnt = res.data.length;
                 this.formAccount.model.list = res.data;
                 this.$bvModal.show('expert-account');
+            })
+        },
+        getProcess() {
+            this.$axios.get(this.apiHost + 'audit/getFullProcess', {
+                params: {
+                    declareId: this.model.declare.declareId
+                }
+            }).then(res => {
+                this.processList = res.data.map(item => {
+                    return {
+                        operator: item.operator,
+                        state: item.state,
+                        desc: item.desc,
+                        time: moment(item.time).format('YYYY-MM-DD')
+                    }
+                })
+                this.$bvModal.show('modal-process');
             })
         }
     }

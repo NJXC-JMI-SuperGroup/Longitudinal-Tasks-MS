@@ -90,4 +90,10 @@ public class AuditController {
     public List<StateProcess> getProcessList(@RequestParam int declareId, @RequestParam int stateId) {
         return this.auditService.getProcessList(declareId, stateId);
     }
+
+    @GetMapping("getFullProcess")
+    @ResponseBody
+    public List<StateProcess> getFullProcess(@RequestParam int declareId) {
+        return this.auditService.getFullProcess(declareId);
+    }
 }

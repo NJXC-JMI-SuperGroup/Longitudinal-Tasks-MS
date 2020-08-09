@@ -67,6 +67,14 @@ public interface AuditDao {
             "order by time desc")
     List<StateProcess> getProcessList(@Param("declareId") int declareId, @Param("stateId") int stateId);
 
+    @Select("select realname as operator, state, time, tb_process.[desc]\n" +
+            "from tb_process\n" +
+            "    inner join tb_user on tb_process.operatorId = tb_user.userid\n" +
+            "    inner join tb_declareState on tb_process.stateId = tb_declareState.stateId\n" +
+            "where declareId = #{declareId}\n" +
+            "order by time desc")
+    List<StateProcess> getFullProcess(@Param("declareId") int declareId);
+
     @Select("select score, suggestion from tb_expertAudit\n" +
             "where expertId=#{expertId} and declareId=#{declareId}")
     ExpertAudit getExpertAudit(@Param("expertId") int expertId, @Param("declareId") int declareId);

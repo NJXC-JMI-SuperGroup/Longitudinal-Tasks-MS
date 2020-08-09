@@ -17,7 +17,7 @@
                 <b-button squared variant="outline-primary" @click="expertAccount">外审账号</b-button>
                 <b-button squared variant="outline-primary" @click="expertResult" v-b-modal.expert-result>外审结果</b-button>
             </template>
-            <b-button squared variant="outline-primary" v-b-modal.modal-process>项目进度</b-button>
+            <b-button squared variant="outline-primary" @click="getProcess">项目进度</b-button>
         </div>
         <b-modal id="modal-redo" scrollable hide-footer title="驳回申报">
             <vue-form-generator :schema="form.schemaReject" :model="form.model" />
@@ -32,7 +32,12 @@
             </div>
         </b-modal>
         <b-modal id="modal-process" scrollable hide-footer title="项目申报进度">
-            process
+            <div v-for="(item, index) in processList" :key="'process-' + index">
+                <span>{{item.time}} {{item.operator}} {{item.state}}</span>
+                <template v-if="item.desc !== null">
+                    <br><pre>{{item.desc}}</pre>
+                </template>
+            </div>
         </b-modal>
         <b-modal id="expert-result" scrollable hide-footer title="专审结果">
             <b-card no-body>

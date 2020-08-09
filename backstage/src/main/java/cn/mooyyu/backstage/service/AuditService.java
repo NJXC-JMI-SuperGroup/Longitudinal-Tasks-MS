@@ -147,5 +147,9 @@ public class AuditService {
     public List<StateProcess> getProcessList(int declareId, int stateId) {
         return this.auditDao.getProcessList(declareId, stateId);
     }
+
+    public List<StateProcess> getFullProcess(int declareId) {
+        return this.auditDao.getFullProcess(declareId);
+    }
 }
 
