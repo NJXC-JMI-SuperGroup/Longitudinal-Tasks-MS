@@ -2,6 +2,7 @@
     <div>
         <v-table class="w-100"
                  is-horizontal-resize
+                 :column-cell-class-name="columnCellClass"
                  :columns="easytable.columns"
                  :table-data="easytable.tableData"
                  :paging-index="(easytable.pageIndex - 1) * easytable.pageSize"
@@ -23,13 +24,21 @@
             <br/>
         </b-modal>
         <b-modal id="modal-reason" scrollable hide-footer title="驳回理由">
-            <pre>{{ declareModel.rejectionReason }}</pre>
+            <b-card no-body>
+                <b-tabs pills card>
+                    <template v-for="(item, index) in reasonList">
+                        <b-tab :title="'驳回'+ (reasonList.length - index)" :key="'reason-'+index"><b-card-text>
+                            <pre>{{item.desc}}</pre>
+                        </b-card-text></b-tab>
+                    </template>
+                </b-tabs>
+            </b-card>
         </b-modal>
         <b-modal id="modal-expert" scrollable hide-footer title="专审结果">
             <b-card no-body>
                 <b-tabs pills card>
                     <template v-for="(item, index) in tabs">
-                        <b-tab :title="'t-'+index" :key="'tabs-'+index"><b-card-text>
+                        <b-tab :title="'专家'+(index + 1)" :key="'tabs-'+index"><b-card-text>
                             <p>总评：{{item.score}}</p>
                             <p>专家意见：</p>
                             <pre>{{item.suggestion}}</pre>

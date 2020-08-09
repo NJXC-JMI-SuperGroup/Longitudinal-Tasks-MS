@@ -10,7 +10,6 @@
                     <router-view class="px-4 py-2"/>
                 </transition>
                 <footer class="contentFooter mx-5">
-                    JMI© 课题申报立项管理系统
                 </footer>
             </v-touch>
         </div>

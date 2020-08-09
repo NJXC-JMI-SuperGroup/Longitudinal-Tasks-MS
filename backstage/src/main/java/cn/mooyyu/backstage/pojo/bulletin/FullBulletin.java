@@ -8,8 +8,6 @@ import java.util.Date;
 public class FullBulletin {
      int bulletinId;
      String title;
-     String index;
-     int publishDeptId;
      String publishDept;
      int typeId;
      String bulletinType;

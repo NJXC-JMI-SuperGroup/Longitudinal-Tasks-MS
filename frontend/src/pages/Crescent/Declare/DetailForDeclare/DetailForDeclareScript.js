@@ -13,39 +13,32 @@ export default {
             form: {
                 schemaLeft: {
                     groups: [{
-                        legend: '新建项目申报',
                         fields: [{
                             type: 'input',
+                            maxlength: 50,
                             inputType: 'text',
                             id: 'projectTitle',
                             label: '项目名称',
                             required: true,
-                            // eslint-disable-next-line no-console
                             validator: validators.required,
                             model: 'projectName'
                         }, {
-                            type: "input",
+                            type: 'input',
                             inputType: "text",
-                            id: "managerTitle",
+                            id: "leader",
+                            label: '负责人',
+                            model: 'leader',
+                            readonly: true
+                        }, {
+                            type: 'input',
+                            maxlength: 50,
+                            inputType: "text",
+                            id: "leaderJobTitle",
                             label: '负责人职称',
                             model: 'leaderJobTitle'
                         }, {
-                            type: "pikaday",
-                            label: "预期完成时间",
-                            model: "expectDeadline",
-                            validator: validators.date,
-                            required: true,
-                            pikadayOptions: {
-                                format: 'YYYY-MM-DD',
-                                onSelect: function(date) {
-                                    thisVue.form.model.expectDeadline = date;
-                                }
-                            }
-                        }, {
                             type: "textArea",
                             label: "预期成果",
-                            hint: "Max 1000 characters",
-                            max: 1000,
                             model: 'expectAchievement',
                             rows: 7
                         }]
@@ -53,7 +46,6 @@ export default {
                 },
                 schemaRight: {
                     groups: [{
-                        legend: " ",
                         fields: [{
                             type: 'select',
                             label: '申报课题',
@@ -78,6 +70,28 @@ export default {
                             required: true,
                             validator: validators.required,
                             model: 'declareDeptId'
+                        }, {
+                            type: "pikaday",
+                            label: "预期完成时间",
+                            model: "expectDeadline",
+                            validator: validators.date,
+                            required: true,
+                            pikadayOptions: {
+                                format: 'YYYY-MM-DD',
+                                onSelect: function(date) {
+                                    thisVue.form.model.expectDeadline = date;
+                                },
+                                i18n: {
+                                    months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+                                    nextMonth: "下月",
+                                    previousMonth: "上月",
+                                    weekdays: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
+                                    weekdaysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]
+                                },
+                                defaultDate: function() {
+                                    return thisVue.form.model.deadline;
+                                }
+                            }
                         }]
                     }]
                 },
@@ -85,6 +99,7 @@ export default {
                     declareId: null,
                     projectName: null,
                     index: null,
+                    leader: null,
                     leaderId: null,
                     leaderJobTitle: null,
                     bulletinId: null,
@@ -109,17 +124,16 @@ export default {
     methods: {
         ...mapActions('global', ['updateSelectionList']),
         submit(url, urlForCommit) {
+            let files = this.$refs.fu.$refs.uploader.uploader.fileList.map(item => item.name);
             this.$refs.vfgLeft.validate().then(resLeft => {
                 this.$refs.vfgRight.validate().then(resRight => {
                     if (resLeft.length === 0 && resRight.length === 0) {
-                        // eslint-disable-next-line no-console
-                        console.info(this.$refs.fu.$refs.uploader.uploader.isComplete());
-                        if (this.$refs.fu.$refs.uploader.uploader.isComplete()) {
+                        if (this.$refs.fu.$refs.uploader.uploader.isComplete() && files.length > 0) {
                             this.$axios.post(this.apiHost + url, this.form.model).then(res => {
                                 if (res.data !== -1) {
                                     this.$axios.post(this.apiHost + urlForCommit, {
                                         declareId: res.data,
-                                        filenames: this.$refs.fu.$refs.uploader.uploader.fileList.map(item => item.name)
+                                        filenames: files
                                     }).then(res => {
                                         // eslint-disable-next-line no-console
                                         console.info(res.data);
@@ -128,7 +142,7 @@ export default {
                                 }
                             })
                         } else {
-                            this.$bvToast.show('submit-declare-wait-files');
+                            this.$bvToast.show('submit-declare-' + (files.length > 0 ? 'wait' : 'without') + '-files');
                         }
                     }
                 })
@@ -136,12 +150,14 @@ export default {
         }
     },
     computed: {
+        ...mapState('global', ['accountState']),
         ...mapState('global', {
             declareModel: state => state.model.declare
         })
     },
     mounted() {
         this.form.model = this.declareModel;
+        this.form.model.leader = this.accountState.realname;
         if (this.form.model.leaderJobTitle === null || this.form.model.leaderJobTitle.length === 0) {
             this.$axios.get(this.apiHost + 'basic/getJobTitle').then(res => {
                 this.form.model.leaderJobTitle = res.data;

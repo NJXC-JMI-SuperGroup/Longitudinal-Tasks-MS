@@ -1,8 +1,11 @@
 package cn.mooyyu.backstage.service;
 
 import cn.mooyyu.backstage.dao.AuditDao;
+import cn.mooyyu.backstage.dao.DeclareDao;
 import cn.mooyyu.backstage.dao.ExpertAccountDao;
 import cn.mooyyu.backstage.pojo.AccountState;
+import cn.mooyyu.backstage.pojo.StateProcess;
+import cn.mooyyu.backstage.pojo.declare.ExpertDeclare;
 import cn.mooyyu.backstage.pojo.declare.SimpleDeclare;
 import cn.mooyyu.backstage.pojo.expert.ExpertAccount;
 import cn.mooyyu.backstage.pojo.expert.ExpertAudit;
@@ -13,6 +16,7 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.NumberFormat;
@@ -22,11 +26,13 @@ import java.util.Random;
 @Service
 public class AuditService {
     private final AuditDao auditDao;
+    private final DeclareDao declareDao;
     private final ExpertAccountDao expertAccountDao;
 
     @Autowired
-    public AuditService(AuditDao auditDao, ExpertAccountDao expertAccountDao) {
+    public AuditService(AuditDao auditDao, DeclareDao declareDao, ExpertAccountDao expertAccountDao) {
         this.auditDao = auditDao;
+        this.declareDao = declareDao;
         this.expertAccountDao = expertAccountDao;
     }
 
@@ -34,20 +40,23 @@ public class AuditService {
         return this.auditDao.getDeclareList();
     }
 
-    public List<SimpleDeclare> getDeclareListForExpert(boolean limit, HttpServletRequest request) {
-        if (limit) {
-            AccountState state = (AccountState) request.getSession().getAttribute("accountState");
-            return state == null ? null : this.auditDao.getDeclareListForExpertAudit(state.getBulletinId());
-        } else {
-            return this.auditDao.getDeclareListForExpert();
-        }
+    public List<SimpleDeclare> getDeclareListForAudit() {
+        return this.auditDao.getDeclareListForAudit();
     }
 
-    public boolean departAudit(int declareId, int stateId, String rejectionReason) {
+    public List<ExpertDeclare> getDeclareListForExpertAudit(HttpServletRequest request) {
+            AccountState state = (AccountState) request.getSession().getAttribute("accountState");
+            return state == null ? null : this.auditDao.getDeclareListForExpertAudit(state.getBulletinId(), state.getUserid());
+    }
+
+    @Transactional
+    public boolean projectAudit(int declareId, int stateId, String desc, HttpServletRequest request) {
+        AccountState state = (AccountState) request.getSession().getAttribute("accountState");
         try {
             this.auditDao.updateDeclareState(declareId, stateId);
-            if (stateId == 1) {
-                this.auditDao.setRejectionReason(declareId, rejectionReason);
+            this.auditDao.setProcess(declareId, stateId, state.getUserid(), desc);
+            if (stateId == 7) {
+                this.declareDao.setIndex(declareId, desc);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,20 +106,8 @@ public class AuditService {
                 }
                 NumberFormat numberFormat = NumberFormat.getNumberInstance();
                 String s = numberFormat.format(n + 1);
-
-                StringBuilder val = new StringBuilder();
-                Random random = new Random();
-                for (int i = 0; i < 3; i++) {
-                    String charOrNum = random.nextInt(2) % 2 == 0 ? "char" : "num";
-                    if ("char".equalsIgnoreCase(charOrNum)) {
-                        int choice = random.nextInt(2) % 2 == 0 ? 65 : 97;
-                        val.append((char) (choice + random.nextInt(26)));
-                    } else {
-                        val.append(random.nextInt(10));
-                    }
-                }
-                username = subpy + "_" + "jmi" + "-" + prefix + (Integer.parseInt(s));
-                password = subpy + "_" + "jmi" + "-" + val;
+                username = subpy + "-" + prefix + (Integer.parseInt(s));
+                password = String.format("%06d", Math.abs(new Random().nextInt() % 1000000));
                 this.expertAccountDao.addExpertAccount(bulletinId, username, password);
             }
         } catch (Exception e) {
@@ -137,9 +134,6 @@ public class AuditService {
 
     public boolean setExpertAudit(HttpServletRequest request, ExpertAudit audit) {
         AccountState state = (AccountState) request.getSession().getAttribute("accountState");
-        if (state == null) {
-            return false;
-        }
         audit.setExpertId(state.getUserid());
         try {
             this.auditDao.setExpertAudit(audit);
@@ -148,6 +142,10 @@ public class AuditService {
             return false;
         }
         return true;
+    }
+
+    public List<StateProcess> getProcessList(int declareId, int stateId) {
+        return this.auditDao.getProcessList(declareId, stateId);
     }
 }
 

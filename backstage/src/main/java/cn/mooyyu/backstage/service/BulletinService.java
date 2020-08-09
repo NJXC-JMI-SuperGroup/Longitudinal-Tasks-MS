@@ -26,7 +26,7 @@ public class BulletinService {
     }
 
     public FullBulletin getDetailedById(int bulletinId) {
-        FullBulletin bulletin = this.bulletinDao.getDetailById(bulletinId);
+        FullBulletin bulletin = this.bulletinDao.getBulletin(bulletinId);
         if (new File(StaticBulletinDir, bulletinId + ".zip").exists()) {
             bulletin.setAddition(true);
             bulletin.setAdditionUrl("bulletin/getAddition/" + bulletinId + ".zip");

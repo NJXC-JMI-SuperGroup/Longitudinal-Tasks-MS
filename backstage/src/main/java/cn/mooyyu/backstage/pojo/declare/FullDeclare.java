@@ -19,7 +19,6 @@ public class FullDeclare {
     String expectAchievement;
     int stateId;
     String state;
-    String rejectionReason;
     boolean addition;
     String additionUrl;
 }

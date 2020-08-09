@@ -177,8 +177,7 @@
 .sidebarAlert {
   background: transparent;
   margin-bottom: 0;
-  padding: 0.5rem 11px;
-  padding-right: 15px;
+  padding: 0.5rem 15px 0.5rem 11px;
 }
 
 .sidebarProgress {
@@ -194,7 +193,7 @@ div.leseNav {
   background-image: url("../../../asserts/nav.jpg");
   background-repeat: no-repeat;
   background-size: contain;
-  margin-top: 37px;
+  margin-top: 36px;
   color: white;
   font-weight: bold;
   padding-left: 35px;

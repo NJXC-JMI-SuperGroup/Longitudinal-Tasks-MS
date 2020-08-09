@@ -13,9 +13,7 @@ export default {
             bulletin: {
                 bulletinId: null,
                 title: null,
-                index: null,
-                publishDept: null,
-                publishDeptId: null,
+                publishDept: '科技处',
                 bulletinType: null,
                 typeId: null,
                 bulletinLevel: null,
@@ -33,6 +31,7 @@ export default {
                 declareId: null,
                 projectName: null,
                 index: null,
+                leader: null,
                 leaderId: null,
                 leaderJobTitle: null,
                 bulletinId: null,
@@ -41,7 +40,6 @@ export default {
                 exceptAchievement: null,
                 stateId: null,
                 state: null,
-                rejectionReason: null,
                 addition: false,
                 additionUrl: null
             }
@@ -82,7 +80,7 @@ export default {
                         type: "input",
                         inputType: "number",
                         id: "showLimitNumber",
-                        label: "课题限项数目(视上个条目决定是否显示)",
+                        label: "课题限项数目",
                         visible: function (model) {
                             return model.limit;
                         },
@@ -123,13 +121,6 @@ export default {
                         id: 'projectName',
                         label: '项目名称',
                         model: 'projectName',
-                        readonly: true
-                    }, {
-                        type: 'input',
-                        inputType: 'text',
-                        id: 'projectIndex',
-                        label: '项目编号',
-                        model: 'index',
                         readonly: true
                     }, {
                         type: 'input',
@@ -239,9 +230,7 @@ export default {
             commit('updateBulletinModel', {
                 bulletinId: null,
                 title: null,
-                index: null,
-                publishDept: null,
-                publishDeptId: null,
+                publishDept: '科技处',
                 bulletinType: null,
                 typeId: null,
                 bulletinLevel: null,
@@ -264,6 +253,7 @@ export default {
                 declareId: null,
                 projectName: null,
                 index: null,
+                leader: null,
                 leaderId: null,
                 leaderJobTitle: null,
                 bulletinId: null,
@@ -272,7 +262,6 @@ export default {
                 expectAchievement: null,
                 stateId: null,
                 state: null,
-                rejectionReason: null,
                 addition: false,
                 additionUrl: null
             });

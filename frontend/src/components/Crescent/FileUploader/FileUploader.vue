@@ -1,5 +1,5 @@
 <template>
-    <uploader ref="uploader" :options="options" :auto-start="true">
+    <uploader ref="uploader" :options="options" :fileStatusText="fileStatusText" :auto-start="true">
         <uploader-unsupport />
         <uploader-drop>
             <p>{{uler.hint}}</p>

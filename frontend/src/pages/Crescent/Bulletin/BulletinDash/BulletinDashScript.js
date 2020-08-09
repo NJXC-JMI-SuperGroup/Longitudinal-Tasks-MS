@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import {mapActions, mapState} from "vuex";
+let moment = require('moment');
 
 export default {
     data() {
@@ -14,17 +15,17 @@ export default {
                             return  index + pagingIndex + 1;
                         }, isFrozen: true
                     },
-                    {field: 'title', title: '课题', width: 140, titleAlign: 'center', columnAlign: 'left'},
+                    {field: 'title', title: '课题', width: 200, titleAlign: 'left', columnAlign: 'left', isResize: true},
                     {field: 'state', title: '状态', width: 60, titleAlign: 'center', columnAlign: 'center'},
                     {field: 'bulletinLevel', title: '课题级别', width: 100, titleAlign: 'center', columnAlign: 'center'},
-                    {field: 'publishDept', title: '发布单位', width: 140, titleAlign: 'center', columnAlign: 'center',isResize: true},
+                    {field: 'publishDept', title: '发布单位', width: 75, titleAlign: 'center', columnAlign: 'center'},
                     {
                         field: 'deadline', title: '截止时间', width: 120, titleAlign: 'center', columnAlign: 'center',
                         formatter: function(rowData) {
-                            return rowData.deadline.slice(0, 10);
+                            return moment(rowData.deadline).format('YYYY-MM-DD');
                         }
                     },
-                    {field: 'custom-adv', title: '操作',width: 50, titleAlign: 'center',columnAlign:'center',componentName:'table-operation-bulletin',isResize:true}
+                    {field: 'custom-adv', title: '操作',width: 80, titleAlign: 'center',columnAlign:'center',componentName:'table-operation-bulletin'}
                 ],
                 total: 0,
                 pageIndex: 1,
@@ -45,6 +46,9 @@ export default {
             let ex = index * size;
             let ret = fullData.slice(ex - size, ex);
             this.easytable.tableData = ret === "" ? [] : ret;
+        },
+        columnCellClass(rowIndex){
+            return rowIndex % 2 ? 'easytable-class-column-gray' : 'easytable-class-column-white';
         }
     },
     mounted() {
@@ -68,20 +72,14 @@ Vue.component('table-operation-bulletin',{
         <span>
             <a @click.stop.prevent="showModel(rowData,index)">查看 </a>
             <template v-if="rowData.state==='进行中'">
-                <a @click.stop.prevent="update(rowData,index)" v-if="accountState.level===1 || accountState.level===14">更新 </a>
+                <a @click.stop.prevent="update(rowData,index)" v-if="accountState.level===14">更新 </a>
                 <a @click.stop.prevent="declare(rowData,index)" v-if="accountState.level===0">申报</a>
             </template>
         </span>`,
     props:{
-        rowData:{
-            type:Object
-        },
-        field:{
-            type:String
-        },
-        index:{
-            type:Number
-        }
+        rowData:{ type:Object },
+        field:{ type:String },
+        index:{ type:Number }
     },
     methods:{
         ...mapActions('global', ['updateBulletinModel', 'updateDeclareModel', 'updateUploader']),
@@ -91,7 +89,7 @@ Vue.component('table-operation-bulletin',{
                     bulletinId: rowData.bulletinId
                 }
             }).then((res) => {
-                res.data.deadline = res.data.deadline.slice(0, 10);
+                res.data.deadline = moment(new Date(res.data.deadline)).format('YYYY-MM-DD');
                 this.updateBulletinModel(res.data).then(() => {
                     this.updateUploader({
                         hint: '提交后请等待文件上传',
@@ -128,8 +126,10 @@ Vue.component('table-operation-bulletin',{
                     bulletinId: rowData.bulletinId
                 }
             }).then((res) => {
-                res.data.deadline = res.data.deadline.slice(0, 10);
+                res.data.deadline = moment(new Date(res.data.deadline)).format('YYYY-MM-DD');
                 res.data.additionUrl = this.apiHost + res.data.additionUrl;
+                res.data.limit = res.data.limit ? '限项': '不限项';
+                res.data.expertAudit = res.data.expertAudit ? '需要' : '不需要';
                 this.updateBulletinModel(res.data).then(() => {
                     this.$bvModal.show('modal-scrollable-bulletin');
                 });

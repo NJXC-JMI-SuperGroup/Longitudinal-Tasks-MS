@@ -1,6 +1,8 @@
 package cn.mooyyu.backstage.controller;
 
 
+import cn.mooyyu.backstage.pojo.StateProcess;
+import cn.mooyyu.backstage.pojo.declare.ExpertDeclare;
 import cn.mooyyu.backstage.pojo.expert.ExpertAccount;
 import cn.mooyyu.backstage.pojo.declare.SimpleDeclare;
 import cn.mooyyu.backstage.pojo.expert.ExpertAudit;
@@ -29,22 +31,28 @@ public class AuditController {
         return this.auditService.getDeclareList();
     }
 
-    @GetMapping("getDeclareListForExpert")
+    @GetMapping("getDeclareListForAudit")
     @ResponseBody
-    public List<SimpleDeclare> getDeclareListForExpert(@RequestParam boolean limit, HttpServletRequest request) {
-        return this.auditService.getDeclareListForExpert(limit, request);
+    public List<SimpleDeclare> getDeclareListForAudit() {
+        return this.auditService.getDeclareListForAudit();
+    }
+
+    @GetMapping("getDeclareListForExpertAudit")
+    @ResponseBody
+    public List<ExpertDeclare> getDeclareListForExpertAudit(HttpServletRequest request) {
+        return this.auditService.getDeclareListForExpertAudit(request);
     }
 
     @Data
     private static class Body {
         int declareId;
         int stateId;
-        String rejectionReason;
+        String desc;
     }
-    @PostMapping("departAudit")
+    @PostMapping("projectAudit")
     @ResponseBody
-    public boolean departAudit(@RequestBody Body body) {
-        return this.auditService.departAudit(body.getDeclareId(), body.getStateId(), body.getRejectionReason());
+    public boolean projectAudit(@RequestBody Body body, HttpServletRequest request) {
+        return this.auditService.projectAudit(body.getDeclareId(), body.getStateId(), body.getDesc(), request);
     }
 
     @GetMapping("createExpertAccount")
@@ -75,5 +83,11 @@ public class AuditController {
     @ResponseBody
     public boolean setExpertAccount(HttpServletRequest request, @RequestBody ExpertAudit audit) {
         return this.auditService.setExpertAudit(request, audit);
+    }
+
+    @GetMapping("getProcessList")
+    @ResponseBody
+    public List<StateProcess> getProcessList(@RequestParam int declareId, @RequestParam int stateId) {
+        return this.auditService.getProcessList(declareId, stateId);
     }
 }

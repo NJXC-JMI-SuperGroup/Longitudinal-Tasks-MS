@@ -12,7 +12,7 @@ import java.util.List;
 public interface BulletinDao {
     @Select("select bulletinId, title,\n" +
             "       tb_bulletinLevel.level as bulletinLevel,\n" +
-            "       tb_dept.depname        as publishDept,\n" +
+            "       publishDept,\n" +
             "       deadline,\n" +
             "       cast(\n" +
             "               case\n" +
@@ -21,14 +21,12 @@ public interface BulletinDao {
             "           )                  as state\n" +
             "from tb_bulletin\n" +
             "         inner join tb_bulletinLevel on tb_bulletin.levelId = tb_bulletinLevel.levelId\n" +
-            "         inner join tb_dept on tb_bulletin.publishDeptId = tb_dept.depid\n" +
             "order by deadline desc")
     List<SimpleBulletin> getBulletinList();
 
     @Select("select bulletinId,\n" +
             "       title,\n" +
-            "       [index],\n" +
-            "       depname as publishDept, publishDeptId,\n" +
+            "       publishDept,\n" +
             "       type as bulletinType, tb_bulletin.typeId,\n" +
             "       isLimit as limit,\n" +
             "       limitNumber,\n" +
@@ -40,14 +38,13 @@ public interface BulletinDao {
             "from tb_bulletin\n" +
             "         inner join tb_bulletinType on tb_bulletin.typeId = tb_bulletinType.typeId\n" +
             "         inner join tb_bulletinLevel tbL on tb_bulletin.levelId = tbL.levelId\n" +
-            "         inner join tb_dept td on tb_bulletin.publishDeptId = td.depid\n" +
             "where bulletinId = #{bulletinId}")
-    FullBulletin getDetailById(@Param("bulletinId") int bulletinId);
+    FullBulletin getBulletin(@Param("bulletinId") int bulletinId);
 
 
-    @Insert("insert into tb_bulletin(title, [index], publishDeptId, typeId, isLimit, limitNumber,\n" +
+    @Insert("insert into tb_bulletin(title, publishDept, typeId, isLimit, limitNumber,\n" +
             "                        expertAudit, levelId, deadline, content, link)\n" +
-            "values (#{bulletin.title},#{bulletin.index},#{bulletin.publishDeptId},\n" +
+            "values (#{bulletin.title},#{bulletin.publishDept},\n" +
             "        #{bulletin.typeId},#{bulletin.limit},#{bulletin.limitNumber},\n" +
             "        #{bulletin.expertAudit},#{bulletin.levelId},#{bulletin.deadline},\n" +
             "        #{bulletin.content},#{bulletin.link})")

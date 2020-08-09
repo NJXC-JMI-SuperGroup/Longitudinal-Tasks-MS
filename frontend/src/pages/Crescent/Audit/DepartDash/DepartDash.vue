@@ -2,6 +2,7 @@
     <div>
         <v-table class="w-100"
                  is-horizontal-resize
+                 :column-cell-class-name="columnCellClass"
                  :columns="easytable.columns"
                  :table-data="easytable.tableData"
                  :paging-index="(easytable.pageIndex - 1) * easytable.pageSize"

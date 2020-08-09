@@ -16,6 +16,7 @@ export default {
                         legend: '发布课题信息',
                         fields: [{
                             type: 'input',
+                            maxlength: 50,
                             inputType: 'text',
                             label: '课题标题',
                             id: 'bulletinTitle',
@@ -23,22 +24,23 @@ export default {
                             required: true,
                             validator: validators.required
                         }, {
-                            type: "input",
+                            type: 'input',
+                            maxlength: 50,
                             id: 'bulletinLink',
                             label: "课题通知链接",
                             inputType: "text",
                             model: 'link'
                         }, {
-                            type: "select",
+                            type: 'input',
+                            maxlength: 50,
+                            inputType: 'text',
+                            id: 'bulletinPublishDept',
                             label: "课题发布单位",
                             required: true,
-                            values: this.$store.state.global.selectionList.deptSelection.map(item => {
-                                return { id: item.depid, name: item.depname };
-                            }),
+                            model: 'publishDept',
                             selectOptions: {
                                 hideNoneSelectedText: true
                             },
-                            model: 'publishDeptId',
                             validator: validators.required
                         }, {
                             type: "select",
@@ -80,6 +82,16 @@ export default {
                                 format: 'YYYY-MM-DD',
                                 onSelect: function(date) {
                                     thisVue.form.model.deadline = date;
+                                },
+                                i18n: {
+                                    months: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+                                    nextMonth: "下月",
+                                    previousMonth: "上月",
+                                    weekdays: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
+                                    weekdaysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]
+                                },
+                                defaultDate: function() {
+                                    return thisVue.form.model.deadline;
                                 }
                             }
                         }, {
@@ -101,7 +113,8 @@ export default {
                             styleClasses: 'col-md-6',
                             model: "limit"
                         }, {
-                            type: "input",
+                            type: 'input',
+                            maxlength: 50,
                             inputType: "Number",
                             min: 1,
                             label: "课题限项数目",
@@ -118,7 +131,6 @@ export default {
                     title: null,
                     index: null,
                     publishDept: null,
-                    publishDeptId: null,
                     bulletinType: null,
                     typeId: null,
                     bulletinLevel: null,

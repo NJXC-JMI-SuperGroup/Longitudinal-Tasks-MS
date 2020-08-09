@@ -10,7 +10,7 @@
             </header>
             <div class="leseNav">导航栏</div>
             <div class="text-center small">
-                <span>欢迎您, <span class="highName">{{accountState.realname}}</span> !</span><br>
+                <span>欢迎您, <span class="highName">{{accountState.level === 13 ? '专家' : accountState.realname}}</span> !</span><br>
                 <span>{{today()}}</span>
             </div>
             <ul class="nav p-0">
@@ -22,7 +22,7 @@
                         iconName="flaticon-home"
                         index="bulletin"
                         class="jmiNavLink overflow-hidden"
-                        :childrenLinks="accountState.level === 0 ? [
+                        :childrenLinks="accountState.level !== 14 ? [
                             { header: '课题一览', link: '/Crescent/bulletin/dash' }
                         ] : [
                             { header: '课题一览', link: '/Crescent/bulletin/dash' },

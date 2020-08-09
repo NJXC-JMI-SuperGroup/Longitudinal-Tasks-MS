@@ -14,8 +14,8 @@ import DeclareModify from "./pages/Crescent/Declare/DeclareModify/DeclareModify"
 import DepartDash from "./pages/Crescent/Audit/DepartDash/DepartDash";
 import ExpertDash from "./pages/Crescent/Audit/ExpertDash/ExpertDash";
 import DepartAudit from "./pages/Crescent/Audit/DepartAudit/DepartAudit";
-import ExpertAudit from "./pages/Crescent/Audit/ExpertAudit/ExpertAudit";
 import ProjectManage from "./pages/Crescent/Audit/ProjectManage/ProjectManage";
+import projectAudit from "./pages/Crescent/Audit/ProjectManage/ProjectAudit";
 import DepartHelp from "./pages/Crescent/Help/DepartHelp/DepartHelp";
 import BossHelp from "./pages/Crescent/Help/BossHelp/BossHelp";
 import TeacherHelp from "./pages/Crescent/Help/TeacherHelp/TeacherHelp";
@@ -56,12 +56,12 @@ export default new Router({
                 path: 'publish',
                 name: 'bulletinPublish',
                 component: BulletinPublish,
-                meta: { role: [1, 14], chShow: '课题通知 > 发布课题' }
+                meta: { role: [14], chShow: '课题通知 > 发布课题' }
             }, {
                 path: 'dash/modify',
                 name: 'bulletinModify',
                 component: BulletinModify,
-                meta: { role: [1, 14], chShow: '课题通知 > 列表 > 修改' }
+                meta: { role: [14], chShow: '课题通知 > 列表 > 修改' }
             }]
         }, {
             path: 'declare',
@@ -99,11 +99,6 @@ export default new Router({
                 component: DepartDash,
                 meta: { role: [1], chShow: '项目评审 > 列表' }
             }, {
-                path: 'expertDash/expertAudit',
-                name: 'expertAudit',
-                component: ExpertAudit,
-                meta: { role: [13], chShow: '项目评审 > 列表 > 专家评审' }
-            }, {
                 path: 'departDash/departAudit',
                 name: 'departAudit',
                 component: DepartAudit,
@@ -113,6 +108,11 @@ export default new Router({
                 name: 'projectManage',
                 component: ProjectManage,
                 meta: { role: [14], chShow: '项目评审 > 立项管理' }
+            }, {
+                path: 'projectManage/projectAudit',
+                name: 'projectAudit',
+                component: projectAudit,
+                meta: { role: [14], chShow: '项目评审 > 立项管理 > 科技处审核' }
             }]
         }, {
             path: 'help',

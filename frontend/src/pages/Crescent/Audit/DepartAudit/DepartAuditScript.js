@@ -1,5 +1,6 @@
 import DetailForAudit from "../DetailForAudit/DetailForAudit";
 import {mapState} from "vuex";
+import validators from "../../../../validators";
 
 export default {
     data() {
@@ -18,9 +19,7 @@ export default {
                 model: {
                     rejectionReason: null
                 }
-            },
-            loaded: false,
-            expertAudit: null
+            }
         }
     },
     components: {
@@ -31,10 +30,10 @@ export default {
     },
     methods: {
         submit(stateId) {
-            this.$axios.post(this.apiHost + 'audit/departAudit', {
+            this.$axios.post(this.apiHost + 'audit/projectAudit', {
                 declareId: this.$refs.detailForm.form.model.declare.declareId,
                 stateId: stateId,
-                rejectionReason: this.form.model.rejectionReason
+                desc: this.form.model.rejectionReason
             }).then(res => {
                 // eslint-disable-next-line no-console
                 console.info(res.data);
@@ -42,9 +41,5 @@ export default {
                 this.$router.push('/Crescent/audit/departDash').then();
             })
         }
-    },
-    mounted() {
-        this.expertAudit = this.$refs.detailForm.form.model.bulletin.expertAudit;
-        this.loaded = true;
     }
 }

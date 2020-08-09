@@ -13,7 +13,7 @@ export default {
                         inputType: 'text',
                         id: "inputUsername",
                         model: "username",
-                        placeholder: '账号',
+                        label: '用户名: ',
                         required: true,
                         validator: validators.required
                     }, {
@@ -21,7 +21,7 @@ export default {
                         inputType: 'password',
                         id: 'inputPassword',
                         model: "password",
-                        placeholder: '密码',
+                        label: '密码: ',
                         required: true,
                         validator: validators.required
                     }]
