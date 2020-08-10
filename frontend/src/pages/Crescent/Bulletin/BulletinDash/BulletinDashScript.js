@@ -106,15 +106,15 @@ Vue.component('table-operation-bulletin',{
                     declareId: null,
                     projectName: null,
                     index: null,
+                    leader: null,
                     leaderId: null,
                     leaderJobTitle: null,
                     bulletinId: rowData.bulletinId,
                     declareDeptId: null,
-                    exceptDeadline: null,
-                    exceptAchievement: null,
+                    expectDeadline: null,
+                    expectAchievement: null,
                     stateId: null,
                     state: null,
-                    rejectionReason: null,
                     addition: false,
                     additionUrl: null
                 })
