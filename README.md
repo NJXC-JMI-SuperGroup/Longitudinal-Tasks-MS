@@ -1,59 +1,15 @@
-# KD_crab
- 通用项目架构
+# 纵向课题管理系统
 
-# BackStage
+- 前后端分离, 前端Vue, 后端SpringBoot.
+- 共有系统管理员, 二级学院管理员, 教师, 评审专家四个角色.
 
-## Environment & Techniques
+**以下数据库设计图片和系统截图均为上一版本所做. 最新版本在管理逻辑和界面设计上均有改动. 故以下截图仅供参考.**
 
-- Project SDK: jdk 1.8
-- Spring Boot: 2.3.1
-  - dependencies: Lombok, Spring Web, Mybatis Framework(all anotations), MySQL Driver
-- MySQL: 8.0
-  - serverTimezone: GMT
+![database](readme-img/database.png)
+![r1](readme-img/r1.png)
+![r2](readme-img/r2.png)
+![r3](readme-img/r3.png)
 
-## Others
+**最新版本更新如下, 图片有空再更新(大概~)**
 
-代码风格保持一致。
-
-# Frontend
-
-🐮🍺的前端搭建完成。*★,°*:.☆(￣▽￣)/$:*.°★* 。
-
-## 框架
-
-- **scaffolding**: vue-cli 3
-
-- **UI**: based on **sing-app-vue-dashboard**, converted from SPA to MPA.
-  - see **package.json** for detail
-- **network**: axios
-- **others**
-  - vuedraggable: 支持拖动操作
-  - vue-simple-uploader: 上传文件的简便组件
-
-## build
-
-建议使用webstorm开发，导入项目后建议使用yarn管理依赖， 建议yarn配置代理或更换镜像源。
-
-## coding
-
-- 各组在 **assets, components, pages, styles** 文件夹下对应各组子项目文件夹下编写代码。
-- **SingApp**作为模板可供参考和copy，但不得更改，不得**引用**，在项目完成后SingApp模块将被删除。
-- **main.js, Routes.js, App.vue**为公共编辑文件，请根据注释指引编写各组所需。
-  - 各组可在main.js中配置全局变量，如host
-  - 各组可在Routes.js中配置二级路由
-  - 各组可在App.vue中配置二级转发
-
-- axios已注册为全局组件并配置相应跨域，所有网络请求统一使用该组件，不再单独导入。
-
-- 有关样式的编写完全支持css，less，scss。各组视情况自主选择。
-
-## documents
-
-- [vue](https://vuejs.org/v2/guide/)
-
-- [bootstrap](https://getbootstrap.com/docs/4.5/getting-started/introduction/)
-- [axios](https://github.com/axios/axios/blob/master/README.md)
-- [Vue.Draggable](https://github.com/axios/axios/blob/master/README.md)
-- [vue-simple-uploader](https://github.com/simple-uploader/vue-uploader/blob/master/README_zh-CN.md)
-
-- There are also some charts or other support, you can search for it according to your needs
+![up](readme-img/up.jpeg)
